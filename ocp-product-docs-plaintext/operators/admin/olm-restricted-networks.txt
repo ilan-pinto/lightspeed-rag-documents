@@ -40,7 +40,7 @@ Prerequisites
 Log in to your "Red Hat OpenShift Container Platform" cluster as a user with cluster-admin privileges.
 
 
-If you are using OLM in a restricted network on IBM Z, you must have at least 12 GB allocated to the directory where you place your registry.
+If you are using OLM in a restricted network on IBM Z&#174;, you must have at least 12 GB allocated to the directory where you place your registry.
 Disabling the default OperatorHub catalog sources
 Operator catalogs that source content provided by Red Hat and community projects are configured for OperatorHub by default during an "Red Hat OpenShift Container Platform" installation. In a restricted network environment, you must disable the default catalogs as a cluster administrator. You can then configure OperatorHub to use local catalog sources.
 

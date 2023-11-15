@@ -153,7 +153,7 @@ You can avoid such problems by restoring the top level Service resource first wh
 
 Restore the top level service.serving.knavtive.dev Service resource:
 Restoring IBM AppConnect resources
-If you experience issues when you use Velero to a restore an IBM AppConnect resource that has an admission webhook, you can run the checks in this procedure.
+If you experience issues when you use Velero to a restore an IBM&#174; AppConnect resource that has an admission webhook, you can run the checks in this procedure.
 
 Check if you have any mutating admission plugins of kind: MutatingWebhookConfiguration in the cluster:
 

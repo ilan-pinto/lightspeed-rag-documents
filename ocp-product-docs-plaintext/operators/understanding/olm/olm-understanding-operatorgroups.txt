@@ -28,6 +28,16 @@ metadata:
 spec:
   targetNamespaces:
   - my-namespace
+Operator Lifecycle Manager (OLM) creates the following cluster roles for each Operator group:
+
+<operatorgroup_name>-admin
+
+<operatorgroup_name>-edit
+
+<operatorgroup_name>-view
+
+
+When you manually create an Operator group, you must specify a unique name that does not conflict with the existing cluster roles or other Operator groups on the cluster.
 You can alternatively specify a namespace using a label selector with the spec.selector parameter:
 
 apiVersion: operators.coreos.com/v1
@@ -80,6 +90,16 @@ Role-based access control
 When an Operator group is created, three cluster roles are generated. Each contains a single aggregation rule with a cluster role selector set to match a label, as shown below:
 
 
+Operator Lifecycle Manager (OLM) creates the following cluster roles for each Operator group:
+
+<operatorgroup_name>-admin
+
+<operatorgroup_name>-edit
+
+<operatorgroup_name>-view
+
+
+When you manually create an Operator group, you must specify a unique name that does not conflict with the existing cluster roles or other Operator groups on the cluster.
 The following RBAC resources are generated when a CSV becomes an active member of an Operator group, as long as the CSV is watching all namespaces with the AllNamespaces install mode and is not in a failed state with reason InterOperatorGroupOwnerConflict:
 
 Cluster roles for each API resource from a CRD
@@ -123,6 +143,16 @@ spec:
   selector:
     matchLabels:
       something.cool.io/cluster-monitoring: "true"
+Operator Lifecycle Manager (OLM) creates the following cluster roles for each Operator group:
+
+<operatorgroup_name>-admin
+
+<operatorgroup_name>-edit
+
+<operatorgroup_name>-view
+
+
+When you manually create an Operator group, you must specify a unique name that does not conflict with the existing cluster roles or other Operator groups on the cluster.
 Operator group intersection
 Two Operator groups are said to have intersecting provided APIs if the intersection of their target namespace sets is not an empty set and the intersection of their provided API sets, defined by olm.providedAPIs annotations, is not an empty set.
 

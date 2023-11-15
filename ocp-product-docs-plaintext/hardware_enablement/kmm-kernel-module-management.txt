@@ -56,6 +56,22 @@ Install KMM in the openshift-kmm namespace:
 
 
 To verify that the Operator deployment is successful, run the following command:
+Uninstalling the Kernel Module Management Operator
+Use one of the following procedures to uninstall the Kernel Module Management (KMM) Operator, depending on how the KMM Operator was installed.
+
+Uninstalling a Red Hat catalog installation
+Use this procedure if KMM was installed from the Red Hat catalog.
+
+Use the following method to uninstall the KMM Operator:
+
+Use the OpenShift console under Operators --> Installed Operators to locate and uninstall the Operator.
+
+
+Alternatively, you can delete the Subscription resource in the KMM namespace.
+Uninstalling a CLI installation
+Use this command if the KMM Operator was installed using the OpenShift CLI.
+
+Run the following command to uninstall the KMM Operator:
 Kernel module deployment
 For each Module resource, Kernel Module Management (KMM) can create a number of DaemonSet resources:
 
@@ -446,7 +462,7 @@ serviceAccountName - The default serviceAccountName does not have the required p
 imageRepoSecret - Used as imagePullSecrets in the DaemonSet object and to pull and push for the build and sign features.
 
 
-For information on creating a service account, see Creating service accounts.
+Creating service accounts.
 Customizing upgrades for kernel modules
 Use this procedure to upgrade the kernel module while running maintenance operations on the node, including rebooting the node, if needed. To minimize the impact on the workloads running in the cluster, run the kernel upgrade process sequentially, one node at a time.
 

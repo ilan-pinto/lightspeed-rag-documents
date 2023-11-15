@@ -12,12 +12,12 @@ Description
 
 Type
 object
-FlowSchema [flowcontrol.apiserver.k8s.io/v1beta3]
+FlowSchema [flowcontrol.apiserver.k8s.io/v1beta1]
 
 Description
 
 Type
-object
+``
 LimitRange [v1]
 
 Description
@@ -30,12 +30,12 @@ Description
 
 Type
 object
-PriorityLevelConfiguration [flowcontrol.apiserver.k8s.io/v1beta3]
+PriorityLevelConfiguration [flowcontrol.apiserver.k8s.io/v1beta1]
 
 Description
 
 Type
-object
+``
 ResourceQuota [v1]
 
 Description

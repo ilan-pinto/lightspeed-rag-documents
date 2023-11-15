@@ -1,0 +1,4 @@
+PriorityLevelConfiguration [flowcontrol.apiserver.k8s.io/v1beta1]
+
+API endpoints
+The following API endpoints are available:

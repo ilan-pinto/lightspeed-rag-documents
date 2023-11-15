@@ -4,7 +4,7 @@ After installing "Red Hat OpenShift Container Platform", you can further expand 
 Available cluster customizations
 You complete most of the cluster configuration and customization after you deploy your "Red Hat OpenShift Container Platform" cluster. A number of configuration resources are available.
 
-If you install your cluster on IBM Z, not all features and functions are available.
+If you install your cluster on IBM Z&#174;, not all features and functions are available.
 You modify the configuration resources to configure the major features of the cluster, such as the image registry, networking configuration, image build behavior, and the identity provider.
 
 For current documentation of the settings that you control by using these resources, use the oc explain command, for example oc explain builds --api-version=config.openshift.io/v1
@@ -296,12 +296,12 @@ Edit the cluster-monitoring-config config map and change the nodeSelector to use
 Watch the monitoring pods move to the new machines:
 
 If a component has not moved to the infra node, delete the pod with this component:
-Moving OpenShift Logging resources
-You can configure the Cluster Logging Operator to deploy the pods for logging subsystem components, such as Elasticsearch and Kibana, to different nodes. You cannot move the Cluster Logging Operator pod from its installed location.
+Moving logging subsystem resources
+You can configure the Red Hat OpenShift Logging Operator to deploy the pods for logging subsystem components, such as Elasticsearch and Kibana, to different nodes. You cannot move the Red Hat OpenShift Logging Operator pod from its installed location.
 
 For example, you can move the Elasticsearch pods to a separate node because of high CPU, memory, and disk requirements.
 
-The Red Hat OpenShift Logging and Elasticsearch Operators must be installed. These features are not installed by default.
+You have installed the Red Hat OpenShift Logging Operator and the Elasticsearch Operator.
 
 
 Edit the ClusterLogging custom resource (CR) in the openshift-logging project:
@@ -876,7 +876,7 @@ After installing "Red Hat OpenShift Container Platform", some organizations requ
 To allow the cluster to use the new credentials, you must update the secrets that the Cloud Credential Operator (CCO) uses to manage cloud provider credentials.
 
 Rotating cloud provider credentials with the Cloud Credential Operator utility
-The Cloud Credential Operator (CCO) utility ccoctl supports updating secrets for clusters installed on IBM Cloud.
+The Cloud Credential Operator (CCO) utility ccoctl supports updating secrets for clusters installed on IBM Cloud&#174;.
 
 Rotating API keys
 You can rotate API keys for your existing service IDs and update the corresponding secrets.

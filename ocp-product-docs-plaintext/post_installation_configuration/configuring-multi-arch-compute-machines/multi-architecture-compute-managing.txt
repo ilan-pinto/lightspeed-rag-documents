@@ -30,7 +30,7 @@ When a scheduler computes the set of nodes to schedule a pod, tolerations can br
 
 Modifying a compute machine set
 Importing manifest lists in image streams on your multi-architecture compute machines
-On an "Red Hat OpenShift Container Platform" {product-version} cluster with multi-architecture compute machines, the image streams in the cluster do not import manifest lists automatically. You must manually change the default importMode option to the PreserveOriginal option in order to import the manifest list.
+On an "Red Hat OpenShift Container Platform" "4.14" cluster with multi-architecture compute machines, the image streams in the cluster do not import manifest lists automatically. You must manually change the default importMode option to the PreserveOriginal option in order to import the manifest list.
 
 You installed the "Red Hat OpenShift Container Platform" CLI (oc).
 

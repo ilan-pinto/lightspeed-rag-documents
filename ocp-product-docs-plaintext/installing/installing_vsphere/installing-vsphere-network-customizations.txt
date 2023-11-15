@@ -1,6 +1,6 @@
 Installing a cluster on vSphere with network customizations
 
-In "Red Hat OpenShift Container Platform" version {product-version}, you can install a cluster on VMware vSphere infrastructure that you provision with customized network configuration options. By customizing your network configuration, your cluster can coexist with existing IP address allocations in your environment and integrate with existing MTU and VXLAN configurations.
+In "Red Hat OpenShift Container Platform" version "4.14", you can install a cluster on VMware vSphere infrastructure that you provision with customized network configuration options. By customizing your network configuration, your cluster can coexist with existing IP address allocations in your environment and integrate with existing MTU and VXLAN configurations.
 
 "Red Hat OpenShift Container Platform" supports deploying a cluster to a single VMware vCenter only. Deploying a cluster with machines/machine sets on multiple vCenters is not supported.
 You must set most of the network configuration parameters during installation, and you can modify only kubeProxy configuration parameters in a running cluster.
@@ -17,7 +17,7 @@ If you use a firewall, you confirmed with the administrator that port 443 is acc
 
 If you use a firewall, you configured it to allow the sites that your cluster requires access to.
 Internet access for "Red Hat OpenShift Container Platform"
-In "Red Hat OpenShift Container Platform" {product-version}, you require access to the internet to install your cluster.
+In "Red Hat OpenShift Container Platform" "4.14", you require access to the internet to install your cluster.
 
 You must have internet access to:
 
@@ -29,7 +29,7 @@ Obtain the packages that are required to perform cluster updates.
 VMware vSphere infrastructure requirements
 You must install the "Red Hat OpenShift Container Platform" cluster on a VMware vSphere version 7.0 Update 2 or later instance that meets the requirements for the components that you use.
 
-"Red Hat OpenShift Container Platform" version {product-version} supports VMware vSphere version 8.0.
+"Red Hat OpenShift Container Platform" version "4.14" supports VMware vSphere version 8.0.
 You can host the VMware vSphere infrastructure on-premise or on a VMware Cloud Verified provider that meets the requirements outlined in the following tables:
 
 
@@ -150,7 +150,7 @@ If an instance type for your platform meets the minimum requirements for cluster
 
 Optimizing storage
 Requirements for encrypting virtual machines
-You can encrypt your virtual machines prior to installing "Red Hat OpenShift Container Platform" {product-version} by meeting the following requirements.
+You can encrypt your virtual machines prior to installing "Red Hat OpenShift Container Platform" "4.14" by meeting the following requirements.
 
 You have configured a Standard key provider in vSphere. For more information, see Adding a KMS to vCenter Server.
 
@@ -1052,7 +1052,7 @@ Create a backup of the cloned volume.
 
 Delete the cloned volume.
 Telemetry access for "Red Hat OpenShift Container Platform"
-In "Red Hat OpenShift Container Platform" {product-version}, the Telemetry service, which runs by default to provide metrics about cluster health and the success of updates, requires internet access. If your cluster is connected to the internet, Telemetry runs automatically, and your cluster is registered to OpenShift Cluster Manager Hybrid Cloud Console.
+In "Red Hat OpenShift Container Platform" "4.14", the Telemetry service, which runs by default to provide metrics about cluster health and the success of updates, requires internet access. If your cluster is connected to the internet, Telemetry runs automatically, and your cluster is registered to OpenShift Cluster Manager Hybrid Cloud Console.
 
 After you confirm that your OpenShift Cluster Manager Hybrid Cloud Console inventory is correct, either maintained automatically by Telemetry or manually by using OpenShift Cluster Manager, use subscription watch to track your "Red Hat OpenShift Container Platform" subscriptions at the account or multi-cluster level.
 

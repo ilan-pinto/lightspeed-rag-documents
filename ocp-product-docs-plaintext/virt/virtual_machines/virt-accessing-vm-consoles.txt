@@ -32,6 +32,25 @@ Run the following command to start the console session:
 
 If the connection fails, run the following command to collect
 troubleshooting information:
+Generating a temporary token for the VNC console
+Generate a temporary authentication bearer token for the Kubernetes API to access the VNC of a virtual machine (VM).
+
+Kubernetes also supports authentication using client certificates, instead of a bearer token, by modifying the curl command.
+A running virtual machine with OpenShift Virtualization 4.14 or later and ssp-operator 4.14 or later
+
+
+Enable the feature gate in the HyperConverged (HCO) custom resource (CR):
+
+Generate a token by running the following command:
+
+Optional: Use the token provided in the output to create a variable:
+
+
+You can now use the token to access the VNC console of a VM.
+
+Log in to the cluster by running the following command:
+
+Use virtctl to test access to the VNC console of the VM by running the following command:
 Connecting to the serial console
 You can connect to the serial console of a virtual machine by using the "Red Hat OpenShift Container Platform" web console or the virtctl command line tool.
 

@@ -858,19 +858,6 @@ Description
 Type
 object
 Required
-.spec.containers[].resizePolicy
-
-Description
-
-Type
-array
-.spec.containers[].resizePolicy[]
-
-Description
-
-Type
-object
-Required
 .spec.containers[].resources
 
 Description
@@ -1304,19 +1291,6 @@ Type
 object
 Required
 .spec.initContainers[].readinessProbe.tcpSocket
-
-Description
-
-Type
-object
-Required
-.spec.initContainers[].resizePolicy
-
-Description
-
-Type
-array
-.spec.initContainers[].resizePolicy[]
 
 Description
 

@@ -1,12 +1,12 @@
 Enabling monitoring for user-defined projects
 
-In "Red Hat OpenShift Container Platform" {product-version}, you can enable monitoring for user-defined projects in addition to the default platform monitoring. You can monitor your own projects in "Red Hat OpenShift Container Platform" without the need for an additional monitoring solution. Using this feature centralizes monitoring for core platform components and user-defined projects.
+In "Red Hat OpenShift Container Platform" "4.14", you can enable monitoring for user-defined projects in addition to the default platform monitoring. You can monitor your own projects in "Red Hat OpenShift Container Platform" without the need for an additional monitoring solution. Using this feature centralizes monitoring for core platform components and user-defined projects.
 
 Versions of Prometheus Operator installed using Operator Lifecycle Manager (OLM) are not compatible with user-defined monitoring. Therefore, custom Prometheus instances installed as a Prometheus custom resource (CR) managed by the OLM Prometheus Operator are not supported in "Red Hat OpenShift Container Platform".
 Enabling monitoring for user-defined projects
 Cluster administrators can enable monitoring for user-defined projects by setting the enableUserWorkload: true field in the cluster monitoring ConfigMap object.
 
-In "Red Hat OpenShift Container Platform" {product-version} you must remove any custom Prometheus instances before enabling monitoring for user-defined projects.
+In "Red Hat OpenShift Container Platform" "4.14" you must remove any custom Prometheus instances before enabling monitoring for user-defined projects.
 You must have access to the cluster as a user with the cluster-admin cluster role to enable monitoring for user-defined projects in "Red Hat OpenShift Container Platform". Cluster administrators can then optionally grant users permission to configure the components that are responsible for monitoring user-defined projects.
 You have access to the cluster as a user with the cluster-admin cluster role.
 

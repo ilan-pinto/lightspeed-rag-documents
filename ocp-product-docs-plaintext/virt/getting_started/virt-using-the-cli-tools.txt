@@ -4,27 +4,27 @@ You can manage OpenShift Virtualization resources by using the virtctl command l
 
 You can access and modify virtual machine (VM) disk images by using the libguestfs command line tool. You deploy libguestfs by using the virtctl libguestfs command.
 Installing virtctl
-To install virtctl on Red Hat Enterprise Linux (RHEL) 9 or later, Linux, Windows, and MacOS operating systems, you can download and install the virtctl binary file.
+To install virtctl on Red Hat Enterprise Linux (RHEL) 9, Linux, Windows, and MacOS operating systems, you download and install the virtctl binary file.
 
-To install virtctl on RHEL 8, you can enable the OpenShift Virtualization repository and then install the kubevirt-virtctl RPM package.
+To install virtctl on RHEL 8, you enable the OpenShift Virtualization repository and then install the kubevirt-virtctl package.
 
-Installing the virtctl binary on RHEL 9 or later, Linux, Windows, or macOS
-You can download the virtctl binary by using the "Red Hat OpenShift Container Platform" web console and then install it on Red Hat Enterprise Linux (RHEL) 9 or later, Linux, Windows, or macOS.
+Installing the virtctl binary on RHEL 9, Linux, Windows, or macOS
+You can download the virtctl binary for your operating system from the "Red Hat OpenShift Container Platform" web console and then install it.
 
 Navigate to the Virtualization -> Overview page in the web console.
 
 Click the Download virtctl link to download the virtctl binary for your operating system.
 
 Install virtctl:
-Installing the virtctl RPM package on RHEL 8
-You can install the virtctl RPM package on Red Hat Enterprise Linux (RHEL) 8 by enabling the OpenShift Virtualization repository and then installing the kubevirt-virtctl RPM package.
+Installing the virtctl RPM on RHEL 8
+You can install the virtctl RPM package on Red Hat Enterprise Linux (RHEL) 8 by enabling the OpenShift Virtualization repository and installing the kubevirt-virtctl package.
 
 Each host in your cluster must be registered with Red Hat Subscription Manager (RHSM) and have an active "Red Hat OpenShift Container Platform" subscription.
 
 
 Enable the OpenShift Virtualization repository by using the subscription-manager CLI tool to run the following command:
 
-Install the kubevirt-virtctl RPM package by running the following command:
+Install the kubevirt-virtctl package by running the following command:
 virtctl commands
 The virtctl client is a command-line utility for managing OpenShift Virtualization resources.
 

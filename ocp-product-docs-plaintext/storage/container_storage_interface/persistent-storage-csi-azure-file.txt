@@ -21,7 +21,7 @@ Running on nodes with Federal Information Processing Standard (FIPS) mode enable
 
 For more information about supported features, see Supported CSI drivers and features.
 NFS support
-"Red Hat OpenShift Container Platform" supports the Azure File Container Storage Interface (CSI) Driver Operator with Network File System (NFS) with the following restrictions:
+"Red Hat OpenShift Container Platform" 4.14, and later, supports Azure File Container Storage Interface (CSI) Driver Operator with  Network File System (NFS) with the following caveats:
 
 Creating pods with Azure File NFS volumes that are scheduled to the control plane node causes the mount to be denied.
 

@@ -4,7 +4,7 @@ With IPsec enabled, you can encrypt both internal pod-to-pod cluster traffic bet
 
 IPsec is disabled by default. It can be enabled either during or after installing the cluster. For information about cluster installation, see "Red Hat OpenShift Container Platform" installation overview. If you need to enable IPsec after cluster installation, you must first resize your cluster MTU to account for the overhead of the IPsec ESP IP header.
 
-IPsec on IBM Cloud VPC supports only NAT-T. Using ESP is not supported.
+IPsec on IBM Cloud&#174; supports only NAT-T. Using ESP is not supported.
 Use the procedures in the following documentation to:
 
 Enable and disable IPSec after cluster installation

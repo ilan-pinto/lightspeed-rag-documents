@@ -22,7 +22,7 @@ spec:
   source:
     type: image
     image:
-      ref: registry.redhat.io/redhat/redhat-operator-index:v{product-version}
+      ref: registry.redhat.io/redhat/redhat-operator-index:v"4.14"
 apiVersion: catalogd.operatorframework.io/v1alpha1
 kind: Catalog
 metadata:
@@ -31,7 +31,7 @@ spec:
   source:
     type: image
     image:
-      ref: registry.redhat.io/redhat/certified-operator-index:v{product-version}
+      ref: registry.redhat.io/redhat/certified-operator-index:v"4.14"
 apiVersion: catalogd.operatorframework.io/v1alpha1
 kind: Catalog
 metadata:
@@ -40,7 +40,7 @@ spec:
   source:
     type: image
     image:
-      ref: registry.redhat.io/redhat/community-operator-index:v{product-version}
+      ref: registry.redhat.io/redhat/community-operator-index:v"4.14"
 The following command adds a catalog to your cluster:
 
 $ oc apply -f <catalog_name>.yaml 1

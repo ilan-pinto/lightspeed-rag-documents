@@ -1,4 +1,4 @@
-Getting started with service binding on IBM Power, IBM Z, and IBM&#174; LinuxONE
+Getting started with service binding on IBM Power, IBM Z, and IBM LinuxONE
 
 The Service Binding Operator manages the data plane for workloads and backing services. This guide provides instructions with examples to help you create a database instance, deploy an application, and use the Service Binding Operator to create a binding connection between the application and the database service.
 

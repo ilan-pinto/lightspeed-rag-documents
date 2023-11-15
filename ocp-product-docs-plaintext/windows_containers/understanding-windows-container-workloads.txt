@@ -8,11 +8,12 @@ Windows Server Containers provide resource isolation using a shared kernel but a
 Windows Machine Config Operator prerequisites
 The following information details the supported platform versions, Windows Server versions, and networking configurations for the Windows Machine Config Operator. See the vSphere documentation for any information that is relevant to only that platform.
 
-WMCO 6.0.0 supported platforms and Windows Server versions
-The following table lists the Windows Server versions that are supported by WMCO 6.0.0, based on the applicable platform. Windows Server versions not listed are not supported and attempting to use them will cause errors. To prevent these errors, use only an appropriate version for your platform.
+WMCO 8.0.0 supported platforms and Windows Server versions
+The following table lists the Windows Server versions that are supported by WMCO 8.0.0, based on the applicable platform. Windows Server versions not listed are not supported and attempting to use them will cause errors. To prevent these errors, use only an appropriate version for your platform.
 Supported networking
-Hybrid networking with OVN-Kubernetes is the only supported networking configuration. See the additional resources below for more information on this functionality. The following tables outline the type of networking configuration and Windows Server versions to use based on your platform. You must specify the network configuration when you install the cluster. Be aware that OpenShift SDN networking is the default network for "Red Hat OpenShift Container Platform" clusters. However, OpenShift SDN is not supported by WMCO.
+Hybrid networking with OVN-Kubernetes is the only supported networking configuration. See the additional resources below for more information on this functionality. The following tables outline the type of networking configuration and Windows Server versions to use based on your platform. You must specify the network configuration when you install the cluster.
 
+The WMCO does not support OVN-Kubernetes without hybrid networking or OpenShift SDN.
 
 
 See Configuring hybrid networking with OVN-Kubernetes

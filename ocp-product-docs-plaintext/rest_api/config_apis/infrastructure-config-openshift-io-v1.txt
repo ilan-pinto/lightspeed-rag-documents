@@ -350,12 +350,6 @@ Description
 
 Type
 object
-.status.platformStatus.openstack.loadBalancer
-
-Description
-
-Type
-object
 .status.platformStatus.ovirt
 
 Description

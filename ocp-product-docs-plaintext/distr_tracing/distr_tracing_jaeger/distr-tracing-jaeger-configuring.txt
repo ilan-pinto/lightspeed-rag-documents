@@ -136,7 +136,7 @@ The streaming deployment strategy is intended for production environments that r
 The streaming strategy provides a streaming capability that sits between the Collector and the Elasticsearch storage. This reduces the pressure on the storage under high load situations, and enables other trace post-processing capabilities to tap into the real-time span data directly from the Kafka streaming platform.
 
 The streaming strategy requires an additional Red Hat subscription for AMQ Streams. If you do not have an AMQ Streams subscription, contact your sales representative for more information.
-The streaming deployment strategy is currently unsupported on IBM Z.
+The streaming deployment strategy is currently unsupported on IBM Z&#174;.
 The AMQ Streams Operator has been installed. If using version 1.4.0 or higher you can use self-provisioning. Otherwise you must create the Kafka instance.
 
 The Red Hat OpenShift distributed tracing platform (Jaeger) Operator has been installed.

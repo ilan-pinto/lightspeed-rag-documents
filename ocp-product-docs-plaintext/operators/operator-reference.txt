@@ -87,9 +87,9 @@ ClusterAutoscaler: This is a singleton resource, which controls the configuratio
 MachineAutoscaler: This resource targets a node group and manages the annotations to enable and configure autoscaling for that group, the min and max size. Currently only MachineSet objects can be targeted.
 Cluster Cloud Controller Manager Operator
 
-The status of this Operator is General Availability for Amazon Web Services (AWS), IBM Cloud, global Microsoft Azure, Microsoft Azure Stack Hub, Nutanix, Red Hat OpenStack Platform (RHOSP), and VMware vSphere.
+The status of this Operator is General Availability for Amazon Web Services (AWS), IBM Cloud&#174;, global Microsoft Azure, Microsoft Azure Stack Hub, Nutanix, Red Hat OpenStack Platform (RHOSP), and VMware vSphere.
 
-The Operator is available as a Technology Preview for Alibaba Cloud, Google Cloud Platform (GCP), and IBM Cloud Power VS.
+The Operator is available as a Technology Preview for Alibaba Cloud, Google Cloud Platform (GCP), and IBM Cloud&#174; Power VS.
 The Cluster Cloud Controller Manager Operator manages and updates the cloud controller managers deployed on top of "Red Hat OpenShift Container Platform". The Operator is based on the Kubebuilder framework and controller-runtime libraries. It is installed via the Cluster Version Operator (CVO).
 
 It contains the following components:
@@ -497,7 +497,7 @@ Operator Lifecycle Manager Operators
 Operator Lifecycle Manager (OLM) helps users install, update, and manage the lifecycle of Kubernetes native applications (Operators) and their associated services running across their "Red Hat OpenShift Container Platform" clusters. It is part of the Operator Framework, an open source toolkit designed to manage Operators in an effective, automated, and scalable way.
 
 
-OLM runs by default in "Red Hat OpenShift Container Platform" {product-version}, which aids cluster administrators in installing, upgrading, and granting access to Operators running on their cluster. The "Red Hat OpenShift Container Platform" web console provides management screens for cluster administrators to install Operators, as well as grant specific projects access to use the catalog of Operators available on the cluster.
+OLM runs by default in "Red Hat OpenShift Container Platform" "4.14", which aids cluster administrators in installing, upgrading, and granting access to Operators running on their cluster. The "Red Hat OpenShift Container Platform" web console provides management screens for cluster administrators to install Operators, as well as grant specific projects access to use the catalog of Operators available on the cluster.
 
 For developers, a self-service experience allows provisioning and configuring instances of databases, monitoring, and big data services without having to be subject matter experts, because the Operator has that knowledge baked into it.
 

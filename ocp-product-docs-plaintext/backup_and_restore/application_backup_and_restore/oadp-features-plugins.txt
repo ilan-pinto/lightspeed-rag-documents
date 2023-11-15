@@ -105,11 +105,11 @@ s390x
 
 OADP 1.2.0 and later versions support the ARM64 architecture.
 OADP support for IBM Power and IBM Z
-OpenShift API for Data Protection (OADP) is platform neutral. The information that follows relates only to IBM Power and to IBM Z.
+OpenShift API for Data Protection (OADP) is platform neutral. The information that follows relates only to IBM Power&#174; and to IBM Z&#174;.
 
-OADP 1.1.0 was tested successfully against "Red Hat OpenShift Container Platform" 4.11 for both IBM Power and IBM Z. The sections that follow give testing and support information for OADP 1.1.0 in terms of backup locations for these systems.
+OADP 1.1.0 was tested successfully against "Red Hat OpenShift Container Platform" 4.11 for both IBM Power&#174; and IBM Z&#174;. The sections that follow give testing and support information for OADP 1.1.0 in terms of backup locations for these systems.
 
 OADP support for target backup locations using IBM Power
-IBM Power running with "Red Hat OpenShift Container Platform" 4.11 and 4.12, and OpenShift API for Data Protection (OADP) 1.1.2 was tested successfully against an AWS S3 backup location target. Although the test involved only an AWS S3 target, Red Hat supports running IBM Power with "Red Hat OpenShift Container Platform" 4.11 and 4.12, and OADP 1.1.2 against all non-AWS S3 backup location targets as well.
+IBM Power&#174; running with "Red Hat OpenShift Container Platform" 4.11 and 4.12, and OpenShift API for Data Protection (OADP) 1.1.2 was tested successfully against an AWS S3 backup location target. Although the test involved only an AWS S3 target, Red Hat supports running IBM Power&#174; with "Red Hat OpenShift Container Platform" 4.11 and 4.12, and OADP 1.1.2 against all non-AWS S3 backup location targets as well.
 OADP testing and support for target backup locations using IBM Z
-IBM Z running with "Red Hat OpenShift Container Platform" 4.11 and 4.12, and OpenShift API for Data Protection (OADP) 1.1.2 was tested successfully against an AWS S3 backup location target. Although the test involved only an AWS S3 target, Red Hat supports running IBM Z with "Red Hat OpenShift Container Platform" 4.11 and 4.12, and OADP 1.1.2 against all non-AWS S3 backup location targets as well.
+IBM Z&#174; running with "Red Hat OpenShift Container Platform" 4.11 and 4.12, and OpenShift API for Data Protection (OADP) 1.1.2 was tested successfully against an AWS S3 backup location target. Although the test involved only an AWS S3 target, Red Hat supports running IBM Z&#174; with "Red Hat OpenShift Container Platform" 4.11 and 4.12, and OADP 1.1.2 against all non-AWS S3 backup location targets as well.

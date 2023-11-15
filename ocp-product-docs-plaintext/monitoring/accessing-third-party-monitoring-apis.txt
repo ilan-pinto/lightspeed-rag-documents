@@ -1,6 +1,6 @@
 Accessing third-party monitoring APIs
 
-In "Red Hat OpenShift Container Platform" {product-version}, you can access web service APIs for some third-party monitoring components from the command line interface (CLI).
+In "Red Hat OpenShift Container Platform" "4.14", you can access web service APIs for some third-party monitoring components from the command line interface (CLI).
 Accessing third-party monitoring web service APIs
 You can directly access third-party web service APIs from the command line for the following monitoring stack components: Prometheus, Alertmanager, Thanos Ruler, and Thanos Querier.
 

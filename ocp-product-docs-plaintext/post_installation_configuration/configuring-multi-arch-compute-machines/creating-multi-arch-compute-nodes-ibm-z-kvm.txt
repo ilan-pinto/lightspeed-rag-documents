@@ -1,6 +1,6 @@
-Creating a cluster with multi-architecture compute machines on IBM Z and IBM&#174; LinuxONE with RHEL KVM
+Creating a cluster with multi-architecture compute machines on IBM Z and IBM LinuxONE with RHEL KVM
 
-To create a cluster with multi-architecture compute machines on IBM Z and IBM&#174; LinuxONE (s390x) with RHEL KVM, you must have an existing single-architecture x86_64 cluster. You can then add s390x compute machines to your "Red Hat OpenShift Container Platform" cluster.
+To create a cluster with multi-architecture compute machines on IBM Z&#174; and IBM&#174; LinuxONE (s390x) with RHEL KVM, you must have an existing single-architecture x86_64 cluster. You can then add s390x compute machines to your "Red Hat OpenShift Container Platform" cluster.
 
 Before you can add s390x nodes to your cluster, you must upgrade your cluster to one that uses the multi-architecture payload. For more information on migrating to the multi-architecture payload, see Migrating to a cluster with multi-architecture compute machines.
 

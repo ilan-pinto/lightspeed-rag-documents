@@ -8,7 +8,7 @@ Failure domain platform support and configuration
 The control plane machine set concept of a failure domain is analogous to existing concepts on cloud providers. Not all platforms support the use of failure domains.
 
 
-Nutanix has a failure domain concept, but "Red Hat OpenShift Container Platform" {product-version} does not include support for this feature.
+Nutanix has a failure domain concept, but "Red Hat OpenShift Container Platform" "4.14" does not include support for this feature.
 The failure domain configuration in the control plane machine set custom resource (CR) is platform-specific. For more information about failure domain parameters in the CR, see the sample failure domain configuration for your provider.
 
 Sample Amazon Web Services failure domain configuration

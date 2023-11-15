@@ -276,7 +276,7 @@ Access to the OpenShift CLI (oc).
 An account with the cluster-admin role.
 
 
-The Bookinfo sample application cannot be installed on IBM Z and IBM Power.
+The Bookinfo sample application cannot be installed on IBM Z&#174; and IBM Power&#174;.
 The commands in this section assume the Service Mesh control plane project is istio-system.  If you installed the control plane in another namespace, edit each command before you run it.
 Log in to the "Red Hat OpenShift Container Platform" web console as a user with cluster-admin rights. If you use Red Hat OpenShift Dedicated, you must have an account with the dedicated-admin role.
 

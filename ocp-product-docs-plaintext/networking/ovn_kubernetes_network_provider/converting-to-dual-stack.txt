@@ -2,7 +2,7 @@ Converting to IPv4/IPv6 dual-stack networking
 
 As a cluster administrator, you can convert your IPv4 single-stack cluster to a dual-network cluster network that supports IPv4 and IPv6 address families. After converting to dual-stack, all newly created pods are dual-stack enabled.
 
-A dual-stack network is supported on clusters provisioned on bare metal, IBM Power, IBM Z infrastructure, and single node OpenShift clusters.
+A dual-stack network is supported on clusters provisioned on bare metal, IBM Power&#174;, IBM Z&#174; infrastructure, and single node OpenShift clusters.
 While using dual-stack networking, you cannot use IPv4-mapped IPv6 addresses, such as ::FFFF:198.51.100.1, where IPv6 is required.
 Converting to a dual-stack cluster network
 As a cluster administrator, you can convert your single-stack cluster network to a dual-stack cluster network.

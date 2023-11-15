@@ -10,6 +10,9 @@ authorization
 Authorization determines whether the identified user has permissions to perform the requested action.
 bearer token
 Bearer token is used to authenticate to API with the header Authorization: Bearer <token>.
+
+
+
 Cloud Credential Operator
 The Cloud Credential Operator (CCO) manages cloud provider credentials as custom resource definitions (CRDs).
 config map
@@ -66,7 +69,7 @@ An administrator can configure authentication through the following tasks:
 
 Configuring an identity provider: You can define any supported identity provider in "Red Hat OpenShift Container Platform" and add it to your cluster.
 
-Configuring the internal OAuth server: The "Red Hat OpenShift Container Platform" control plane includes a built-in OAuth server that determines the user’s identity from the configured identity provider and creates an access token. You can configure the token duration and inactivity timeout, and customize the internal OAuth server URL.
+Configuring the internal OAuth server: The "Red Hat OpenShift Container Platform" control plane includes a built-in OAuth server that determines the user's identity from the configured identity provider and creates an access token. You can configure the token duration and inactivity timeout, and customize the internal OAuth server URL.
 
 Registering an OAuth client: "Red Hat OpenShift Container Platform" includes several default OAuth clients. You can register and configure additional OAuth clients.
 

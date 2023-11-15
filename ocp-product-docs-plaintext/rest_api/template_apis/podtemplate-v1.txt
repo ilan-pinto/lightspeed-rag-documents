@@ -473,19 +473,6 @@ Description
 Type
 object
 Required
-.template.spec.containers[].resizePolicy
-
-Description
-
-Type
-array
-.template.spec.containers[].resizePolicy[]
-
-Description
-
-Type
-object
-Required
 .template.spec.containers[].resources
 
 Description
@@ -893,19 +880,6 @@ Type
 object
 Required
 .template.spec.ephemeralContainers[].readinessProbe.tcpSocket
-
-Description
-
-Type
-object
-Required
-.template.spec.ephemeralContainers[].resizePolicy
-
-Description
-
-Type
-array
-.template.spec.ephemeralContainers[].resizePolicy[]
 
 Description
 
@@ -1325,19 +1299,6 @@ Type
 object
 Required
 .template.spec.initContainers[].readinessProbe.tcpSocket
-
-Description
-
-Type
-object
-Required
-.template.spec.initContainers[].resizePolicy
-
-Description
-
-Type
-array
-.template.spec.initContainers[].resizePolicy[]
 
 Description
 

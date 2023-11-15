@@ -646,19 +646,6 @@ Description
 Type
 object
 Required
-.spec.containers[].resizePolicy
-
-Description
-
-Type
-array
-.spec.containers[].resizePolicy[]
-
-Description
-
-Type
-object
-Required
 .spec.containers[].resources
 
 Description
@@ -1139,19 +1126,6 @@ Type
 object
 Required
 .spec.initContainers[].readinessProbe.tcpSocket
-
-Description
-
-Type
-object
-Required
-.spec.initContainers[].resizePolicy
-
-Description
-
-Type
-array
-.spec.initContainers[].resizePolicy[]
 
 Description
 
@@ -2126,19 +2100,6 @@ Description
 Type
 object
 Required
-.status.conditions
-
-Description
-
-Type
-array
-.status.conditions[]
-
-Description
-
-Type
-object
-Required
 API endpoints
 The following API endpoints are available:
 
@@ -2147,8 +2108,6 @@ The following API endpoints are available:
 /apis/monitoring.coreos.com/v1/namespaces/{namespace}/thanosrulers
 
 /apis/monitoring.coreos.com/v1/namespaces/{namespace}/thanosrulers/{name}
-
-/apis/monitoring.coreos.com/v1/namespaces/{namespace}/thanosrulers/{name}/status
 
 
 /apis/monitoring.coreos.com/v1/thanosrulers
@@ -2221,30 +2180,3 @@ HTTP method
 PUT
 Description
 replace the specified ThanosRuler
-/apis/monitoring.coreos.com/v1/namespaces/{namespace}/thanosrulers/{name}/status
-
-
-
-HTTP method
-GET
-Description
-read status of the specified ThanosRuler
-
-
-
-
-
-HTTP method
-PATCH
-Description
-partially update status of the specified ThanosRuler
-
-
-
-
-
-
-HTTP method
-PUT
-Description
-replace status of the specified ThanosRuler

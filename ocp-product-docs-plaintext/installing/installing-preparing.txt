@@ -25,15 +25,15 @@ Google Cloud Platform (GCP) on 64-bit ARM instances
 
 Red Hat OpenStack Platform (RHOSP)
 
-IBM Cloud VPC
+IBM Cloud&#174;
 
-IBM Z or IBM&#174; LinuxONE
+IBM Z&#174; or IBM&#174; LinuxONE
 
-IBM Z or IBM&#174; LinuxONE for Red Hat Enterprise Linux (RHEL) KVM
+IBM Z&#174; or IBM&#174; LinuxONE for Red Hat Enterprise Linux (RHEL) KVM
 
-IBM Power
+IBM Power&#174;
 
-IBM Power Virtual Server
+IBM Power&#174; Virtual Server
 
 Nutanix
 
@@ -44,9 +44,9 @@ Bare metal or other platform agnostic infrastructure
 
 You can deploy an "Red Hat OpenShift Container Platform" 4 cluster to both on-premise hardware and to cloud hosting services, but all of the machines in a cluster must be in the same data center or cloud hosting service.
 
-If you want to use "Red Hat OpenShift Container Platform" but do not want to manage the cluster yourself, you have several managed service options. If you want a cluster that is fully managed by Red Hat, you can use OpenShift Dedicated or OpenShift Online. You can also use OpenShift as a managed service on Azure, AWS, IBM Cloud VPC, or Google Cloud. For more information about managed services, see the OpenShift Products page. If you install an "Red Hat OpenShift Container Platform" cluster with a cloud virtual machine as a virtual bare metal, the corresponding cloud-based storage is not supported.
+If you want to use "Red Hat OpenShift Container Platform" but do not want to manage the cluster yourself, you have several managed service options. If you want a cluster that is fully managed by Red Hat, you can use OpenShift Dedicated or OpenShift Online. You can also use OpenShift as a managed service on Azure, AWS, IBM Cloud&#174;, or Google Cloud. For more information about managed services, see the OpenShift Products page. If you install an "Red Hat OpenShift Container Platform" cluster with a cloud virtual machine as a virtual bare metal, the corresponding cloud-based storage is not supported.
 Have you used "Red Hat OpenShift Container Platform" 3 and want to use "Red Hat OpenShift Container Platform" 4?
-If you used "Red Hat OpenShift Container Platform" 3 and want to try "Red Hat OpenShift Container Platform" 4, you need to understand how different "Red Hat OpenShift Container Platform" 4 is. "Red Hat OpenShift Container Platform" 4 weaves the Operators that package, deploy, and manage Kubernetes applications and the operating system that the platform runs on, Red Hat Enterprise Linux CoreOS (RHCOS), together seamlessly. Instead of deploying machines and configuring their operating systems so that you can install "Red Hat OpenShift Container Platform" on them, the RHCOS operating system is an integral part of the "Red Hat OpenShift Container Platform" cluster. Deploying the operating system for the cluster machines as part of the installation process for "Red Hat OpenShift Container Platform". See Differences between "Red Hat OpenShift Container Platform" 3 and 4.
+If you used "Red Hat OpenShift Container Platform" 3 and want to try "Red Hat OpenShift Container Platform" 4, you need to understand how different "Red Hat OpenShift Container Platform" 4 is. "Red Hat OpenShift Container Platform" 4 weaves the Operators that package, deploy, and manage Kubernetes applications and the operating system that the platform runs on, Red Hat Enterprise Linux CoreOS (RHCOS), together seamlessly. Instead of deploying machines and configuring their operating systems so that you can install "Red Hat OpenShift Container Platform" on them, the RHCOS operating system is an integral part of the "Red Hat OpenShift Container Platform" cluster. Deploying the operating system for the cluster machines is part of the installation process for "Red Hat OpenShift Container Platform". See Differences between "Red Hat OpenShift Container Platform" 3 and 4.
 
 Because you need to provision machines as part of the "Red Hat OpenShift Container Platform" cluster installation process, you cannot upgrade an "Red Hat OpenShift Container Platform" 3 cluster to "Red Hat OpenShift Container Platform" 4. Instead, you must create a new "Red Hat OpenShift Container Platform" 4 cluster and migrate your "Red Hat OpenShift Container Platform" 3 workloads to them. For more information about migrating, see Migrating from "Red Hat OpenShift Container Platform" 3 to 4 overview. Because you must migrate to "Red Hat OpenShift Container Platform" 4, you can use any type of production cluster installation process to create your new cluster.
 Do you want to use existing components in your cluster?
@@ -62,13 +62,13 @@ You can use the installer-provisioned infrastructure method to create appropriat
 
 If you want to reuse extensive cloud infrastructure, you can complete a user-provisioned infrastructure installation. With these installations, you manually deploy the machines that your cluster requires during the installation process. If you perform a user-provisioned infrastructure installation on AWS, Azure, Azure Stack Hub, you can use the provided templates to help you stand up all of the required components. You can also reuse a shared VPC on GCP. Otherwise, you can use the provider-agnostic installation method to deploy a cluster into other clouds.
 
-You can also complete a user-provisioned infrastructure installation on your existing hardware. If you use RHOSP, IBM Z or IBM&#174; LinuxONE, IBM Z and IBM&#174; LinuxONE with RHEL KVM, IBM Power, or vSphere, use the specific installation instructions to deploy your cluster. If you use other supported hardware, follow the bare metal installation procedure. For some of these platforms, such as RHOSP, vSphere, and bare metal, you can also customize additional network parameters during installation.
+You can also complete a user-provisioned infrastructure installation on your existing hardware. If you use RHOSP, IBM Z&#174; or IBM&#174; LinuxONE, IBM Z&#174; and IBM&#174; LinuxONE with RHEL KVM, , or vSphere, use the specific installation instructions to deploy your cluster. If you use other supported hardware, follow the bare metal installation procedure. For some of these platforms, such as RHOSP, vSphere, and bare metal, you can also customize additional network parameters during installation.
 Do you need extra security for your cluster?
 If you use a user-provisioned installation method, you can configure a proxy for your cluster. The instructions are included in each installation procedure.
 
 If you want to prevent your cluster on a public cloud from exposing endpoints externally, you can deploy a private cluster with installer-provisioned infrastructure on AWS, Azure, or GCP.
 
-If you need to install your cluster that has limited access to the internet, such as a disconnected or restricted network cluster, you can mirror the installation packages and install the cluster from them. Follow detailed instructions for user provisioned infrastructure installations into restricted networks for AWS, GCP, IBM Z or IBM&#174; LinuxONE, IBM Z or IBM&#174; LinuxONE with RHEL KVM, IBM Power, vSphere, or bare metal. You can also install a cluster into a restricted network using installer-provisioned infrastructure by following detailed instructions for AWS, GCP, Nutanix, RHOSP, and vSphere.
+If you need to install your cluster that has limited access to the internet, such as a disconnected or restricted network cluster, you can mirror the installation packages and install the cluster from them. Follow detailed instructions for user provisioned infrastructure installations into restricted networks for AWS, GCP, IBM Z&#174; or IBM&#174; LinuxONE, IBM Z&#174; or IBM&#174; LinuxONE with RHEL KVM, , vSphere, or bare metal. You can also install a cluster into a restricted network using installer-provisioned infrastructure by following detailed instructions for AWS, GCP, Nutanix, RHOSP, and vSphere.
 
 If you need to deploy your cluster to an AWS GovCloud region, AWS China region, or Azure government region, you can configure those custom regions during an installer-provisioned infrastructure installation.
 

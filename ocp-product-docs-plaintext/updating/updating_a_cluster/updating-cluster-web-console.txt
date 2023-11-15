@@ -2,14 +2,14 @@ Updating a cluster using the web console
 
 You can update, or upgrade, an "Red Hat OpenShift Container Platform" cluster by using the web console. The following steps update a cluster within a minor version. You can use the same instructions for updating a cluster between minor versions.
 
-Use the web console or oc adm upgrade channel <channel> to change the update channel. You can follow the steps in Updating a cluster using the CLI to complete the update after you change to a {product-version} channel.
+Use the web console or oc adm upgrade channel <channel> to change the update channel. You can follow the steps in Updating a cluster using the CLI to complete the update after you change to a "4.14" channel.
 Prerequisites
 Have access to the cluster as a user with admin privileges.
 See Using RBAC to define and apply permissions.
 
 Have a recent etcd backup in case your update fails and you must restore your cluster to a previous state.
 
-Support for RHEL7 workers is removed in "Red Hat OpenShift Container Platform" {product-version}. You must replace RHEL7 workers with RHEL8 or RHCOS workers before updating to "Red Hat OpenShift Container Platform" {product-version}. Red Hat does not support in-place RHEL7 to RHEL8 updates for RHEL workers; those hosts must be replaced with a clean operating system install.
+Support for RHEL7 workers is removed in "Red Hat OpenShift Container Platform" "4.14". You must replace RHEL7 workers with RHEL8 or RHCOS workers before updating to "Red Hat OpenShift Container Platform" "4.14". Red Hat does not support in-place RHEL7 to RHEL8 updates for RHEL workers; those hosts must be replaced with a clean operating system install.
 
 Ensure all Operators previously installed through Operator Lifecycle Manager (OLM) are updated to their latest version in their latest channel. Updating the Operators ensures they have a valid update path when the default OperatorHub catalogs switch from the current minor version to the next during a cluster update. See Updating installed Operators for more information.
 
@@ -96,9 +96,9 @@ Pause all MachineHealthCheck resources.
 
 From the web console, click Administration -> Cluster Settings and review the contents of the Details tab.
 
-For production clusters, ensure that the Channel is set to the correct channel for the version that you want to update to, such as stable-{product-version}.
+For production clusters, ensure that the Channel is set to the correct channel for the version that you want to update to, such as stable-"4.14".
 
-Select a version to update to and click Save.
+Select a version to update to, and click Save.
 
 After the update completes and the Cluster Version Operator refreshes the available updates, check if more updates are available in your current channel.
 Changing the update server by using the web console

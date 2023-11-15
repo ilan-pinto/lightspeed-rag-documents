@@ -51,7 +51,7 @@ Understand and apply role-based access control.
 RBAC overview
 Role-based access control (RBAC) objects determine whether a user is allowed to perform a given action within a project.
 
-administrators can use the cluster roles and bindings to control who has various access levels to the "Red Hat OpenShift Container Platform" platform itself and all projects.
+can use the cluster roles and bindings to control who has various access levels to the "Red Hat OpenShift Container Platform" platform itself and all projects.
 
 Developers can use local roles and bindings to control who has access to their projects. Note that authorization is a separate step from authentication, which is more about determining the identity of who is taking the action.
 

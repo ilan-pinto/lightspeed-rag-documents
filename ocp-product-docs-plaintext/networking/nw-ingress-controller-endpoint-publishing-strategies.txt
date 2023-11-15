@@ -50,4 +50,4 @@ To change an Internal scoped Ingress Controller to External, enter the following
 
 To check the status of the Ingress Controller, enter the following command:
 Additional resources
-Ingress Controller configuration parameters.
+For more information, see Ingress Controller configuration parameters.

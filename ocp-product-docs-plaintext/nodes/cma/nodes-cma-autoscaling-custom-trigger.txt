@@ -115,14 +115,14 @@ spec:
     metricType: Utilization 2
     metadata:
       value: '60' 3
-      containerName: api 4
+  minReplicaCount: 1 4
 Specifies CPU as the trigger type.
 
 Specifies the type of metric to use, either Utilization or AverageValue.
 
 Specifies the value that triggers scaling. Must be specified as a quoted string value.
 
-Optional: Specifies an individual container to scale, based on the memory utilization of only that container, rather than the entire pod. In this example, only the container named api is to be scaled.
+Specifies the minimum number of replicas when scaling down. For a CPU trigger, enter a value of 1 or greater, because the HPA cannot scale to zero if you are using only CPU metrics.
 Understanding the memory trigger
 You can scale pods based on memory metrics. This trigger uses cluster metrics as the source for metrics.
 

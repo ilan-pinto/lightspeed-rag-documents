@@ -7,7 +7,7 @@ See Using RBAC to define and apply permissions.
 
 Have a recent etcd backup in case your update fails and you must restore your cluster to a previous state.
 
-Support for RHEL7 workers is removed in "Red Hat OpenShift Container Platform" {product-version}. You must replace RHEL7 workers with RHEL8 or RHCOS workers before updating to "Red Hat OpenShift Container Platform" {product-version}. Red Hat does not support in-place RHEL7 to RHEL8 updates for RHEL workers; those hosts must be replaced with a clean operating system install.
+Support for RHEL7 workers is removed in "Red Hat OpenShift Container Platform" "4.14". You must replace RHEL7 workers with RHEL8 or RHCOS workers before updating to "Red Hat OpenShift Container Platform" "4.14". Red Hat does not support in-place RHEL7 to RHEL8 updates for RHEL workers; those hosts must be replaced with a clean operating system install.
 
 Ensure all Operators previously installed through Operator Lifecycle Manager (OLM) are updated to their latest version in their latest channel. Updating the Operators ensures they have a valid update path when the default OperatorHub catalogs switch from the current minor version to the next during a cluster update. See Updating installed Operators for more information.
 

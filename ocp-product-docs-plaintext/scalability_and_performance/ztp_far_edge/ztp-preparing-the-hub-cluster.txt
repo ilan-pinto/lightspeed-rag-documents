@@ -1,8 +1,8 @@
 Preparing the hub cluster for ZTP
 
 To use RHACM in a disconnected environment, create a mirror registry that mirrors the "Red Hat OpenShift Container Platform" release images and Operator Lifecycle Manager (OLM) catalog that contains the required Operator images. OLM manages, installs, and upgrades Operators and their dependencies in the cluster. You can also use a disconnected mirror host to serve the RHCOS ISO and RootFS disk images that are used to provision the bare-metal hosts.
-Telco RAN {product-version} validated software components
-The Red Hat Telco RAN {product-version} solution has been validated using the following Red Hat software products for "Red Hat OpenShift Container Platform".
+Telco RAN "4.14" validated software components
+The Red Hat Telco RAN "4.14" solution has been validated using the following Red Hat software products for "Red Hat OpenShift Container Platform".
 
 
 The following tables list the validated software versions for managed clusters and hub clusters.

@@ -8,9 +8,9 @@ Resource logs are a default feature that provides limited log viewing capability
 
 To enhance your log retrieving and viewing experience, install the logging subsystem. The logging subsystem aggregates all the logs from your "Red Hat OpenShift Container Platform" cluster, such as node system audit logs, application container logs, and infrastructure logs, into a dedicated log store. You can then query, discover, and visualize your log data through the Kibana console or the "Red Hat OpenShift Container Platform" web console. Resource logs do not access the logging subsystem log store.
 Viewing resource logs
-You can view the log for various resources in the {first-oc} and web console. Logs read from the tail, or end, of the log.
+You can view the log for various resources in the OpenShift CLI (oc) and web console. Logs read from the tail, or end, of the log.
 
-Access to the {first-oc}.
+Access to the OpenShift CLI (oc).
 
 
 In the "Red Hat OpenShift Container Platform" console, navigate to Workloads -> Pods or navigate to the pod through the resource you want to investigate.

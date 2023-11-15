@@ -76,7 +76,7 @@ Source-to-image (S2I) is a tool for building reproducible container images. It p
 Performing source-to-image incremental builds
 Source-to-image (S2I) can perform incremental builds, which means it reuses artifacts from previously-built images.
 
-To create an incremental build, apply the following modification to the strategy definition:
+To create an incremental build, create a  with the following modification to the strategy definition:
 
 
 See S2I Requirements for information on how to create a builder image supporting incremental builds.

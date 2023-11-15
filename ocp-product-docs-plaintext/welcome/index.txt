@@ -1,7 +1,8 @@
-"Red Hat OpenShift Container Platform" {product-version} Documentation
-Welcome to the official "Red Hat OpenShift Container Platform" {product-version} documentation, where you can learn about "Red Hat OpenShift Container Platform" and start exploring its features.
+"Red Hat OpenShift Container Platform" "4.14" Documentation
 
-To navigate the "Red Hat OpenShift Container Platform" {product-version} documentation, you can use one of the following methods:
+Welcome to the official "Red Hat OpenShift Container Platform" "4.14" documentation, where you can learn about "Red Hat OpenShift Container Platform" and start exploring its features.
+
+To navigate the "Red Hat OpenShift Container Platform" "4.14" documentation, you can use one of the following methods:
 
 Use the left navigation bar to browse the documentation.
 

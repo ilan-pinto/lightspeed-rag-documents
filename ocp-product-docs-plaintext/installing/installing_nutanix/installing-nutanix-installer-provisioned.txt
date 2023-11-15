@@ -1,6 +1,6 @@
 Installing a cluster on Nutanix
 
-In "Red Hat OpenShift Container Platform" version {product-version}, you can install a cluster on your Nutanix instance with two methods:
+In "Red Hat OpenShift Container Platform" version "4.14", you can install a cluster on your Nutanix instance with two methods:
 
 Using the Assisted Installer hosted at console.redhat.com. This method requires no setup for the installer, and is ideal for connected environments like Nutanix. Installing with the Assisted Installer also provides integration with Nutanix, enabling autoscaling. See Installing an on-premise cluster using the Assisted Installer for additional details.
 
@@ -14,7 +14,7 @@ If you use a firewall, you have met these prerequisites:
 
 If your Nutanix environment is using the default self-signed SSL certificate, replace it with a certificate that is signed by a CA. The installation program requires a valid CA-signed certificate to access to the Prism Central API. For more information about replacing the self-signed certificate, see the  Nutanix AOS Security Guide.
 Internet access for "Red Hat OpenShift Container Platform"
-In "Red Hat OpenShift Container Platform" {product-version}, you require access to the internet to install your cluster.
+In "Red Hat OpenShift Container Platform" "4.14", you require access to the internet to install your cluster.
 
 You must have internet access to:
 
@@ -206,7 +206,7 @@ Only the Proxy object named cluster is supported, and no additional proxies can 
 Installing the OpenShift CLI by downloading the binary
 You can install the OpenShift CLI (oc) to interact with "Red Hat OpenShift Container Platform" from a command-line interface. You can install oc on Linux, Windows, or macOS.
 
-If you installed an earlier version of oc, you cannot use it to complete all of the commands in "Red Hat OpenShift Container Platform" {product-version}. Download and install the new version of oc.
+If you installed an earlier version of oc, you cannot use it to complete all of the commands in "Red Hat OpenShift Container Platform" "4.14". Download and install the new version of oc.
 
 You can install the OpenShift CLI (oc) binary on Linux by using the following procedure.
 
@@ -216,7 +216,7 @@ Select the architecture from the Product Variant drop-down list.
 
 Select the appropriate version from the Version drop-down list.
 
-Click Download Now next to the OpenShift v{product-version} Linux Client entry and save the file.
+Click Download Now next to the OpenShift v"4.14" Linux Client entry and save the file.
 
 Unpack the archive:
 
@@ -233,7 +233,7 @@ Navigate to the "Red Hat OpenShift Container Platform" downloads page on the Red
 
 Select the appropriate version from the Version drop-down list.
 
-Click Download Now next to the OpenShift v{product-version} Windows Client entry and save the file.
+Click Download Now next to the OpenShift v"4.14" Windows Client entry and save the file.
 
 Unzip the archive with a ZIP program.
 
@@ -250,7 +250,7 @@ Navigate to the "Red Hat OpenShift Container Platform" downloads page on the Red
 
 Select the appropriate version from the Version drop-down list.
 
-Click Download Now next to the OpenShift v{product-version} macOS Client entry and save the file.
+Click Download Now next to the OpenShift v"4.14" macOS Client entry and save the file.
 
 Unpack and unzip the archive.
 
@@ -329,7 +329,7 @@ After you install the cluster, you must install the Nutanix CSI Operator and con
 
 For more information, see the Nutanix documentation for installing the CSI Operator and configuring registry storage.
 Telemetry access for "Red Hat OpenShift Container Platform"
-In "Red Hat OpenShift Container Platform" {product-version}, the Telemetry service, which runs by default to provide metrics about cluster health and the success of updates, requires internet access. If your cluster is connected to the internet, Telemetry runs automatically, and your cluster is registered to OpenShift Cluster Manager Hybrid Cloud Console.
+In "Red Hat OpenShift Container Platform" "4.14", the Telemetry service, which runs by default to provide metrics about cluster health and the success of updates, requires internet access. If your cluster is connected to the internet, Telemetry runs automatically, and your cluster is registered to OpenShift Cluster Manager Hybrid Cloud Console.
 
 After you confirm that your OpenShift Cluster Manager Hybrid Cloud Console inventory is correct, either maintained automatically by Telemetry or manually by using OpenShift Cluster Manager, use subscription watch to track your "Red Hat OpenShift Container Platform" subscriptions at the account or multi-cluster level.
 Additional resources

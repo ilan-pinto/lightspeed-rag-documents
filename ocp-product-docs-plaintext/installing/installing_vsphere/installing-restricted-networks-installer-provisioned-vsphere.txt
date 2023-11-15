@@ -1,6 +1,6 @@
 Installing a cluster on vSphere in a restricted network
 
-In "Red Hat OpenShift Container Platform" {product-version}, you can install a cluster on VMware vSphere infrastructure in a restricted network by creating an internal mirror of the installation release content.
+In "Red Hat OpenShift Container Platform" "4.14", you can install a cluster on VMware vSphere infrastructure in a restricted network by creating an internal mirror of the installation release content.
 
 "Red Hat OpenShift Container Platform" supports deploying a cluster to a single VMware vCenter only. Deploying a cluster with machines/machine sets on multiple vCenters is not supported.
 Prerequisites
@@ -18,7 +18,7 @@ If you use a firewall, you confirmed with the administrator that port 443 is acc
 
 If you use a firewall and plan to use the Telemetry service, you configured the firewall to allow the sites that your cluster requires access to.
 About installations in restricted networks
-In "Red Hat OpenShift Container Platform" {product-version}, you can perform an installation that does not require an active connection to the internet to obtain software components. Restricted network installations can be completed using installer-provisioned infrastructure or user-provisioned infrastructure, depending on the cloud platform to which you are installing the cluster.
+In "Red Hat OpenShift Container Platform" "4.14", you can perform an installation that does not require an active connection to the internet to obtain software components. Restricted network installations can be completed using installer-provisioned infrastructure or user-provisioned infrastructure, depending on the cloud platform to which you are installing the cluster.
 
 If you choose to perform a restricted network installation on a cloud platform, you still require access to its cloud APIs. Some cloud functions, like Amazon Web Service's Route 53 DNS and IAM services, require internet access. Depending on your network, you might require less internet access for an installation on bare metal hardware, Nutanix, or on VMware vSphere.
 
@@ -33,7 +33,7 @@ error.
 By default, you cannot use the contents of the Developer Catalog because
 you cannot access the required image stream tags.
 Internet access for "Red Hat OpenShift Container Platform"
-In "Red Hat OpenShift Container Platform" {product-version}, you require access to the internet to obtain the images that are necessary to install your cluster.
+In "Red Hat OpenShift Container Platform" "4.14", you require access to the internet to obtain the images that are necessary to install your cluster.
 
 You must have internet access to:
 
@@ -45,7 +45,7 @@ Obtain the packages that are required to perform cluster updates.
 VMware vSphere infrastructure requirements
 You must install the "Red Hat OpenShift Container Platform" cluster on a VMware vSphere version 7.0 Update 2 or later instance that meets the requirements for the components that you use.
 
-"Red Hat OpenShift Container Platform" version {product-version} supports VMware vSphere version 8.0.
+"Red Hat OpenShift Container Platform" version "4.14" supports VMware vSphere version 8.0.
 You can host the VMware vSphere infrastructure on-premise or on a VMware Cloud Verified provider that meets the requirements outlined in the following tables:
 
 
@@ -233,7 +233,7 @@ Obtain the "Red Hat OpenShift Container Platform" installation program. For a re
 
 Log in to the Red Hat Customer Portal's Product Downloads page.
 
-Under Version, select the most recent release of "Red Hat OpenShift Container Platform" {product-version} for RHEL 8.
+Under Version, select the most recent release of "Red Hat OpenShift Container Platform" "4.14" for RHEL 8.
 
 Download the Red Hat Enterprise Linux CoreOS (RHCOS) - vSphere image.
 
@@ -516,7 +516,7 @@ It is recommended that you use Ignition config files within 12 hours after they 
 Installing the OpenShift CLI by downloading the binary
 You can install the OpenShift CLI (oc) to interact with "Red Hat OpenShift Container Platform" from a command-line interface. You can install oc on Linux, Windows, or macOS.
 
-If you installed an earlier version of oc, you cannot use it to complete all of the commands in "Red Hat OpenShift Container Platform" {product-version}. Download and install the new version of oc.
+If you installed an earlier version of oc, you cannot use it to complete all of the commands in "Red Hat OpenShift Container Platform" "4.14". Download and install the new version of oc.
 
 You can install the OpenShift CLI (oc) binary on Linux by using the following procedure.
 
@@ -526,7 +526,7 @@ Select the architecture from the Product Variant drop-down list.
 
 Select the appropriate version from the Version drop-down list.
 
-Click Download Now next to the OpenShift v{product-version} Linux Client entry and save the file.
+Click Download Now next to the OpenShift v"4.14" Linux Client entry and save the file.
 
 Unpack the archive:
 
@@ -543,7 +543,7 @@ Navigate to the "Red Hat OpenShift Container Platform" downloads page on the Red
 
 Select the appropriate version from the Version drop-down list.
 
-Click Download Now next to the OpenShift v{product-version} Windows Client entry and save the file.
+Click Download Now next to the OpenShift v"4.14" Windows Client entry and save the file.
 
 Unzip the archive with a ZIP program.
 
@@ -560,7 +560,7 @@ Navigate to the "Red Hat OpenShift Container Platform" downloads page on the Red
 
 Select the appropriate version from the Version drop-down list.
 
-Click Download Now next to the OpenShift v{product-version} macOS Client entry and save the file.
+Click Download Now next to the OpenShift v"4.14" macOS Client entry and save the file.
 
 Unpack and unzip the archive.
 
@@ -623,7 +623,7 @@ Check the registry configuration:
 
 Check the clusteroperator status:
 Telemetry access for "Red Hat OpenShift Container Platform"
-In "Red Hat OpenShift Container Platform" {product-version}, the Telemetry service, which runs by default to provide metrics about cluster health and the success of updates, requires internet access. If your cluster is connected to the internet, Telemetry runs automatically, and your cluster is registered to OpenShift Cluster Manager Hybrid Cloud Console.
+In "Red Hat OpenShift Container Platform" "4.14", the Telemetry service, which runs by default to provide metrics about cluster health and the success of updates, requires internet access. If your cluster is connected to the internet, Telemetry runs automatically, and your cluster is registered to OpenShift Cluster Manager Hybrid Cloud Console.
 
 After you confirm that your OpenShift Cluster Manager Hybrid Cloud Console inventory is correct, either maintained automatically by Telemetry or manually by using OpenShift Cluster Manager, use subscription watch to track your "Red Hat OpenShift Container Platform" subscriptions at the account or multi-cluster level.
 

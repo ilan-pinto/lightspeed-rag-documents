@@ -2,7 +2,7 @@ About the Kubernetes NMState Operator
 
 The Kubernetes NMState Operator provides a Kubernetes API for performing state-driven network configuration across the "Red Hat OpenShift Container Platform" cluster's nodes with NMState. The Kubernetes NMState Operator provides users with functionality to configure various network interface types, DNS, and routing on cluster nodes. Additionally, the daemons on the cluster nodes periodically report on the state of each node's network interfaces to the API server.
 
-Red Hat supports the Kubernetes NMState Operator in production environments on bare-metal, IBM Power, IBM Z, IBM&#174; LinuxONE, VMware vSphere, and OpenStack installations.
+Red Hat supports the Kubernetes NMState Operator in production environments on bare-metal, IBM Power&#174;, IBM Z&#174;, IBM&#174; LinuxONE, VMware vSphere, and OpenStack installations.
 Before you can use NMState with "Red Hat OpenShift Container Platform", you must install the Kubernetes NMState Operator.
 Installing the Kubernetes NMState Operator
 You can install the Kubernetes NMState Operator by using the web console or the CLI.

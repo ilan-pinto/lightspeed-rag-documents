@@ -1,6 +1,6 @@
 Installing a cluster on Azure in a restricted network
 
-In "Red Hat OpenShift Container Platform" version {product-version}, you can install a cluster on Microsoft Azure in a restricted network by creating an internal mirror of the installation release content on an existing Azure Virtual Network (VNet).
+In "Red Hat OpenShift Container Platform" version "4.14", you can install a cluster on Microsoft Azure in a restricted network by creating an internal mirror of the installation release content on an existing Azure Virtual Network (VNet).
 
 You can install an "Red Hat OpenShift Container Platform" cluster by using mirrored installation release content, but your cluster requires internet access to use the Azure APIs.
 Prerequisites
@@ -20,7 +20,7 @@ If the cloud identity and access management (IAM) APIs are not accessible in you
 
 If you use customer-managed encryption keys, you prepared your Azure environment for encryption.
 About installations in restricted networks
-In "Red Hat OpenShift Container Platform" {product-version}, you can perform an installation that does not require an active connection to the internet to obtain software components. Restricted network installations can be completed using installer-provisioned infrastructure or user-provisioned infrastructure, depending on the cloud platform to which you are installing the cluster.
+In "Red Hat OpenShift Container Platform" "4.14", you can perform an installation that does not require an active connection to the internet to obtain software components. Restricted network installations can be completed using installer-provisioned infrastructure or user-provisioned infrastructure, depending on the cloud platform to which you are installing the cluster.
 
 If you choose to perform a restricted network installation on a cloud platform, you still require access to its cloud APIs. Some cloud functions, like Amazon Web Service's Route 53 DNS and IAM services, require internet access. Depending on your network, you might require less internet access for an installation on bare metal hardware, Nutanix, or on VMware vSphere.
 
@@ -65,7 +65,7 @@ You can use Azure Firewall to restrict the outbound routing for the Virtual Netw
 
 If you are using Azure Firewall for restricting internet access, you must set the publish field to Internal in the install-config.yaml file. This is because Azure Firewall does not work properly with Azure public load balancers.
 About reusing a VNet for your "Red Hat OpenShift Container Platform" cluster
-In "Red Hat OpenShift Container Platform" {product-version}, you can deploy a cluster into an existing Azure Virtual Network (VNet) in Microsoft Azure. If you do, you must also use existing subnets within the VNet and routing rules.
+In "Red Hat OpenShift Container Platform" "4.14", you can deploy a cluster into an existing Azure Virtual Network (VNet) in Microsoft Azure. If you do, you must also use existing subnets within the VNet and routing rules.
 
 By deploying "Red Hat OpenShift Container Platform" into an existing Azure VNet, you might be able to avoid service limit constraints in new accounts or more easily abide by the operational constraints that your company's guidelines set. This is a good option to use if you cannot obtain the infrastructure creation permissions that are required to create the VNet.
 
@@ -128,7 +128,7 @@ The Azure credentials that you use when you create your cluster do not need the 
 Isolation between clusters
 Because the cluster is unable to modify network security groups in an existing subnet, there is no way to isolate clusters from each other on the VNet.
 Internet access for "Red Hat OpenShift Container Platform"
-In "Red Hat OpenShift Container Platform" {product-version}, you require access to the internet to obtain the images that are necessary to install your cluster.
+In "Red Hat OpenShift Container Platform" "4.14", you require access to the internet to obtain the images that are necessary to install your cluster.
 
 You must have internet access to:
 
@@ -433,7 +433,7 @@ It is recommended that you use Ignition config files within 12 hours after they 
 Installing the OpenShift CLI by downloading the binary
 You can install the OpenShift CLI (oc) to interact with "Red Hat OpenShift Container Platform" from a command-line interface. You can install oc on Linux, Windows, or macOS.
 
-If you installed an earlier version of oc, you cannot use it to complete all of the commands in "Red Hat OpenShift Container Platform" {product-version}. Download and install the new version of oc.
+If you installed an earlier version of oc, you cannot use it to complete all of the commands in "Red Hat OpenShift Container Platform" "4.14". Download and install the new version of oc.
 
 You can install the OpenShift CLI (oc) binary on Linux by using the following procedure.
 
@@ -443,7 +443,7 @@ Select the architecture from the Product Variant drop-down list.
 
 Select the appropriate version from the Version drop-down list.
 
-Click Download Now next to the OpenShift v{product-version} Linux Client entry and save the file.
+Click Download Now next to the OpenShift v"4.14" Linux Client entry and save the file.
 
 Unpack the archive:
 
@@ -460,7 +460,7 @@ Navigate to the "Red Hat OpenShift Container Platform" downloads page on the Red
 
 Select the appropriate version from the Version drop-down list.
 
-Click Download Now next to the OpenShift v{product-version} Windows Client entry and save the file.
+Click Download Now next to the OpenShift v"4.14" Windows Client entry and save the file.
 
 Unzip the archive with a ZIP program.
 
@@ -477,7 +477,7 @@ Navigate to the "Red Hat OpenShift Container Platform" downloads page on the Red
 
 Select the appropriate version from the Version drop-down list.
 
-Click Download Now next to the OpenShift v{product-version} macOS Client entry and save the file.
+Click Download Now next to the OpenShift v"4.14" macOS Client entry and save the file.
 
 Unpack and unzip the archive.
 
@@ -497,7 +497,7 @@ Export the kubeadmin credentials:
 
 Verify you can run oc commands successfully using the exported configuration:
 Telemetry access for "Red Hat OpenShift Container Platform"
-In "Red Hat OpenShift Container Platform" {product-version}, the Telemetry service, which runs by default to provide metrics about cluster health and the success of updates, requires internet access. If your cluster is connected to the internet, Telemetry runs automatically, and your cluster is registered to OpenShift Cluster Manager Hybrid Cloud Console.
+In "Red Hat OpenShift Container Platform" "4.14", the Telemetry service, which runs by default to provide metrics about cluster health and the success of updates, requires internet access. If your cluster is connected to the internet, Telemetry runs automatically, and your cluster is registered to OpenShift Cluster Manager Hybrid Cloud Console.
 
 After you confirm that your OpenShift Cluster Manager Hybrid Cloud Console inventory is correct, either maintained automatically by Telemetry or manually by using OpenShift Cluster Manager, use subscription watch to track your "Red Hat OpenShift Container Platform" subscriptions at the account or multi-cluster level.
 

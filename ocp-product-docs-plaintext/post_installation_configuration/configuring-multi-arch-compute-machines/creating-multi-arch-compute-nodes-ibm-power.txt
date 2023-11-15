@@ -1,6 +1,6 @@
 Creating a cluster with multi-architecture compute machines on IBM Power
 
-To create a cluster with multi-architecture compute machines on IBM Power (ppc64le), you must have an existing single-architecture (x86_64) cluster. You can then add ppc64le compute machines to your "Red Hat OpenShift Container Platform" cluster.
+To create a cluster with multi-architecture compute machines on IBM Power&#174; (ppc64le), you must have an existing single-architecture (x86_64) cluster. You can then add ppc64le compute machines to your "Red Hat OpenShift Container Platform" cluster.
 
 Before you can add ppc64le nodes to your cluster, you must upgrade your cluster to one that uses the multi-architecture payload. For more information on migrating to the multi-architecture payload, see Migrating to a cluster with multi-architecture compute machines.
 The following procedures explain how to create a RHCOS compute machine using an ISO image or network PXE booting. This will allow you to add ppc64le nodes to your cluster and deploy a cluster with multi-architecture compute machines.

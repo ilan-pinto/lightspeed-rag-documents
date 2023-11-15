@@ -1,19 +1,19 @@
-Viewing OpenShift Logging status
+Viewing Logging status
 
-You can view the status of the Red Hat OpenShift Logging Operator and for a number of logging subsystem components.
+You can view the status of the Red Hat OpenShift Logging Operator and other logging subsystem components.
 Viewing the status of the Red Hat OpenShift Logging Operator
-You can view the status of your Red Hat OpenShift Logging Operator.
+You can view the status of the Red Hat OpenShift Logging Operator.
 
-The Red Hat OpenShift Logging and Elasticsearch Operators must be installed.
+The Red Hat OpenShift Logging Operator and Elasticsearch Operator are installed.
 
 
-Change to the openshift-logging project.
+Change to the openshift-logging project by running the following command:
 
-To view the OpenShift Logging status:
+Get the ClusterLogging instance status by running the following command:
 
 
 Example condition messages
-The following are examples of some condition messages from the Status.Nodes section of the OpenShift Logging instance.
+The following are examples of some condition messages from the Status.Nodes section of the ClusterLogging instance.
 
 A status message similar to the following indicates a node has exceeded the configured low watermark and no shard will be allocated to this node:
 
@@ -106,7 +106,7 @@ Status:
 Viewing the status of logging subsystem components
 You can view the status for a number of logging subsystem components.
 
-The Red Hat OpenShift Logging and Elasticsearch Operators must be installed.
+The Red Hat OpenShift Logging Operator and Elasticsearch Operator are installed.
 
 
 Change to the openshift-logging project.

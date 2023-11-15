@@ -376,6 +376,7 @@ Conditions: 1
   ScalingActive     True      ValidMetricFound    the HPA was able to successfully calculate a replica count from pods metric http_request
   ScalingLimited    False     DesiredWithinRange  the desired replica count is within the acceptable range
 Additional resources
-Understanding deployments and deployment configs.
+For more information on replication controllers and deployment controllers,
+see Understanding deployments and deployment configs.
 
-Horizontal Pod Autoscaling of Quarkus Application Based on Memory Utilization.
+For an example on the usage of HPA, see Horizontal Pod Autoscaling of Quarkus Application Based on Memory Utilization.

@@ -1,6 +1,6 @@
-Creating a cluster with multi-architecture compute machines on IBM Z and IBM&#174; LinuxONE with z/VM
+Creating a cluster with multi-architecture compute machines on IBM Z and IBM LinuxONE with z/VM
 
-To create a cluster with multi-architecture compute machines on IBM Z and IBM&#174; LinuxONE (s390x) with z/VM, you must have an existing single-architecture x86_64 cluster. You can then add s390x compute machines to your "Red Hat OpenShift Container Platform" cluster.
+To create a cluster with multi-architecture compute machines on IBM Z&#174; and IBM&#174; LinuxONE (s390x) with z/VM, you must have an existing single-architecture x86_64 cluster. You can then add s390x compute machines to your "Red Hat OpenShift Container Platform" cluster.
 
 Before you can add s390x nodes to your cluster, you must upgrade your cluster to one that uses the multi-architecture payload. For more information on migrating to the multi-architecture payload, see Migrating to a cluster with multi-architecture compute machines.
 
@@ -18,7 +18,7 @@ If you see the following output, then your cluster is using the multi-architectu
 
 If you see the following output, then your cluster is not using the multi-architecture payload:
 Creating RHCOS machines on IBM Z with z/VM
-You can create more Red Hat Enterprise Linux CoreOS (RHCOS) compute machines running on IBM Z with z/VM and attach them to your existing cluster.
+You can create more Red Hat Enterprise Linux CoreOS (RHCOS) compute machines running on IBM Z&#174; with z/VM and attach them to your existing cluster.
 
 You have a domain name server (DNS) that can perform hostname and reverse lookup for the nodes.
 
