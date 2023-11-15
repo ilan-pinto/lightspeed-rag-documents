@@ -1,0 +1,53 @@
+CSI automatic migration
+
+In-tree storage drivers that are traditionally shipped with "Red Hat OpenShift Container Platform" are being deprecated and replaced by their equivalent Container Storage Interface (CSI) drivers. "Red Hat OpenShift Container Platform" provides automatic migration for in-tree volume plugins to their equivalent CSI drivers.
+Overview
+This feature automatically migrates volumes that were provisioned using in-tree storage plugins to their counterpart Container Storage Interface (CSI) drivers.
+
+This process does not perform any data migration; "Red Hat OpenShift Container Platform" only translates the persistent volume object in memory. As a result, the translated persistent volume object is not stored on disk, nor is its contents changed. CSI automatic migration should be seamless. This feature does not change how you use all existing API objects: for example, PersistentVolumes, PersistentVolumeClaims, and StorageClasses.
+
+The following in-tree to CSI drivers are automatically migrated:
+
+Azure Disk
+
+OpenStack Cinder
+
+Amazon Web Services (AWS) Elastic Block Storage (EBS)
+
+Google Compute Engine Persistent Disk (GCP PD)
+
+Azure File
+
+VMware vSphere (see information below for specific migration behavior for vSphere)
+
+
+CSI migration for these volume types is considered generally available (GA), and requires no manual intervention.
+
+CSI automatic migration of in-tree persistent volumes (PVs) or persistent volume claims (PVCs) does not enable any new CSI driver features, such as snapshots or expansion, if the original in-tree storage plugin did not support it.
+Storage class implications
+For new "Red Hat OpenShift Container Platform" 4.13, and later, installations, the default storage class is the CSI storage class. All volumes provisioned using this storage class are CSI persistent volumes (PVs).
+
+For clusters upgraded from 4.12, and earlier, to 4.13, and later, the CSI storage class is created, and is set as the default if no default storage class was set prior to the upgrade. In the very unlikely case that there is a storage class with the same name, the existing storage class remains unchanged. Any existing in-tree storage classes remain, and might be necessary for certain features, such as volume expansion to work for existing in-tree PVs. While storage class referencing to the in-tree storage plugin will continue working, we recommend that you switch the default storage class to the CSI storage class.
+
+To change the default storage class, see Changing the default storage class.
+vSphere automatic migration
+New installations of "Red Hat OpenShift Container Platform"
+For new installations of "Red Hat OpenShift Container Platform" 4.13, or later, automatic migration is enabled by default.
+Updating from "Red Hat OpenShift Container Platform" 4.13 to 4.14
+If you are using vSphere in-tree persistent volumes (PVs) and want to update from "Red Hat OpenShift Container Platform" 4.13 to 4.14, update vSphere vCenter and ESXI host to 7.0 Update 3L or 8.0 Update 2, otherwise the "Red Hat OpenShift Container Platform" update is blocked. After updating vSphere, your "Red Hat OpenShift Container Platform" update can occur and automatic migration is enabled by default.
+
+Alternatively, if you do not want to update vSphere, you can proceed with an "Red Hat OpenShift Container Platform" update by performing an administrator acknowledgment:
+
+oc -n openshift-config patch cm admin-acks --patch '{"data":{"ack-4.13-kube-127-vsphere-migration-in-4.14":"true"}}' --type=merge
+If you do not update to vSphere 7.0 Update 3L or 8.0 Update 2 and use an administrator acknowledgment to update to "Red Hat OpenShift Container Platform" 4.14, known issues can occur due to CSI migration being enabled by default in "Red Hat OpenShift Container Platform" 4.14. Before proceeding with the administrator acknowledgement, carefully read this knowledge base article.
+Updating from "Red Hat OpenShift Container Platform" 4.12 to 4.14
+If you are using vSphere in-tree persistent volumes (PVs) and want to update from "Red Hat OpenShift Container Platform" 4.12 to 4.14, update vSphere vCenter and ESXI host to 7.0 Update 3L or 8.0 Update 2, otherwise the "Red Hat OpenShift Container Platform" update is blocked. After updating vSphere, your "Red Hat OpenShift Container Platform" update can occur and automatic migration is enabled by default.
+
+Alternatively, if you do not want to update vSphere, you can proceed with an "Red Hat OpenShift Container Platform" update by performing an administrator acknowledgment by running both of the following commands:
+
+oc -n openshift-config patch cm admin-acks --patch '{"data":{"ack-4.12-kube-126-vsphere-migration-in-4.14":"true"}}' --type=merge
+oc -n openshift-config patch cm admin-acks --patch '{"data":{"ack-4.13-kube-127-vsphere-migration-in-4.14":"true"}}' --type=merge
+If you do not update to vSphere 7.0 Update 3L or 8.0 Update 2 and use an administrator acknowledgment to update to "Red Hat OpenShift Container Platform" 4.14, known issues can occur due to CSI migration being enabled by default in "Red Hat OpenShift Container Platform" 4.14. Before proceeding with the administrator acknowledgement, carefully read this knowledge base article.
+Updating from "Red Hat OpenShift Container Platform" 4.12 to 4.14 is an Extended Update Support (EUS)-to-EUS update. To understand the ramifications for this type of update and how to perform it, see the EUS-to-EUS update link in the Additional resources section below.
+
+Performing an EUS-to-EUS update

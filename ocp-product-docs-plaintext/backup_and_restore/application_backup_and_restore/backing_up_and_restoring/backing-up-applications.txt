@@ -1,0 +1,30 @@
+Backing up applications
+
+You back up applications by creating a Backup custom resource (CR). See Creating a Backup CR.
+
+The Backup CR creates backup files for Kubernetes resources and internal images, on S3 object storage, and snapshots for persistent volumes (PVs), if the cloud provider uses a native snapshot API or the Container Storage Interface (CSI) to create snapshots, such as OpenShift Data Foundation 4.
+
+For more information about CSI volume snapshots, see CSI volume snapshots.
+
+The CloudStorage API for S3 storage is a Technology Preview feature only. Technology Preview features are not supported with Red Hat production service level agreements (SLAs) and might not be functionally complete. Red Hat does not recommend using them in production. These features provide early access to upcoming product features, enabling customers to test functionality and provide feedback during the development process.
+
+For more information about the support scope of Red Hat Technology Preview features, see Technology Preview Features Support Scope.
+If your cloud provider has a native snapshot API or supports CSI snapshots, the Backup CR backs up persistent volumes (PVs) by creating snapshots. For more information about working with CSI snapshots, see Backing up persistent volumes with CSI snapshots.
+
+If your cloud provider does not support snapshots or if your applications are on NFS data volumes, you can create backups by using Restic. See Backing up applications with Restic.
+
+
+The OpenShift API for Data Protection (OADP) does not support backing up volume snapshots that were created by other software.
+You can create backup hooks to run commands before or after the backup operation. See Creating backup hooks.
+
+You can schedule backups by creating a Schedule CR instead of a Backup CR. See Scheduling backups.
+Known issues
+OpenShift Container Platform 4.14 enforces a pod security admission (PSA) policy that can hinder the readiness of pods during a Restic restore process. 
+
+This issue has been resolved in the OADP 1.1.6 and OADP 1.2.2 releases, therefore it is recommended that users upgrade to these releases.
+
+For more information, see Restic restore partially failing on OCP 4.14 due to changed PSA policy.
+
+Installing Operators on clusters for administrators
+
+Installing Operators in namespaces for non-administrators

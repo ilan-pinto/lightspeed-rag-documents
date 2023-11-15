@@ -1,0 +1,23 @@
+OADP Data Mover Introduction
+
+OADP Data Mover allows you to restore stateful applications from the store if a failure, accidental deletion, or corruption of the cluster occurs.
+
+The OADP 1.1 Data Mover is a Technology Preview feature.
+
+The OADP 1.2 Data Mover has significantly improved features and performances, but is still a Technology Preview feature.
+The OADP Data Mover is a Technology Preview feature only. Technology Preview features are not supported with Red Hat production service level agreements (SLAs) and might not be functionally complete. Red Hat does not recommend using them in production. These features provide early access to upcoming product features, enabling customers to test functionality and provide feedback during the development process.
+
+For more information about the support scope of Red Hat Technology Preview features, see Technology Preview Features Support Scope.
+You can use OADP Data Mover to back up Container Storage Interface (CSI) volume snapshots to a remote object store. See Using Data Mover for CSI snapshots.
+
+You can use OADP 1.2 Data Mover to backup and restore application data for clusters that use CephFS, CephRBD, or both. See Using OADP 1.2 Data Mover with Ceph storage.
+
+You must perform a data cleanup after you perform a backup, if you are using OADP 1.1 Data Mover. See Cleaning up after a backup using OADP 1.1 Data Mover.
+OADP Data Mover prerequisites
+You have a stateful application running in a separate namespace.
+
+You have installed the OADP Operator by using Operator Lifecycle Manager (OLM).
+
+You have created an appropriate VolumeSnapshotClass and StorageClass.
+
+You have installed the VolSync operator using OLM.

@@ -1,0 +1,48 @@
+Installing AWS Load Balancer Operator on a Security Token Service cluster
+
+You can install the AWS Load Balancer Operator on a Security Token Service (STS) cluster.
+
+The AWS Load Balancer Operator relies on CredentialsRequest to bootstrap the Operator and for each AWSLoadBalancerController instance. The AWS Load Balancer Operator waits until the required secrets are created and available. The Cloud Credential Operator does not provision the secrets automatically in the STS cluster. You must set the credentials secrets manually by using the ccoctl binary.
+
+If you do not want to provision credential secret by using the Cloud Credential Operator, you can configure the AWSLoadBalancerController instance on the STS cluster by specifying the credential secret in the AWS load Balancer Controller custom resource (CR).
+Bootstrapping AWS Load Balancer Operator on Security Token Service cluster
+You must extract and prepare the ccoctl binary.
+
+
+Create the aws-load-balancer-operator namespace by running the following command:
+
+Download the CredentialsRequest custom resource (CR) of the AWS Load Balancer Operator, and create a directory to store it by running the following command:
+
+Use the ccoctl tool to process CredentialsRequest objects of the AWS Load Balancer Operator, by running the following command:
+
+Apply the secrets generated in the manifests directory of your cluster by running the following command:
+
+Verify that the credentials secret of the AWS Load Balancer Operator is created by running the following command:
+Configuring AWS Load Balancer Operator on Security Token Service cluster by using managed CredentialsRequest objects
+You must extract and prepare the ccoctl binary.
+
+
+The AWS Load Balancer Operator creates the CredentialsRequest object in the openshift-cloud-credential-operator namespace for each AWSLoadBalancerController custom resource (CR). You can extract and save the created CredentialsRequest object in a directory by running the following command:
+
+Use the ccoctl tool to process all CredentialsRequest objects by running the following command:
+
+Apply the secrets generated in manifests directory to your cluster, by running the following command:
+
+Verify that the aws-load-balancer-controller pod is created:
+Configuring the AWS Load Balancer Operator on Security Token Service cluster by using specific credentials
+You can specify the credential secret by using the spec.credentials field in the AWS Load Balancer Controller custom resource (CR). You can use the predefined  CredentialsRequest object of the controller to know which roles are required.
+
+You must extract and prepare the ccoctl binary.
+
+
+Download the CredentialsRequest custom resource (CR) of the AWS Load Balancer Controller, and create a directory to store it by running the following command:
+
+Use the ccoctl tool to process the CredentialsRequest object of the controller:
+
+Apply the secrets to your cluster:
+
+Verify the credentials secret has been created for use by the controller:
+
+Create the AWSLoadBalancerController resource YAML file, for example, sample-aws-lb-manual-creds.yaml, as follows:
+Additional resources
+Configuring the Cloud Credential Operator utility

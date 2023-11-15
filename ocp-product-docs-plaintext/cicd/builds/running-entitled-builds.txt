@@ -1,0 +1,90 @@
+Using Red Hat subscriptions in builds
+
+Use the following sections to run entitled builds on "Red Hat OpenShift Container Platform".
+Creating an image stream tag for the Red Hat Universal Base Image
+To use Red Hat subscriptions within a build, you create an image stream tag to reference the Universal Base Image (UBI).
+
+To make the UBI available in every project in the cluster, you add the image stream tag to the openshift namespace. Otherwise, to make it available in a specific project, you add the image stream tag to that project.
+
+The benefit of using image stream tags this way is that doing so grants access to the UBI based on the registry.redhat.io credentials in the install pull secret without exposing the pull secret to other users. This is more convenient than requiring each developer to install pull secrets with registry.redhat.io credentials in each project.
+
+To create an ImageStreamTag in the openshift namespace, so it is available to developers in all projects, enter:
+
+To create an ImageStreamTag in a single project, enter:
+Adding subscription entitlements as a build secret
+Builds that use Red Hat subscriptions to install content must include the entitlement keys as a build secret.
+
+You must have access to Red Hat entitlements through your subscription. The entitlement secret is automatically created by the Insights Operator.
+
+When you perform an Entitlement Build using Red Hat Enterprise Linux (RHEL) 7, you must have the following instructions in your Dockerfile before you run any yum commands:
+
+RUN rm /etc/rhsm-host
+Add the etc-pki-entitlement secret as a build volume in the build configuration’s Docker strategy:
+Running builds with Subscription Manager
+Docker builds using Subscription Manager
+Docker strategy builds can use the Subscription Manager to install subscription content.
+
+The entitlement keys must be added as build strategy volumes.
+
+Use the following as an example Dockerfile to install content with the Subscription Manager:
+
+FROM registry.redhat.io/ubi9/ubi:latest
+RUN dnf search kernel-devel --showduplicates && \
+        dnf install -y kernel-devel
+Running builds with Red Hat Satellite subscriptions
+Adding Red Hat Satellite configurations to builds
+Builds that use Red Hat Satellite to install content must provide appropriate configurations to obtain content from Satellite repositories.
+
+You must provide or create a yum-compatible repository configuration file that downloads content from your Satellite instance.
+
+
+Create a ConfigMap containing the Satellite repository configuration file:
+
+Add the Satellite repository configuration and entitlement key as a build volumes:
+Docker builds using Red Hat Satellite subscriptions
+Docker strategy builds can use Red Hat Satellite repositories to install subscription content.
+
+You have added the entitlement keys and Satellite repository configurations as build volumes.
+
+
+Use the following as an example Dockerfile to install content with Satellite:
+
+FROM registry.redhat.io/ubi9/ubi:latest
+RUN dnf search kernel-devel --showduplicates && \
+        dnf install -y kernel-devel
+How to use builds with Red Hat Satellite subscriptions and which certificate to use
+Running entitled builds using SharedSecret objects
+You can configure and perform a build in one namespace that securely uses RHEL entitlements from a Secret object in another namespace.
+
+You can still access RHEL entitlements from OpenShift Builds by creating a Secret object with your subscription credentials in the same namespace as your Build object. However, now, in "Red Hat OpenShift Container Platform" 4.10 and later, you can access your credentials and certificates from a Secret object in one of the "Red Hat OpenShift Container Platform" system namespaces. You run entitled builds with a CSI volume mount of a SharedSecret custom resource (CR) instance that references the Secret object.
+
+This procedure relies on the newly introduced Shared Resources CSI Driver feature, which you can use to declare CSI Volume mounts in "Red Hat OpenShift Container Platform" Builds. It also relies on the "Red Hat OpenShift Container Platform" Insights Operator.
+
+Managing machines with the Cluster API is a Technology Preview feature only. Technology Preview features are not supported with Red Hat production service level agreements (SLAs) and might not be functionally complete. Red Hat does not recommend using them in production. These features provide early access to upcoming product features, enabling customers to test functionality and provide feedback during the development process.
+
+For more information about the support scope of Red Hat Technology Preview features, see Technology Preview Features Support Scope.
+The Shared Resources CSI Driver feature also belongs to the TechPreviewNoUpgrade feature set, which is a subset of the current Technology Preview features. You can enable the TechPreviewNoUpgrade feature set on test clusters, where you can fully test them while leaving the features disabled on production clusters. Enabling this feature set cannot be undone and prevents minor version updates. This feature set is not recommended on production clusters. See "Enabling Technology Preview features using feature gates" in the following "Additional resources" section.
+
+You have enabled the  TechPreviewNoUpgrade feature set by using the feature gates.
+
+You have a SharedSecret custom resource (CR) instance that references the Secret object where the Insights Operator stores the subscription credentials.
+
+You must have permission to perform the following actions:
+
+
+If neither of the last two prerequisites in this list are met, establish, or ask someone to establish, the necessary role-based access control (RBAC) so that you can discover SharedSecret CR instances and enable service accounts to use SharedSecret CR instances.
+Grant the builder service account RBAC permissions to use the SharedSecret CR instance by using oc apply with YAML content:
+
+Create the RoleBinding associated with the role by using the oc command:
+
+Create a BuildConfig object that accesses the RHEL entitlements.
+
+Start a build from the BuildConfig object and follow the logs with the oc command.
+Additional resources
+Importing simple content access certificates with Insights Operator
+
+Enabling features using feature gates
+
+Managing image streams
+
+build strategy

@@ -1,0 +1,65 @@
+Preparing to update to "Red Hat OpenShift Container Platform" 4.14
+
+Learn more about administrative tasks that cluster admins must perform to successfully initialize an update, as well as optional guidelines for ensuring a successful update.
+Kubernetes API deprecations and removals
+"Red Hat OpenShift Container Platform" 4.14 uses Kubernetes 1.27, which removed several deprecated APIs.
+
+A cluster administrator must provide a manual acknowledgment before the cluster can be updated from "Red Hat OpenShift Container Platform" 4.13 to 4.14. This is to help prevent issues after upgrading to "Red Hat OpenShift Container Platform" 4.14, where APIs that have been removed are still in use by workloads, tools, or other components running on or interacting with the cluster. Administrators must evaluate their cluster for any APIs in use that will be removed and migrate the affected components to use the appropriate new API version. After this evaluation and migration is complete, the administrator can provide the acknowledgment.
+
+Before you can update your "Red Hat OpenShift Container Platform" 4.13 cluster to 4.14, you must provide the administrator acknowledgment.
+
+Removed Kubernetes APIs
+"Red Hat OpenShift Container Platform" 4.14 uses Kubernetes 1.27, which removed the following deprecated APIs. You must migrate manifests and API clients to use the appropriate API version. For more information about migrating removed APIs, see the Kubernetes documentation.
+Evaluating your cluster for removed APIs
+There are several methods to help administrators identify where APIs that will be removed are in use. However, "Red Hat OpenShift Container Platform" cannot identify all instances, especially workloads that are idle or external tools that are used. It is the responsibility of the administrator to properly evaluate all workloads and other integrations for instances of removed APIs.
+
+Reviewing alerts to identify uses of removed APIs
+Two alerts fire when an API is in use that will be removed in the next release:
+
+APIRemovedInNextReleaseInUse - for APIs that will be removed in the next "Red Hat OpenShift Container Platform" release.
+
+APIRemovedInNextEUSReleaseInUse - for APIs that will be removed in the next "Red Hat OpenShift Container Platform" Extended Update Support (EUS) release.
+
+
+If either of these alerts are firing in your cluster, review the alerts and take action to clear the alerts by migrating manifests and API clients to use the new API version.
+
+Use the APIRequestCount API to get more information about which APIs are in use and which workloads are using removed APIs, because the alerts do not provide this information. Additionally, some APIs might not trigger these alerts but are still captured by APIRequestCount. The alerts are tuned to be less sensitive to avoid alerting fatigue in production systems.
+Using APIRequestCount to identify uses of removed APIs
+You can use the APIRequestCount API to track API requests and review whether any of them are using one of the removed APIs.
+
+You must have access to the cluster as a user with the cluster-admin role.
+
+
+Run the following command and examine the REMOVEDINRELEASE column of the output to identify the removed APIs that are currently in use:
+Using APIRequestCount to identify which workloads are using the removed APIs
+You can examine the APIRequestCount resource for a given API version to help identify which workloads are using the API.
+
+You must have access to the cluster as a user with the cluster-admin role.
+
+
+Run the following command and examine the username and userAgent fields to help identify the workloads that are using the API:
+Migrating instances of removed APIs
+For information about how to migrate removed Kubernetes APIs, see the Deprecated API Migration Guide in the Kubernetes documentation.
+Providing the administrator acknowledgment
+After you have evaluated your cluster for any removed APIs and have migrated any removed APIs, you can acknowledge that your cluster is ready to upgrade from "Red Hat OpenShift Container Platform" 4.13 to 4.14.
+
+Be aware that all responsibility falls on the administrator to ensure that all uses of removed APIs have been resolved and migrated as necessary before providing this administrator acknowledgment. "Red Hat OpenShift Container Platform" can assist with the evaluation, but cannot identify all possible uses of removed APIs, especially idle workloads or external tools.
+You must have access to the cluster as a user with the cluster-admin role.
+
+
+Run the following command to acknowledge that you have completed the evaluation and your cluster is ready for the Kubernetes API removals in "Red Hat OpenShift Container Platform" 4.14:
+Assessing the risk of conditional updates
+A conditional update is an update target that is available but not recommended due to a known risk that applies to your cluster. The Cluster Version Operator (CVO) periodically queries the OpenShift Update Service (OSUS) for the most recent data about update recommendations, and some potential update targets might have risks associated with them.
+
+The CVO evaluates the conditional risks, and if the risks are not applicable to the cluster, then the target version is available as a recommended update path for the cluster. If the risk is determined to be applicable, or if for some reason CVO cannot evaluate the risk, then the update target is available to the cluster as a conditional update.
+
+When you encounter a conditional update while you are trying to update to a target version, you must assess the risk of updating your cluster to that version. Generally, if you do not have a specific need to update to that target version, it is best to wait for a recommended update path from Red Hat.
+
+However, if you have a strong reason to update to that version, for example, if you need to fix an important CVE, then the benefit of fixing the CVE might outweigh the risk of the update being problematic for your cluster. You can complete the following tasks to determine whether you agree with the Red Hat assessment of the update risk:
+
+Complete extensive testing in a non-production environment to the extent that you are comfortable completing the update in your production environment.
+
+Follow the links provided in the conditional update description, investigate the bug, and determine if it is likely to cause issues for your cluster. If you need help understanding the risk, contact Red Hat Support.
+
+
+Evaluation of update availability

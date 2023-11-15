@@ -1,0 +1,86 @@
+Using the distributed tracing data collection
+
+Forwarding traces to a TempoStack by using the OpenTelemetry Collector
+To configure forwarding traces to a TempoStack, you can deploy and configure the OpenTelemetry Collector. You can deploy the OpenTelemetry Collector in the deployment mode by using the specified processors, receivers, and exporters. For other modes, see the OpenTelemetry Collector documentation linked in Additional resources.
+
+The Red Hat OpenShift distributed tracing data collection Operator is installed.
+
+The Tempo Operator is installed.
+
+A TempoStack is deployed on the cluster.
+
+
+Create a service account for the OpenTelemetry Collector.
+
+Create a cluster role for the service account.
+
+Bind the cluster role to the service account.
+
+Create the YAML file to define the OpenTelemetryCollector custom resource (CR).
+
+
+You can deploy tracegen as a test:
+
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: tracegen
+spec:
+  template:
+    spec:
+      containers:
+        - name: tracegen
+          image: ghcr.io/open-telemetry/opentelemetry-collector-contrib/tracegen:latest
+          command:
+            - "./tracegen"
+          args:
+            - -otlp-endpoint=otel-collector:4317
+            - -otlp-insecure
+            - -duration=30s
+            - -workers=1
+      restartPolicy: Never
+  backoffLimit: 4
+OpenTelemetry Collector documentation
+
+Deployment examples on GitHub
+Sending traces and metrics to the OpenTelemetry Collector
+Sending tracing and metrics to the OpenTelemetry Collector is possible with or without sidecar injection.
+
+Sending traces and metrics to the OpenTelemetry Collector with sidecar injection
+You can set up sending telemetry data to an OpenTelemetryCollector instance with sidecar injection.
+
+The Red Hat OpenShift distributed tracing data collection Operator allows sidecar injection into deployment workloads and automatic configuration of your instrumentation to send telemetry data to the OpenTelemetry Collector.
+
+The Red Hat OpenShift distributed tracing platform (Tempo) is installed and a TempoStack instance is deployed.
+
+You have access to the cluster through the web console or the OpenShift CLI (oc):
+
+
+Create a project for the OpenTelemtry Collector.
+
+Create a service account.
+
+Grant permissions to the service account for the k8sattributes and resourcedetection processors.
+
+Deploy the OpenTelemetry Collector as a sidecar.
+
+Create your deployment using the otel-collector-sidecar service account.
+
+Add the sidecar.opentelemetry.io/inject: "true" annotation to your Deployment object. This will inject all the needed environment variables to send data from your workloads to the OpenTelemetryCollector instance.
+Sending traces and metrics to the OpenTelemetry Collector without sidecar injection
+You can set up sending telemetry data to an OpenTelemetryCollector instance without sidecar injection, which involves manually setting several environment variables.
+
+The Red Hat OpenShift distributed tracing platform (Tempo) is installed and a TempoStack instance is deployed.
+
+You have access to the cluster through the web console or the OpenShift CLI (oc):
+
+
+Create a project for the OpenTelemtry Collector.
+
+Create a service account.
+
+Grant permissions to the service account for the k8sattributes and resourcedetection processors.
+
+Deploy the OpenTelemetryCollector instance.
+
+Set the following environment variables in the container with your instrumented application:

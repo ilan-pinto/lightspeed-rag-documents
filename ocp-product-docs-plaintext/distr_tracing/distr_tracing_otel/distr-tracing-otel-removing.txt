@@ -1,0 +1,40 @@
+Removing the distributed tracing data collection
+
+The steps for removing the distributed tracing data collection from an "Red Hat OpenShift Container Platform" cluster are as follows:
+
+Shut down all distributed tracing data collection pods.
+
+Remove any OpenTelemetryCollector instances.
+
+Remove the Red Hat OpenShift distributed tracing data collection Operator.
+Removing a distributed tracing data collection instance by using the web console
+You can remove a distributed tracing data collection instance in the Administrator view of the web console.
+
+You are logged in to the web console as a cluster administrator with the cluster-admin role.
+
+For Red Hat OpenShift Dedicated, you must be logged in using an account with the dedicated-admin role.
+
+
+Go to Operators -> Installed Operators -> Red Hat OpenShift distributed tracing data collection Operator -> OpenTelemetryInstrumentation or OpenTelemetryCollector.
+
+To remove the relevant instance, select  -> Delete &#8230;&#8203; -> Delete.
+
+Optional: Remove the Red Hat OpenShift distributed tracing data collection Operator.
+Removing a distributed tracing data collection instance by using the CLI
+You can remove a distributed tracing data collection instance on the command line.
+
+An active OpenShift CLI (oc) session by a cluster administrator with the cluster-admin role.
+
+
+Get the name of the distributed tracing data collection instance by running the following command:
+
+Remove the distributed tracing data collection instance by running the following command:
+
+Optional: Remove the Red Hat OpenShift distributed tracing data collection Operator.
+
+
+To verify successful removal of the distributed tracing data collection instance, run oc get deployments again:
+Additional resources
+Deleting Operators from a cluster
+
+Getting started with the OpenShift CLI

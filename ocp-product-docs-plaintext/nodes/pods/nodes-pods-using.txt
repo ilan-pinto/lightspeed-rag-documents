@@ -1,0 +1,125 @@
+Using pods
+
+A pod is one or more containers deployed together on one host, and the smallest compute unit that can be defined, deployed, and managed.
+Understanding pods
+Pods are the rough equivalent of a machine instance (physical or virtual) to a Container. Each pod is allocated its own internal IP address, therefore owning its entire port space, and containers within pods can share their local storage and networking.
+
+Pods have a lifecycle; they are defined, then they are assigned to run on a node, then they run until their container(s) exit or they are removed for some other reason. Pods, depending on policy and exit code, might be removed after exiting, or can be retained to enable access to the logs of their containers.
+
+"Red Hat OpenShift Container Platform" treats pods as largely immutable; changes cannot be made to a pod definition while it is running. "Red Hat OpenShift Container Platform" implements changes by terminating an existing pod and recreating it with modified configuration, base image(s), or both. Pods are also treated as expendable, and do not maintain state when recreated. Therefore pods should usually be managed by higher-level controllers, rather than directly by users.
+
+Bare pods that are not managed by a replication controller will be not rescheduled upon node disruption.
+Example pod configurations
+"Red Hat OpenShift Container Platform" leverages the Kubernetes concept of a pod, which is one or more containers deployed together on one host, and the smallest compute unit that can be defined, deployed, and managed.
+
+The following is an example definition of a pod from a Rails application. It demonstrates many features of pods, most of which are discussed in other topics and thus only briefly mentioned here:
+
+kind: Pod
+apiVersion: v1
+metadata:
+  name: example
+  namespace: default
+  selfLink: /api/v1/namespaces/default/pods/example
+  uid: 5cc30063-0265780783bc
+  resourceVersion: '165032'
+  creationTimestamp: '2019-02-13T20:31:37Z'
+  labels:
+    app: hello-openshift 1
+  annotations:
+    openshift.io/scc: anyuid
+spec:
+  restartPolicy: Always 2
+  serviceAccountName: default
+  imagePullSecrets:
+    - name: default-dockercfg-5zrhb
+  priority: 0
+  schedulerName: default-scheduler
+  terminationGracePeriodSeconds: 30
+  nodeName: ip-10-0-140-16.us-east-2.compute.internal
+  securityContext: 3
+    seLinuxOptions:
+      level: 's0:c11,c10'
+  containers: 4
+    - resources: {}
+      terminationMessagePath: /dev/termination-log
+      name: hello-openshift
+      securityContext:
+        capabilities:
+          drop:
+            - MKNOD
+        procMount: Default
+      ports:
+        - containerPort: 8080
+          protocol: TCP
+      imagePullPolicy: Always
+      volumeMounts: 5
+        - name: default-token-wbqsl
+          readOnly: true
+          mountPath: /var/run/secrets/kubernetes.io/serviceaccount 6
+      terminationMessagePolicy: File
+      image: registry.redhat.io/openshift4/ose-ogging-eventrouter:v4.3 7
+  serviceAccount: default 8
+  volumes: 9
+    - name: default-token-wbqsl
+      secret:
+        secretName: default-token-wbqsl
+        defaultMode: 420
+  dnsPolicy: ClusterFirst
+status:
+  phase: Pending
+  conditions:
+    - type: Initialized
+      status: 'True'
+      lastProbeTime: null
+      lastTransitionTime: '2019-02-13T20:31:37Z'
+    - type: Ready
+      status: 'False'
+      lastProbeTime: null
+      lastTransitionTime: '2019-02-13T20:31:37Z'
+      reason: ContainersNotReady
+      message: 'containers with unready status: [hello-openshift]'
+    - type: ContainersReady
+      status: 'False'
+      lastProbeTime: null
+      lastTransitionTime: '2019-02-13T20:31:37Z'
+      reason: ContainersNotReady
+      message: 'containers with unready status: [hello-openshift]'
+    - type: PodScheduled
+      status: 'True'
+      lastProbeTime: null
+      lastTransitionTime: '2019-02-13T20:31:37Z'
+  hostIP: 10.0.140.16
+  startTime: '2019-02-13T20:31:37Z'
+  containerStatuses:
+    - name: hello-openshift
+      state:
+        waiting:
+          reason: ContainerCreating
+      lastState: {}
+      ready: false
+      restartCount: 0
+      image: openshift/hello-openshift
+      imageID: ''
+  qosClass: BestEffort
+Pods can be "tagged" with one or more labels, which can then be used to select and manage groups of pods in a single operation. The labels are stored in key/value format in the metadata hash.
+
+The pod restart policy with possible values Always, OnFailure, and Never. The default value is Always.
+
+"Red Hat OpenShift Container Platform" defines a security context for containers which specifies whether they are allowed to run as privileged containers, run as a user of their choice, and more. The default context is very restrictive but administrators can modify this as needed.
+
+containers specifies an array of one or more container definitions.
+
+The container specifies where external storage volumes are mounted within the container. In this case, there is a volume for storing access to credentials the registry needs for making requests against the "Red Hat OpenShift Container Platform" API.
+
+Specify the volumes to provide for the pod. Volumes mount at the specified path. Do not mount to the container root, /, or any path that is the same in the host and the container. This can corrupt your host system if the container is sufficiently privileged, such as the host /dev/pts files. It is safe to mount the host by using /host.
+
+Each container in the pod is instantiated from its own container image.
+
+Pods making requests against the "Red Hat OpenShift Container Platform" API is a common enough pattern that there is a serviceAccount field for specifying which service account user the pod should authenticate as when making the requests. This enables fine-grained access control for custom infrastructure components.
+
+The pod defines storage volumes that are available to its container(s) to use. In this case, it provides an ephemeral volume for a secret volume containing the default service account tokens.
+
+
+This pod definition does not include attributes that are filled by "Red Hat OpenShift Container Platform" automatically after the pod is created and its lifecycle begins. The Kubernetes pod documentation has details about the functionality and purpose of pods.
+Additional resources
+For more information on pods and storage see Understanding persistent storage and Understanding ephemeral storage.

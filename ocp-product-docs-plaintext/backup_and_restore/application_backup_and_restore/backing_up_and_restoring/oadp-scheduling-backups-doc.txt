@@ -1,0 +1,19 @@
+Scheduling backups using Schedule CR
+
+The schedule operation allows you to create a backup of your data at a specified time, defined by a Cron expression.
+
+You schedule backups by creating a Schedule custom resource (CR) instead of a Backup CR.
+
+Leave enough time in your backup schedule for a backup to finish before another backup is created.
+
+For example, if a backup of a namespace typically takes 10 minutes, do not schedule backups more frequently than every 15 minutes.
+You must install the OpenShift API for Data Protection (OADP) Operator.
+
+The DataProtectionApplication CR must be in a Ready state.
+
+
+Retrieve the backupStorageLocations CRs:
+
+Create a Schedule CR, as in the following example:
+
+Verify that the status of the Schedule CR is Completed after the scheduled backup runs:
