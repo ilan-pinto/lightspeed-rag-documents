@@ -32,7 +32,7 @@ With this update, the LokiStack administrator has access to an official Loki das
 Log Console
 With this update, you can enable the Logging Console Plugin when Elasticsearch is the default Log Store. (LOG-3856)
 
-With this update, OpenShift Application owners can receive notifications for application-logs-based alerts on the OpenShift Developer Console view for "Red Hat OpenShift Container Platform" version 4.14 and greater. (LOG-3548)
+With this update, "Red Hat OpenShift Container Platform" application owners can receive notifications for application log-based alerts on the "Red Hat OpenShift Container Platform" web console Developer perspective for "Red Hat OpenShift Container Platform" version 4.14 and later. (LOG-3548)
 Known Issues
 Currently, there is a flaw in handling multiplexed streams in the HTTP/2 protocol, where you can repeatedly make a request for a new multiplex stream and immediately send an RST_STREAM frame to cancel it. This created extra work for the server set up and tore down the streams, resulting in a denial of service due to server resource consumption. There is currently no workaround for this issue. (LOG-4609)
 
@@ -42,6 +42,6 @@ Currently, the log alert is not available on an IPv6-enabled cluster. There is c
 
 Currently, must-gather cannot gather any logs on a FIPS-enabled cluster, because the required OpenSSL library is not available in the cluster-logging-rhel9-operator. There is currently no workaround for this issue. (LOG-4403)
 
-Currently, when deploying Logging 5.6.5 on a FIPS-enabled cluster, the collector pods cannot start and are stuck in CrashLoopBackOff status, while using FluentD as a collector. There is currently no workaround for this issue. (LOG-3933)
+Currently, when deploying the logging subsystem version 5.8 on a FIPS-enabled cluster, the collector pods cannot start and are stuck in CrashLoopBackOff status, while using FluentD as a collector. There is currently no workaround for this issue. (LOG-3933)
 CVEs
 CVE-2023-40217

@@ -70,7 +70,7 @@ The node's auxiliary storage device, such as /dev/sdb, must match the sdb. Chang
 
 
 This procedure does not move parts of the root file system, such as /var/, to another disk or partition on an installed node.
-The Machine Config Operator (MCO) is responsible for mounting a secondary disk for an "Red Hat OpenShift Container Platform" {product-version} container storage.
+The Machine Config Operator (MCO) is responsible for mounting a secondary disk for an "Red Hat OpenShift Container Platform" "4.14" container storage.
 
 Use the following steps to move etcd to a different device:
 

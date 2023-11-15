@@ -1,8 +1,8 @@
-Installing a cluster with z/VM on IBM Z&#174; and IBM&#174; LinuxONE
+Installing a cluster with z/VM on IBM Z and IBM LinuxONE
 
-In "Red Hat OpenShift Container Platform" version {product-version}, you can install a cluster on IBM Z or IBM&#174; LinuxONE infrastructure that you provision.
+In "Red Hat OpenShift Container Platform" version "4.14", you can install a cluster on IBM Z&#174; or IBM&#174; LinuxONE infrastructure that you provision.
 
-While this document refers only to IBM Z, all information in it also applies to IBM&#174; LinuxONE.
+While this document refers only to IBM Z&#174;, all information in it also applies to IBM&#174; LinuxONE.
 Additional considerations exist for non-bare metal platforms. Review the information in the guidelines for deploying "Red Hat OpenShift Container Platform" on non-tested platforms before you install an "Red Hat OpenShift Container Platform" cluster.
 Prerequisites
 You reviewed details about the "Red Hat OpenShift Container Platform" installation and update processes.
@@ -18,7 +18,7 @@ If you use a firewall, you configured it to allow the sites that your cluster re
 
 Be sure to also review this site list if you are configuring a proxy.
 Internet access for "Red Hat OpenShift Container Platform"
-In "Red Hat OpenShift Container Platform" {product-version}, you require access to the internet to install your cluster.
+In "Red Hat OpenShift Container Platform" "4.14", you require access to the internet to install your cluster.
 
 You must have internet access to:
 
@@ -49,9 +49,9 @@ If an instance type for your platform meets the minimum requirements for cluster
 
 Optimizing storage
 Minimum IBM Z system environment
-You can install "Red Hat OpenShift Container Platform" version {product-version} on the following IBM hardware:
+You can install "Red Hat OpenShift Container Platform" version "4.14" on the following IBM&#174; hardware:
 
-IBM z16 (all models), IBM z15 (all models), IBM z14 (all models)
+IBM&#174; z16 (all models), IBM&#174; z15 (all models), IBM&#174; z14 (all models)
 
 IBM&#174; LinuxONE 4 (all models), IBM&#174; LinuxONE III (all models), IBM&#174; LinuxONE Emperor II, IBM&#174; LinuxONE Rockhopper II
 
@@ -62,7 +62,7 @@ The equivalent of six Integrated Facilities for Linux (IFL), which are SMT2 enab
 At least one network connection to both connect to the LoadBalancer service and to serve data for traffic outside the cluster.
 
 
-You can use dedicated or shared IFLs to assign sufficient compute resources. Resource sharing is one of the key strengths of IBM Z. However, you must adjust capacity correctly on each hypervisor layer and ensure sufficient resources for every "Red Hat OpenShift Container Platform" cluster.
+You can use dedicated or shared IFLs to assign sufficient compute resources. Resource sharing is one of the key strengths of IBM Z&#174;. However, you must adjust capacity correctly on each hypervisor layer and ensure sufficient resources for every "Red Hat OpenShift Container Platform" cluster.
 Since the overall performance of the cluster can be impacted, the LPARs that are used to set up the "Red Hat OpenShift Container Platform" clusters must provide sufficient compute capacity. In this context, LPAR weight management, entitlements, and CPU shares on the hypervisor level play an important role.
 
 One instance of z/VM 7.2 or later
@@ -78,7 +78,7 @@ One guest virtual machine for the temporary "Red Hat OpenShift Container Platfor
 
 
 
-To install on IBM Z under z/VM, you require a single z/VM virtual NIC in layer 2 mode. You also need:
+To install on IBM Z&#174; under z/VM, you require a single z/VM virtual NIC in layer 2 mode. You also need:
 
 A direct-attached OSA or RoCE network adapter
 
@@ -118,11 +118,11 @@ At least six guest virtual machines for "Red Hat OpenShift Container Platform" c
 
 One guest virtual machine for the temporary "Red Hat OpenShift Container Platform" bootstrap machine.
 
-To ensure the availability of integral components in an overcommitted environment, increase the priority of the control plane by using the CP command SET SHARE. Do the same for infrastructure nodes, if they exist. See SET SHARE in IBM Documentation.
+To ensure the availability of integral components in an overcommitted environment, increase the priority of the control plane by using the CP command SET SHARE. Do the same for infrastructure nodes, if they exist. See SET SHARE in IBM&#174; Documentation.
 
 
 
-To install on IBM Z under z/VM, you require a single z/VM virtual NIC in layer 2 mode. You also need:
+To install on IBM Z&#174; under z/VM, you require a single z/VM virtual NIC in layer 2 mode. You also need:
 
 A direct-attached OSA or RoCE network adapter
 
@@ -144,13 +144,13 @@ FCP attached disk storage
 Certificate signing requests management
 Because your cluster has limited access to automatic machine management when you use infrastructure that you provision, you must provide a mechanism for approving cluster certificate signing requests (CSRs) after installation. The kube-controller-manager only approves the kubelet client CSRs. The machine-approver cannot guarantee the validity of a serving certificate that is requested by using kubelet credentials because it cannot confirm that the correct machine issued the request. You must determine and implement a method of verifying the validity of the kubelet serving certificate requests and approving them.
 
-See Bridging a HiperSockets LAN with a z/VM Virtual Switch in IBM Documentation.
+See Bridging a HiperSockets LAN with a z/VM Virtual Switch in IBM&#174; Documentation.
 
 See Scaling HyperPAV alias devices on Linux guests on z/VM for performance optimization.
 
 See Topics in LPAR performance for LPAR weight management and entitlements.
 
-Recommended host practices for IBM Z & IBM&#174; LinuxONE environments
+Recommended host practices for IBM Z&#174; & IBM&#174; LinuxONE environments
 Networking requirements for user-provisioned infrastructure
 All the Red Hat Enterprise Linux CoreOS (RHCOS) machines require networking to be configured in initramfs during boot to fetch their Ignition config files.
 
@@ -424,7 +424,7 @@ Download your installation pull secret from the Red Hat OpenShift Cluster Manage
 Installing the OpenShift CLI by downloading the binary
 You can install the OpenShift CLI (oc) to interact with "Red Hat OpenShift Container Platform" from a command-line interface. You can install oc on Linux, Windows, or macOS.
 
-If you installed an earlier version of oc, you cannot use it to complete all of the commands in "Red Hat OpenShift Container Platform" {product-version}. Download and install the new version of oc.
+If you installed an earlier version of oc, you cannot use it to complete all of the commands in "Red Hat OpenShift Container Platform" "4.14". Download and install the new version of oc.
 
 You can install the OpenShift CLI (oc) binary on Linux by using the following procedure.
 
@@ -434,7 +434,7 @@ Select the architecture from the Product Variant drop-down list.
 
 Select the appropriate version from the Version drop-down list.
 
-Click Download Now next to the OpenShift v{product-version} Linux Client entry and save the file.
+Click Download Now next to the OpenShift v"4.14" Linux Client entry and save the file.
 
 Unpack the archive:
 
@@ -451,7 +451,7 @@ Navigate to the "Red Hat OpenShift Container Platform" downloads page on the Red
 
 Select the appropriate version from the Version drop-down list.
 
-Click Download Now next to the OpenShift v{product-version} Windows Client entry and save the file.
+Click Download Now next to the OpenShift v"4.14" Windows Client entry and save the file.
 
 Unzip the archive with a ZIP program.
 
@@ -468,7 +468,7 @@ Navigate to the "Red Hat OpenShift Container Platform" downloads page on the Red
 
 Select the appropriate version from the Version drop-down list.
 
-Click Download Now next to the OpenShift v{product-version} macOS Client entry and save the file.
+Click Download Now next to the OpenShift v"4.14" macOS Client entry and save the file.
 
 Unpack and unzip the archive.
 
@@ -492,7 +492,7 @@ Back up the install-config.yaml file so that you can use it to install
 multiple clusters.
 
 
-Installation configuration parameters for IBM Z
+Installation configuration parameters for IBM Z&#174;
 
 
 Sample install-config.yaml file for IBM Z
@@ -545,7 +545,7 @@ The cluster network plugin to install. The supported values are OVNKubernetes an
 The IP address pool to use for service IP addresses. You can enter only one IP address pool. This block must not overlap with existing physical networks. If you need to access the services from an external network, configure load balancers and routers to manage the traffic.
 
 You must set the platform to none. You cannot provide additional platform configuration variables for
-IBM Z infrastructure.
+IBM Z&#174; infrastructure.
 
 Whether to enable or disable FIPS mode. By default, FIPS mode is not enabled. If FIPS mode is enabled, the Red Hat Enterprise Linux CoreOS (RHCOS) machines that "Red Hat OpenShift Container Platform" runs on bypass the default Kubernetes cryptography suite and use the cryptography modules that are provided with RHCOS instead.
 
@@ -653,8 +653,8 @@ Change to the directory that contains the "Red Hat OpenShift Container Platform"
 Check that the mastersSchedulable parameter in the <installation_directory>/manifests/cluster-scheduler-02-config.yml Kubernetes manifest file is set to false. This setting prevents pods from being scheduled on the control plane machines:
 
 To create the Ignition configuration files, run the following command from the directory that contains the installation program:
-Configuring NBDE with static IP in an IBM Z or IBM&#174; LinuxONE environment
-Enabling NBDE disk encryption in an IBM Z or IBM&#174; LinuxONE environment requires additional steps, which are described in detail in this section.
+Configuring NBDE with static IP in an IBM Z or IBM LinuxONE environment
+Enabling NBDE disk encryption in an IBM Z&#174; or IBM&#174; LinuxONE environment requires additional steps, which are described in detail in this section.
 
 You have set up the External Tang Server. See Network-bound disk encryption for instructions.
 
@@ -672,7 +672,7 @@ Create a parameter file that includes ignition.platform.id=metal and ignition.fi
 
 Creating machine configs with Butane
 Installing RHCOS and starting the "Red Hat OpenShift Container Platform" bootstrap process
-To install "Red Hat OpenShift Container Platform" on IBM Z infrastructure that you provision, you must install Red Hat Enterprise Linux CoreOS (RHCOS) on z/VM guest virtual machines. When you install RHCOS, you must provide the Ignition config file that was generated by the "Red Hat OpenShift Container Platform" installation program for the type of machine you are installing. If you have configured suitable networking, DNS, and load balancing infrastructure, the "Red Hat OpenShift Container Platform" bootstrap process begins automatically after the RHCOS z/VM guest virtual machines have rebooted.
+To install "Red Hat OpenShift Container Platform" on IBM Z&#174; infrastructure that you provision, you must install Red Hat Enterprise Linux CoreOS (RHCOS) on z/VM guest virtual machines. When you install RHCOS, you must provide the Ignition config file that was generated by the "Red Hat OpenShift Container Platform" installation program for the type of machine you are installing. If you have configured suitable networking, DNS, and load balancing infrastructure, the "Red Hat OpenShift Container Platform" bootstrap process begins automatically after the RHCOS z/VM guest virtual machines have rebooted.
 
 Complete the following steps to create the machines.
 
@@ -890,7 +890,7 @@ As a cluster administrator, following installation you must configure your regis
 You have access to the cluster as a user with the cluster-admin role.
 
 You have a cluster
-on IBM Z.
+on IBM Z&#174;.
 
 You have provisioned persistent storage for your cluster, such as Red Hat OpenShift Data Foundation.
 
@@ -925,7 +925,7 @@ Confirm that the Kubernetes API server is communicating with the pods.
 
 For an installation with Fibre Channel Protocol (FCP), additional steps are required to enable multipathing. Do not enable multipathing during installation.
 Telemetry access for "Red Hat OpenShift Container Platform"
-In "Red Hat OpenShift Container Platform" {product-version}, the Telemetry service, which runs by default to provide metrics about cluster health and the success of updates, requires internet access. If your cluster is connected to the internet, Telemetry runs automatically, and your cluster is registered to OpenShift Cluster Manager Hybrid Cloud Console.
+In "Red Hat OpenShift Container Platform" "4.14", the Telemetry service, which runs by default to provide metrics about cluster health and the success of updates, requires internet access. If your cluster is connected to the internet, Telemetry runs automatically, and your cluster is registered to OpenShift Cluster Manager Hybrid Cloud Console.
 
 After you confirm that your OpenShift Cluster Manager Hybrid Cloud Console inventory is correct, either maintained automatically by Telemetry or manually by using OpenShift Cluster Manager, use subscription watch to track your "Red Hat OpenShift Container Platform" subscriptions at the account or multi-cluster level.
 

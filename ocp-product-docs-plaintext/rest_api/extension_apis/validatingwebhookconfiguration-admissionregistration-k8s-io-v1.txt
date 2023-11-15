@@ -33,19 +33,6 @@ Description
 Type
 object
 Required
-.webhooks[].matchConditions
-
-Description
-
-Type
-array
-.webhooks[].matchConditions[]
-
-Description
-
-Type
-object
-Required
 .webhooks[].rules
 
 Description

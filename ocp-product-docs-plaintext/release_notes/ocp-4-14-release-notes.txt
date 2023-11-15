@@ -1,0 +1,1240 @@
+"Red Hat OpenShift Container Platform" "4.14" release notes
+
+Red Hat "Red Hat OpenShift Container Platform" provides developers and IT organizations with a hybrid cloud application platform for deploying both new and existing applications on secure, scalable resources with minimal configuration and management overhead. "Red Hat OpenShift Container Platform" supports a wide selection of programming languages and frameworks, such as Java, JavaScript, Python, Ruby, and PHP.
+
+Built on Red Hat Enterprise Linux (RHEL) and Kubernetes, "Red Hat OpenShift Container Platform" provides a more secure and scalable multitenant operating system for today's enterprise-class applications, while delivering integrated application runtimes and libraries. "Red Hat OpenShift Container Platform" enables organizations to meet security, privacy, compliance, and governance requirements.
+About this release
+"Red Hat OpenShift Container Platform" (RHSA-2023:5006) is now available. This release uses Kubernetes 1.27 with CRI-O runtime. New features, changes, and known issues that pertain to "Red Hat OpenShift Container Platform" "4.14" are included in this topic.
+
+"Red Hat OpenShift Container Platform" "4.14" clusters are available at https://console.redhat.com/openshift. With the Red Hat OpenShift Cluster Manager application for "Red Hat OpenShift Container Platform", you can deploy "Red Hat OpenShift Container Platform" clusters to either on-premises or cloud environments.
+
+"Red Hat OpenShift Container Platform" "4.14" is supported on Red Hat Enterprise Linux (RHEL) 8.6, 8.7, and 8.8 as well as on Red Hat Enterprise Linux CoreOS (RHCOS) 4.13.
+
+You must use RHCOS machines for the control plane, and you can use either RHCOS or RHEL for compute machines.
+
+Starting with "Red Hat OpenShift Container Platform" 4.12, an additional six months is added to the Extended Update Support (EUS) phase on even numbered releases from 18 months to two years. For more information, see the Red Hat "Red Hat OpenShift Container Platform" Life Cycle Policy.
+
+Starting with "Red Hat OpenShift Container Platform" "4.14", Extended Update Support (EUS) is extended to 64-bit ARM, {ibmpowerProductName} (ppc64le), and {ibmzProductName} (s390x) platforms.  For more information, see the OpenShift EUS Overview.
+
+"Red Hat OpenShift Container Platform" "4.14" is an Extended Update Support (EUS) release. More information on Red Hat OpenShift EUS is available in OpenShift Life Cycle and OpenShift EUS Overview.
+
+Maintenance support ends for version 4.12 on 25 January 2025 and goes to extended life phase. For more information, see the Red Hat "Red Hat OpenShift Container Platform" Life Cycle Policy.
+
+Commencing with the "4.14" release, Red Hat is simplifying the administration and management of Red Hat shipped cluster Operators with the introduction of three new life cycle classifications; Platform Aligned, Platform Agnostic, and Rolling Stream. These life cycle classifications provide additional ease and transparency for cluster administrators to understand the life cycle policies of each Operator and form cluster maintenance and upgrade plans with predictable support boundaries. For more information, see OpenShift Operator Life Cycles.
+
+"Red Hat OpenShift Container Platform" is designed for FIPS. When running Red Hat Enterprise Linux (RHEL) or Red Hat Enterprise Linux CoreOS (RHCOS) booted in FIPS mode, "Red Hat OpenShift Container Platform" core components use the RHEL cryptographic libraries that have been submitted to NIST for FIPS 140-2/140-3 Validation on only the x86_64, ppc64le, and s390x architectures.
+
+For more information about the NIST validation program, see Cryptographic Module Validation Program. For the latest NIST status for the individual versions of RHEL cryptographic libraries that have been submitted for validation, see Compliance Activities and Government Standards.
+"Red Hat OpenShift Container Platform" layered and dependent component support and compatibility
+The scope of support for layered and dependent components of "Red Hat OpenShift Container Platform" changes independently of the "Red Hat OpenShift Container Platform" version. To determine the current support status and compatibility for an add-on, refer to its release notes. For more information, see the Red Hat "Red Hat OpenShift Container Platform" Life Cycle Policy.
+New features and enhancements
+This release adds improvements related to the following components and concepts.
+
+Red Hat Enterprise Linux CoreOS (RHCOS)
+RHCOS now uses RHEL 9.2
+RHCOS now uses Red Hat Enterprise Linux (RHEL) 9.2 packages in "Red Hat OpenShift Container Platform" "4.14". These packages ensure that your "Red Hat OpenShift Container Platform" instance receives the latest fixes, features, enhancements, hardware support, and driver updates. Excluded from this change, "Red Hat OpenShift Container Platform" 4.12 is an Extended Update Support (EUS) release that will continue to use RHEL 8.6 EUS packages for the entirety of its lifecycle.
+
+Considerations for upgrading to "Red Hat OpenShift Container Platform" with RHEL 9.2
+Because "Red Hat OpenShift Container Platform" "4.14" now uses a RHEL 9.2 based RHCOS, consider the following before upgrading:
+
+Some component configuration options and services might have changed between RHEL 8.6 and RHEL 9.2, which means existing machine configuration files might no longer be valid.
+
+If you customized the default OpenSSH /etc/ssh/sshd_config server configuration file, you must update it according to this Red Hat Knowledgebase article.
+
+RHEL 6 base image containers are not supported on RHCOS container hosts but are supported on RHEL 8 worker nodes. For more information, see the Red Hat Container Compatibility matrix.
+
+Some device drivers have been deprecated, see the RHEL documentation for more information.
+Installation and update
+Installing a cluster on Amazon Web Services (AWS) by using a shared VPC
+In "Red Hat OpenShift Container Platform" "4.14", you can install a cluster on AWS that uses a shared Virtual Private Cloud (VPC), with a private hosted zone in a different account than the cluster. For more information, see Installing a cluster on AWS into an existing VPC.
+Enabling S3 bucket to be retained during cluster bootstrap on AWS
+With this update, you can opt out of the automatic deletion of the S3 bucket during the cluster bootstrap on AWS. This option is useful when you have security policies that prevent the deletion of S3 buckets.
+Installing a cluster on Microsoft Azure using a NAT gateway (Technology Preview)
+In "Red Hat OpenShift Container Platform" "4.14", you can install a cluster that uses a NAT gateway for outbound networking. This is available as a Technology Preview (TP). For more information, see Additional Azure configuration parameters.
+Installing a cluster on Google Cloud Platform (GCP) using pd-balanced disk type
+In "Red Hat OpenShift Container Platform" "4.14", you can install a cluster on GCP using the pd-balanced disk type. This disk type is only available for compute nodes and cannot be used for control plane nodes. For more information, see Additional GCP configuration parameters.
+Optional capabilities in "Red Hat OpenShift Container Platform" "4.14"
+In "Red Hat OpenShift Container Platform" "4.14", you can disable the Build, DeploymentConfig, ImageRegistry and MachineAPI capabilities during installation. You can only disable the MachineAPI capability if you install a cluster with user-provisioned infrastructure. For more information, see Cluster capabilities.
+Installing a cluster with Azure AD Workload Identity
+During installation, you can now configure a Microsoft Azure cluster to use Azure AD Workload Identity. With Azure AD Workload Identity, cluster components use short-term security credentials that are managed outside the cluster.
+
+For more information about the short-term credentials implementation for "Red Hat OpenShift Container Platform" clusters on Azure, see Azure AD Workload Identity.
+
+To learn how to configure this credentials management strategy during installation, see Configuring an Azure cluster to use short-term credentials.
+User-defined tags for Microsoft Azure now generally available
+The user-defined tags feature for Microsoft Azure was previously introduced as Technology Preview in "Red Hat OpenShift Container Platform" 4.13 and is now generally available in "Red Hat OpenShift Container Platform" "4.14". For more information, see Configuring the user-defined tags for Azure.
+Confidential VMs for Azure (Technology Preview)
+You can enable confidential VMs when you install your cluster on Azure. You can use confidential computing to encrypt the virtual machine guest state storage during installation. This feature is in Technology Preview due to known issues which are listed in the Known Issues section of this page. For more information, see Enabling confidential VMs.
+Trusted launch for Azure (Technology Preview)
+You can enable trusted launch features when you install your cluster on Azure as a Technology Preview. These features include secure boot and virtualized Trusted Platform Modules. For more information, see Enabling trusted launch for Azure VMs.
+User-defined labels and tags for Google Cloud Platform (Technology Preview)
+You can now configure user-defined labels and tags in Google Cloud Platform (GCP) for grouping resources and for managing resource access and cost. User-defined labels can be applied only to resources created with the "Red Hat OpenShift Container Platform" installation program and its core components. User-defined tags can be applied only to resources created with the "Red Hat OpenShift Container Platform" Image Registry Operator. For more information, see Managing the user-defined labels and tags for GCP.
+Installing an "Red Hat OpenShift Container Platform" cluster on Microsoft Azure in a restricted network
+In "Red Hat OpenShift Container Platform" "4.14", you can install a cluster on Microsoft Azure in a restricted network for installer-provisioned infrastructure (IPI) and user-provisioned infrastructure (UPI). For IPI, you can create an internal mirror of the installation release content on an existing Azure Virtual Network (VNet). For UPI, you can install a cluster on Microsoft Azure by using infrastructure that you provide. For more information, see Installing a cluster on Azure in a restricted network and Installing a cluster on Azure in a restricted network with user-provisioned infrastructure.
+Specifying installation disks using a by-path device alias
+You can now specify the installation disk using a by-path device alias, such as deviceName: "/dev/disk/by-path/pci-0000:01:00.0-scsi-0:0:0:0", when you install a cluster on bare metal with installer-provisioned infrastructure. You can also specify this parameter during Agent-based installations. This type of disk alias persists across reboots. For more information, see Configuring the install-config.yaml file for bare metal or About root device hints for Agent-based installations.
+Applying existing AWS security groups to a cluster
+By default, the installation program creates and attaches security groups to control plane and compute machines. The rules associated with the default security groups cannot be modified.
+
+With "Red Hat OpenShift Container Platform" "4.14", if you deploy a cluster to an existing Amazon Virtual Private Cloud (VPC), you can apply additional existing AWS security groups to control plane and compute machines. These security groups must be associated with the VPC that you are deploying the cluster to. Applying custom security groups can help you meet the security needs of your organization, in such cases where you must control the incoming or outgoing traffic of these machines. For more information, see Applying existing AWS security groups to the cluster.
+Required administrator acknowledgment when updating from "Red Hat OpenShift Container Platform" 4.13 to "4.14"
+"Red Hat OpenShift Container Platform" "4.14" uses Kubernetes 1.27, which removed a deprecated API.
+
+A cluster administrator must provide a manual acknowledgment before the cluster can be updated from "Red Hat OpenShift Container Platform" 4.13 to "4.14". This is to help prevent issues after updating to "Red Hat OpenShift Container Platform" "4.14", where APIs that have been removed are still in use by workloads, tools, or other components running on or interacting with the cluster. Administrators must evaluate their cluster for any APIs in use that will be removed and migrate the affected components to use the appropriate new API version. After this is done, the administrator can provide the administrator acknowledgment.
+
+All "Red Hat OpenShift Container Platform" 4.13 clusters require this administrator acknowledgment before they can be updated to "Red Hat OpenShift Container Platform" "4.14".
+
+For more information, see Preparing to update to "Red Hat OpenShift Container Platform" "4.14".
+Three-node cluster support for Nutanix
+Deploying a three-node cluster is supported on Nutanix as of "Red Hat OpenShift Container Platform" "4.14". This type of "Red Hat OpenShift Container Platform" cluster is a more resource efficient cluster. It consists of only three control plane machines, which also act as compute machines. For more information, see Installing a three-node cluster on Nutanix.
+Installing a cluster on GCP using Confidential VMs is generally available
+In "Red Hat OpenShift Container Platform" "4.14", using Confidential VMs when installing your cluster is generally available. Confidential VMs are currently not supported on 64-bit ARM architectures. For more information, see Enabling Confidential VMs.
+Root volume types parameter for RHOSP is now available
+You can now specify one or more root volume types in RHOSP, by using the rootVolume.types parameter. This parameter is available for both control plane and compute machines.
+Static IP addresses for vSphere nodes
+You can provision bootstrap, control plane, and compute nodes with static IP addresses in environments where Dynamic Host Configuration Protocol (DHCP) does not exist.
+
+Static IP addresses for vSphere nodes is a Technology Preview feature only. Technology Preview features are not supported with Red Hat production service level agreements (SLAs) and might not be functionally complete. Red Hat does not recommend using them in production. These features provide early access to upcoming product features, enabling customers to test functionality and provide feedback during the development process.
+
+For more information about the support scope of Red Hat Technology Preview features, see Technology Preview Features Support Scope.
+After you have deployed your cluster to run nodes with static IP addresses, you can scale a machine to use one of these static IP addresses. Additionally, you can use a machine set to configure a machine to use one of the configured static IP addresses.
+
+For more information, see the "Static IP addresses for vSphere nodes" section in the Installing a cluster on vSphere document.
+Additional validation for the Bare Metal Host CR
+The Bare Metal Host Custom Resource (CR) now contains the ValidatingWebhooks parameter. With this parameter, the Bare Metal Operator now catches any configuration errors before accepting the CR, and returns a message with the configuration errors to the user.
+Install a cluster quickly in AWS Local Zones
+For "Red Hat OpenShift Container Platform" "4.14", you can quickly install a cluster on Amazon Web Services (AWS) to extend compute nodes to Local Zone locations. After you add zone names to the installation configuration file, the installation program fully automates the creation of required resources, network and compute, on each Local Zone. For more information, see Intall a cluster quickly in AWS Local Zones.
+Simplified installation and update experience for clusters with manually maintained cloud credentials
+This release includes changes that improve the experience of installing and updating clusters that use the Cloud Credential Operator (CCO) in manual mode for cloud provider authentication. The following parameters for the oc adm release extract command simplify the manual configuration of cloud credentials:
+
+
+--included
+Use this parameter to extract only the manifests that your specific cluster configuration needs.
+--install-config
+Use this parameter to specify the location of the install-config.yaml file when installing a cluster.
+
+
+To understand how to use these parameters, see the installation procedure for your configuration and the procedures in Preparing to update a cluster with manually maintained credentials.
+Quickly install RHCOS on vSphere hosts by using a pre-existing RHCOS image template
+"Red Hat OpenShift Container Platform" "4.14" includes a new VMware vSphere configuration parameter for use on installer-provisioned infrastructure: template. By using this parameter, you can now specify the absolute path to a pre-existing Red Hat Enterprise Linux CoreOS (RHCOS) image template or virtual machine in the installation configuration file. The installation program can then use the image template or virtual machine to quickly install RHCOS on vSphere hosts.
+
+This installation method is an alternative to uploading an RHCOS image on vSphere hosts.
+
+Before you set a path value for the template parameter, ensure that the default RHCOS boot image in the "Red Hat OpenShift Container Platform" release matches the RHCOS image template or virtual machine version; otherwise, cluster installation might fail.
+"Red Hat OpenShift Container Platform" on 64-bit ARM
+"Red Hat OpenShift Container Platform" "4.14" is now supported on 64-bit ARM architecture-based Google Cloud Platform installer-provisioned and user-provisioned infrastructures. You can also now use the oc mirror CLI plug-in disconnected environments on 64-bit ARM clusters. For more information about instance availability and installation documentation, see Supported installation methods for different platforms.
+Using a custom RHCOS image for a Microsoft Azure cluster
+By default, the installation program downloads and installs the Red Hat Enterprise Linux CoreOS (RHCOS) image that is used to boot control plane and compute machines. With this enhancement, you can now override the default behavior by modifying the installation configuration file (install-config.yaml) to specify a custom RHCOS image. Before you deploy the cluster, you can modify the following installation parameters:
+
+compute.platorm.azure.osImage.publisher
+
+compute.platorm.azure.osImage.offer
+
+compute.platorm.azure.osImage.sku
+
+compute.platorm.azure.osImage.version
+
+controlPlane.platorm.azure.osImage.publisher
+
+controlPlane.platorm.azure.osImage.offer
+
+controlPlane.platorm.azure.osImage.sku
+
+controlPlane.platorm.azure.osImage.version
+
+platform.azure.defaultMachinePlatform.osImage.publisher
+
+platform.azure.defaultMachinePlatform.osImage.offer
+
+platform.azure.defaultMachinePlatform.osImage.sku
+
+platform.azure.defaultMachinePlatform.osImage.version
+
+
+For more information about these parameters, see Additional Azure configuration parameters.
+Installing single-node OpenShift on cloud providers
+"Red Hat OpenShift Container Platform" "4.14" expands support for installing single-node OpenShift on cloud providers. Installation options for single-node OpenShift include Amazon Web Services (AWS), Google Cloud Platform (GCP), and Microsoft Azure. For more information about the supported platforms, see Supported cloud providers for single node openshift.
+Post-installation configuration
+"Red Hat OpenShift Container Platform" cluster with multi-architecture compute machines
+"Red Hat OpenShift Container Platform" "4.14" clusters with multi-architecture compute machines are now supported on Google Cloud Platform (GCP) as a Day 2 operation. "Red Hat OpenShift Container Platform" clusters with multi-architecture compute machines on bare metal installations are now generally available. For more information on clusters with multi-architecture compute machines and supported platforms, see About clusters with multi-architecture compute machines.
+Web console
+Administrator Perspective
+With this release, there are several updates to the Administrator perspective of the web console. You can now perform the following actions:
+
+Narrow down the list of resources in a list view or search page with exact search capabilities. This action is useful when you have similarly named resources and the standard search functionality does not narrow down your search.
+
+Provide direct feedback about features and report a bug by clicking the Help button on the toolbar and clicking Share Feedback from the drop-down list.
+
+Display and hide tooltips in the YAML editor. Because the tooltips persist, you do not need to change a tooltip every time you navigate to a page.
+
+Configure the web terminal image for all users. For more information, see Configuring the web terminal.
+
+
+Dynamic plugin enhancements
+With this update, you can add custom metric dashboards and extend the cluster's Overview page with the QueryBowser extension. The "Red Hat OpenShift Container Platform" release adds additional extension points, so you can add different types of modals, set the active namespace, provide custom error pages, and set proxy timeouts for your dynamic plugin.
+
+For more information, see Dynamic plugin reference and QueryBrowser in the "Red Hat OpenShift Container Platform" console API.
+Operating system based filtering in OperatorHub
+With this update, Operators in OperatorHub are now filtered based on the operating systems of the nodes, because clusters can contain heterogenous nodes.
+Support for installing specific Operator versions in the web console
+With this update, you can now choose from a list of available versions for an Operator based on the selected channel on the OperatorHub page in the console. Additionally, you can view the metadata for that channel and version when available. When selecting an older version, a manual approval update strategy is required, otherwise the Operator immediately updates back to the latest version on the channel.
+
+For more information, see Installing a specific version of an Operator in the web console.
+OperatorHub support for AWS STS
+With this release, OperatorHub detects when an Amazon Web Services (AWS) cluster is using the Security Token Service (STS). When detected, a "Cluster in STS Mode" notification displays with additional instructions before installing an Operator to ensure it runs correctly. The Operator Installation page is also modified to add the required role ARN field. For more information, see Token authentication for Operators on cloud providers.
+Developer Perspective
+With this release, there are several updates to the Developer perspective of the web console. You can now perform the following actions:
+
+Change the default timeout period for the web terminal for your current session. For more information, see Configuring the web terminal timeout for a session.
+
+Test Serverless functions in the web console from the Topology view and the Serverless Service List and Detail pages, so that you can use a Serverless function with a CloudEvent or HTTP request.
+
+View status, start time, and duration of the latest build for BuildConfigs and Shipwright builds. You can also view this information on the Details page.
+
+
+New quick starts
+With this release, new quick starts exist where you can discover developer tools, such as installing the Cryostat Operator and getting started with JBoss EAP by using a helm chart.
+OpenShift Pipelines page improvements
+In "Red Hat OpenShift Container Platform" "4.14", you can see the following navigation improvements on the Pipelines page:
+
+Autodetection of Pipelines as Code (PAC) in Git import flow.
+
+Serverless functions in the samples catalog.
+OpenShift CLI (oc)
+Supporting multi-arch OCI local images for catalogs with oc-mirror
+With "Red Hat OpenShift Container Platform" "4.14", oc-mirror supports multi-arch OCI local images for catalogs.
+
+OCI layouts consist of an index.json file that identifies the images held within them on disk. This index.json file can reference any number of single or multi-arch images. However, oc-mirror only references a single image at a time in a given OCI layout. The image stored in the OCI layout can be a single-arch image, that is, an image manifest or a multi-arch image, that is, a manifest list.
+
+The ImageSetConfiguration stores the OCI images. After processing the catalog, the catalog content adds new layers representing the content of all images in the layout. The ImageBuilder is modified to handle image updates for both single-arch and multi-arch images.
+Logging in to the CLI using a web browser
+With "Red Hat OpenShift Container Platform" "4.14", a new oc command-line interface (CLI) flag, --web is now available for the oc login command.
+
+With this enhancement, you can log in by using a web browser, so that you do not need to insert your access token into the command line.
+
+For more information, see Logging in to the OpenShift CLI using a web browser.
+Enhancement to oc new-build
+A new oc CLI flag, --import-mode, has been added to the oc new-build command. With this enhancement, you can set the --import-mode flag to Legacy or PreserverOriginal, so that you trigger builds by using a single sub-manifest or all manifests.
+Enhancement to oc new-app
+A new oc CLI flag, --import-mode, has been added to the oc new-app command. With this enhancement, you can set the --import-mode flag to Legacy or PreserverOriginal, and then create new applications by using a single sub-manifest or all manifests.
+
+For more information, see Setting the import mode.
+{ibmzProductName} and {linuxoneProductName}
+With this release, {ibmzRegProductName} and {linuxoneProductName} are now compatible with "Red Hat OpenShift Container Platform" "4.14". The installation can be performed with z/VM or Red Hat Enterprise Linux (RHEL) Kernel-based Virtual Machine (KVM). For installation instructions, see the following documentation:
+
+Installing a cluster with z/VM on {ibmzRegProductName} and {linuxoneProductName}
+
+Installing a cluster with z/VM on {ibmzRegProductName} and {linuxoneProductName} in a restricted network
+
+Installing a cluster with RHEL KVM on {ibmzRegProductName} and {linuxoneProductName}
+
+Installing a cluster with RHEL KVM on {ibmzRegProductName} and {linuxoneProductName} in a restricted network
+
+
+Compute nodes must run Red Hat Enterprise Linux CoreOS (RHCOS).
+
+Starting in "Red Hat OpenShift Container Platform" "4.14", Extended Update Support (EUS) is extended to the {ibmzRegProductName} platform. For more information, see the OpenShift EUS Overview.
+
+The {ibmzRegProductName} and {linuxoneProductName} release on "Red Hat OpenShift Container Platform" "4.14" adds improvements and new capabilities to "Red Hat OpenShift Container Platform" components and concepts.
+
+This release introduces support for the following features on {ibmzRegProductName} and {linuxoneProductName}:
+
+Assisted Installer with z/VM
+
+Installing on a single node
+
+Multi-architecture compute nodes
+
+oc-mirror plugin
+
+
+
+"Red Hat OpenShift Container Platform" now supports configuring Red Hat Enterprise Linux CoreOS (RHCOS) nodes for IBM Secure Execution on {ibmzRegProductName} and {linuxoneProductName} (s390x architecture).
+
+For installation instructions, see the following documentation:
+
+Installing RHCOS using IBM Secure Execution
+{ibmpowerRegProductName}
+{ibmpowerRegProductName} is now compatible with "Red Hat OpenShift Container Platform" "4.14". For installation instructions, see the following documentation:
+
+Installing a cluster on {ibmpowerProductName}
+
+Installing a cluster on {ibmpowerProductName} in a restricted network
+
+
+Compute nodes must run Red Hat Enterprise Linux CoreOS (RHCOS).
+
+Starting in "Red Hat OpenShift Container Platform" "4.14", Extended Update Support (EUS) is extended to the {ibmpowerRegProductName} platform.  For more information, see the OpenShift EUS Overview.
+
+The {ibmpowerRegProductName} release on "Red Hat OpenShift Container Platform" "4.14" adds improvements and new capabilities to "Red Hat OpenShift Container Platform" components.
+
+This release introduces support for the following features on {ibmpowerProductName}:
+
+{ibmpowerProductName} Virtual Server Block CSI Driver Operator (Technology Preview)
+
+Installing on a single node
+
+Multi-architecture compute nodes
+
+oc-mirror plugin
+
+
+
+
+
+Persistent shared storage must be provisioned by using either Red Hat OpenShift Data Foundation or other supported storage protocols.
+
+Persistent non-shared storage must be provisioned by using local storage, such as iSCSI, FC, or by using LSO with DASD, FCP, or EDEV/FBA.
+Authentication and authorization
+SCC preemption prevention
+With this release, you can now require your workloads to use a specific security context constraint (SCC). By setting a specific SCC, you can prevent the SCC that you want from being preempted by another SCC in the cluster. For more information, see Configuring a workload to require a specific SCC.
+Pod security admission privileged namespaces
+With this release, the following system namespaces are always set to the privileged pod security admission profile:
+
+default
+
+kube-public
+
+kube-system
+
+
+For more information, see Privileged namespaces.
+Pod security admission synchronization disabled on modified namespaces
+With this release, if a user manually modifies a pod security admission label from the automatically labeled value on a label-synchronized namespace, synchronization is disabled for that label. Users can enable synchronization again, if necessary. For more information, see Pod security admission synchronization namespace exclusions.
+OLM-based Operator support for AWS STS
+With this release, some Operators managed by Operator Lifecycle Manager (OLM) on Amazon Web Services (AWS) clusters can use the Cloud Credential Operator (CCO) in manual mode with the Security Token Service (STS). These Operators authenticate with limited-privilege, short-term credentials that are managed outside the cluster. For more information, see Token authentication for Operators on cloud providers.
+Authentication Operator honors noProxy during connection checks
+With this release, if the noProxy field is set and the route is reachable without the cluster-wide proxy, the Authentication Operator will bypass the proxy and perform connection checks directly through the configured ingress route. Previously, the Authentication Operator always performed connection checks through the cluster-wide proxy, regardless of the noProxy setting. For more information, see Configuring the cluster-wide proxy.
+Networking
+Multiple external gateway support for the OVN-Kubernetes network plugin
+The OVN-Kubernetes network plugin supports defining additional default gateways for specific workloads. Both IPv4 and IPv6 address families are supported. You define each default gateway by using the AdminPolicyBasedExternalRoute object, in which you can specify two types of next hops, static and dynamic:
+
+Static next hop: One or more IP addresses of external gateways
+
+Dynamic next hop: A combination of pod and namespace selectors for pod selection, and a network attachment definition name previously associated with the selected pods.
+
+
+The next hops that you define are scoped by a namespace selector that you specify. You can then use the external gateway for specific workloads that match the namespace selector.
+
+For more information, refer to Configure an external gateway through a secondary network interface.
+Ingress Node Firewall Operator is generally available
+Ingress Node Firewall Operator was designated a Technology Preview feature in "Red Hat OpenShift Container Platform" 4.12. With this release, Ingress Node Firewall Operator is generally available. You can now configure firewall rules at the node level. For more information, see Ingress Node Firewall Operator.
+Dynamic use of non-reserved CPUs for OVS
+With this release, the Open vSwitch (OVS) networking stack can dynamically use non-reserved CPUs. This dynamic use of non-reserved CPUs occurs by default in nodes in a machine config pool that has a performance profile applied to it. The dynamic use of available, non-reserved CPUs maximizes compute resources for OVS and minimizes network latency for workloads during periods of high demand. OVS remains unable to dynamically use isolated CPUs assigned to containers in Guaranteed QoS pods. This separation avoids disruption to critical application workloads.
+
+When the Node Tuning Operator recognizes the performance conditions to activate the use of non-reserved CPUs, there is a several second delay while OVN-Kubernetes configures the CPU affinity alignment of OVS daemons running on the CPUs. During this window, if a Guaranteed QoS pod starts, it can experience a latency spike.
+Dual-stack configuration for multiple IP addresses
+In previous releases of the Whereabouts IPAM CNI plugin, only one IP address could be assigned per network interface.
+
+Now, Whereabouts supports the assignment of an arbitrary number of IP addresses to support dual-stack IPv4/IPv6 functionality. See Creating a configuration for assignment of dual-stack IP addresses dynamically.
+Exclude SR-IOV network topology for NUMA-aware scheduling
+With this release, you can exclude advertising the Non-Uniform Memory Access (NUMA) node for the SR-IOV network to the Topology Manager. By not advertising the NUMA node for the SR-IOV network, you can permit more flexible SR-IOV network deployments during NUMA-aware pod scheduling.
+
+For example, in some scenarios, it is a priority to maximize CPU and memory resources for a pod on a single NUMA node. By not providing a hint to the Topology Manager about the NUMA node for the pod’s SR-IOV network resource, the Topology Manager can deploy the SR-IOV network resource and the pod CPU and memory resources to different NUMA nodes. In earlier "Red Hat OpenShift Container Platform" releases, the Topology Manager attempted to place all resources on the same NUMA node only.
+
+For more information about this more flexible SR-IOV network deployment during NUMA-aware pod scheduling, see Exclude the SR-IOV network topology for NUMA-aware scheduling.
+Update to HAProxy 2.6
+With this release, "Red Hat OpenShift Container Platform" is updated to HAProxy 2.6.
+Support for configuring the maximum length with sidecar logging in the Ingress Controller
+Previously, the maximum length of the syslog message in the Ingress Controller was 1024 bytes. Now, the maximum value can be increased. For more information, see Allow the Ingress Controller to modify the HAProxy log length when using a sidecar.
+NMstate Operator updated in console
+With this release, you can access the NMstate Operator and resources such as the NodeNetworkState (NNS), NodeNetworkConfigurationPolicy (NNCP), and NodeNetworkConfigurationEnhancement (NNCE) from the web console. In the Administrator perspective of the console from the Networking page you can access NNCP, NNCE from the NodeNetworkConfigurationPolicy page, and NNS on the NodeNetworkState page. For more information about NMState resources and how to update them in the console, see Updating node network configuration.
+OVN-Kubernetes network plugin support for IPsec on IBM Cloud
+IPsec is now supported on the IBM Cloud platform for clusters that use the OVN-Kubernetes network plugin, which is the default in "Red Hat OpenShift Container Platform" "4.14". For more information, see Configuring IPsec encryption.
+OVN-Kubernetes network plugin support for IPsec encryption of external traffic (Technology Preview)
+"Red Hat OpenShift Container Platform" now supports encryption of external traffic, also known as north-south traffic. IPsec already supports encryption of network traffic between pods, known as east-west traffic. You can use both features in conjunction to provide full in-transit encryption for "Red Hat OpenShift Container Platform" clusters. This is available as a Technology Preview feature.
+
+To use this feature, you need to define an IPsec configuration tuned for your network infrastructure. For more information, refer to Enabling IPsec encryption for external IPsec endpoints.
+Single-stack IPv6 support for Kubernetes NMstate
+With this release, you can use Kubernetes NMState Operator in single-stack IPv6 clusters.
+Egress service resource to manage egress traffic for pods behind a load balancer (Technology Preview)
+With this update, you can use an EgressService custom resource (CR) to manage egress traffic for pods behind a load balancer service. This is available as a Technology Preview feature.
+
+You can use the EgressService CR to manage egress traffic in the following ways:
+
+Assign the load balancer service's IP address as the source IP address of egress traffic for pods behind the load balancer service.
+
+Assign the egress traffic for pods behind a load balancer to a different network than the default node network.
+
+
+For more information, see Configuring an egress service.
+VRF specification in MetalLB's BGPPeer resource (Technology Preview)
+With this update, you can specify a Virtual Routing and Forwarding (VRF) instance in a BGPPeer custom resource. MetalLB can advertise services through the interfaces belonging to the VRF. This is available as a Technology Preview feature. For more information, see Exposing a service through a network VRF.
+VRF specification in NMState's NodeNetworkConfigurationPolicy resource (Technology Preview)
+With this update, you can associate a Virtual Routing and Forwarding (VRF) instance with a network interface by using a NodeNetworkConfigurationPolicy custom resource. By associating a VRF instance with a network interface, you can support traffic isolation, independent routing decisions, and the logical separation of network resources. This feature is available as a Technology Preview feature. For more information, see Example: Network interface with a VRF instance node network configuration policy.
+Support for Broadcom BCM57504 is now GA
+Support for the Broadcom BCM57504 network interface controller is now available for the SR-IOV Network Operator.For more information, see Supported devices.
+OVN-Kubernetes is available as a secondary network
+With this release, the Red Hat OpenShift Networking OVN-Kubernetes network plugin allows the configuration of secondary network interfaces for pods. As a secondary network, OVN-Kubernetes supports both layer 2 switched and localnet switched topology networks.For more information about OVN-Kubernetes as a secondary network, see Configuration for an OVN-Kubernetes additional network.
+Admin Network Policy (Technology Preview)
+Admin Network Policy is available as a Technology Preview feature. You can enable AdminNetworkPolicy and BaselineAdminNetworkPolicy resources, which are part of the Network Policy V2 API, in clusters running the OVN-Kubernetes CNI plugin. Cluster administrators can apply cluster-scoped policies and safeguards for an entire cluster before namespaces are created. Network administrators can secure clusters by enforcing network traffic controls that cannot be overridden by users. Network administrators can enforce optional baseline network traffic controls that can be overridden by users in the cluster, if necessary. Currently, these APIs support only expressing policies for intra-cluster traffic.
+MAC-VLAN, IP-VLAN, and VLAN subinterface creation for pods
+With this release, the ability to create a MAC-VLAN, IP-VLAN, and VLAN subinterface based on a master interface in a container namespace is generally available. You can use this feature to create the master interfaces as part of the pod network configuration in a separate network attachment definition. You can then base the VLAN, MACVLAN or IPVLAN on this interface without knowing the network configuration of the node. For more information, see About configuring the master interface in the container network namespace.
+Enhance network flexibility by using the TAP device plugin
+This release introduces a new Container Network Interface (CNI) network plugin type: the Tanzu Application Platform (TAP) device plugin. You can use this plugin to create TAP devices within containers, which enables user-space programs to handle network frames and act as an interface that receives frames from and that sends frames to user-space applications instead of through traditional network interfaces. For more information, see Configuration for a TAP additional network.
+Support for running rootless DPDK workloads with kernel access by using the TAP CNI plugin
+In "Red Hat OpenShift Container Platform" version "4.14" and later, DPDK applications that need to inject traffic to the kernel can run in non-privileged pods with the help of the TAP CNI plugin. For more information, see Using the TAP CNI to run a rootless DPDK workload with kernel access.
+Set or delete specific HTTP headers using an Ingress Controller or a Route object
+Certain HTTP request and response headers can now be set or deleted either globally by using an Ingress Controller or for specific routes. You can set or delete the following headers:
+
+X-Frame-Options
+
+X-Cache-Info
+
+X-XSS-Protection
+
+X-Source
+
+X-SSL-Client-Cert
+
+X-Target
+
+Content-Location
+
+Content-Language
+
+
+For more information, see Setting or deleting HTTP request and response headers in an Ingress Controller and Setting or deleting HTTP request and response headers in a route.
+Egress IPs on additional network interfaces
+You can use egress IPs addresses on additional network interfaces as a Technology Preview feature. This feature provides "Red Hat OpenShift Container Platform" administrators with a greater level of control over networking aspects such as routing, addressing, segmentation, and security policies. You can also route workload traffic over specific network interfaces for purposes such as traffic segmentation or meeting specialized requirements.
+
+For more information, see Considerations for using an egress IP on additional network interfaces.
+Registry
+Optional Image Registry Operator
+With this release, the Image Registry Operator is now an optional component. This feature helps reduce the overall resources footprint of "Red Hat OpenShift Container Platform" in Telco environments when the Image Registry Operator is not needed. For more information about disabling the Image Registry Operator, see Selecting cluster capabilities.
+Storage
+Support for OR logic in LVMS
+With this release, the logical volume manager (LVM) cluster custom resource (CR) provides OR logic in the deviceSelector setting. In previous releases, specifying the paths setting for device paths used AND logic only. With this release, you can also specify the optionalPaths setting, which supports OR logic. For more information, see the CR examples in Persistent storage using logical volume manager storage.
+Support for ext4 in LVMS
+With this release, the logical volume manager (LVM) cluster custom resource (CR) provides support for the ext4 filesystem with the fstype setting under deviceClasses. The default filesystem is xfs. For more information, see the CR examples in Persistent storage using logical volume manager storage.
+Standardized STS configuration workflow
+"Red Hat OpenShift Container Platform" "4.14" provides a streamlined and standardized procedure to configure Security Token Service (STS) with the AWS Elastic File Storage (EFS) Container Storage Interface (CSI) Driver Operator.
+
+For more information, see Obtaining a role Amazon Resource Name for Security Token Service.
+Read Write Once Pod access mode (Technology Preview)
+"Red Hat OpenShift Container Platform" "4.14" introduces a new access mode for persistent volumes (PVs) and persistent volume claims (PVCs) called ReadWriteOncePod (RWOP), which can be used only in a single pod on a single node. This is compared to the existing ReadWriteOnce access mode where a PV or PVC can be used on a single node by many pods. This is available as a Technology Preview feature.
+
+For more information, see Access modes.
+GCP Filestore storage CSI Driver Operator is generally available
+"Red Hat OpenShift Container Platform" is capable of provisioning persistent volumes (PVs) using the Container Storage Interface (CSI) driver for Google Compute Platform (GCP) Filestore Storage. The GCP Filestore CSI Driver Operator was introduced in "Red Hat OpenShift Container Platform" 4.12 with Technology Preview support. The GCP Filestore CSI Driver Operator is now generally available. For more information, see Google Compute Platform Filestore CSI Driver Operator.
+Automatic CSI migration for VMware vSphere
+The Automatic CSI migration for VMware vSphere feature automatically translates in-tree objects to their counterpart CSI representations and, ideally, must be completely transparent to users. Although storage class referencing to the in-tree storage plug-in continues to work, consider switching the default storage class to the CSI storage class.
+
+In "Red Hat OpenShift Container Platform" "4.14", CSI migration for vSphere is enabled by default under all circumstances and requires no action by an administrator.
+
+If you are using vSphere in-tree persistent volumes (PVs) and want to upgrade from "Red Hat OpenShift Container Platform" 4.12 or 4.13 to "4.14", update vSphere vCenter and ESXI host to 7.0 Update 3L or 8.0 Update 2, otherwise the "Red Hat OpenShift Container Platform" upgrade is blocked. If you do not want to update vSphere, you can proceed with an "Red Hat OpenShift Container Platform" upgrade by performing an administrator acknowledgment. However, with using the administrator acknowledgment, known issues can occur. Before proceeding with the administrator acknowledgement, carefully read the Knowledge Base article.
+
+For more information, see CSI automatic migration.
+Secrets Store CSI Driver Operator (Technology Preview)
+The Secrets Store Container Storage Interface (CSI) Driver Operator, secrets-store.csi.k8s.io, allows "Red Hat OpenShift Container Platform" to mount multiple secrets, keys, and certificates stored in enterprise-grade external secrets stores into pods as an inline ephemeral volume. The Secrets Store CSI Driver Operator communicates with the provider using gRPC to fetch the mount contents from the specified external secrets store. After the volume is attached, the data in it is mounted into the container’s file system. This is available as a Technology Preview feature. For more information about the Secrets Store CSI driver, see Secrets Store CSI driver.
+
+For information about using the Secrets Store CSI Driver Operator to mount secrets from an external secrets store to a CSI volume, see Providing sensitive data to pods by using an external secrets store.
+Azure File supporting NFS is generally available
+"Red Hat OpenShift Container Platform" "4.14" supports Azure File Container Storage Interface (CSI) Driver Operator with Network File System (NFS) as generally available.
+
+For more information, see NFS support.
+Oracle&#174; Cloud Infrastructure
+You can now install an "Red Hat OpenShift Container Platform" cluster on Oracle&#174; Cloud Infrastructure by using the Assisted installer or the Agent-based installer. For "Red Hat OpenShift Container Platform" "4.14", "Red Hat OpenShift Container Platform" on OCI is available as a Developer Preview feature.
+
+To install an "Red Hat OpenShift Container Platform" cluster on OCI, choose one of the following installation options:
+
+Using the Assisted Installer to install a cluster on Oracle&#174; Cloud Infrastructure
+
+Using the Agent-based Installer to install a cluster on Oracle&#174; Cloud Infrastructure
+
+
+For more information about a Developer Preview feature, see Developer Preview Support Scope on the Red Hat Customer Portal.
+Operator lifecycle
+Operator Lifecycle Manager (OLM) 1.0 (Technology Preview)
+Operator Lifecycle Manager (OLM) has been included with "Red Hat OpenShift Container Platform" 4 since its initial release. "Red Hat OpenShift Container Platform" "4.14" introduces components for a next-generation iteration of OLM as a Technology Preview feature, known during this phase as OLM 1.0. This updated framework evolves many of the concepts that have been part of previous versions of OLM and adds new capabilities.
+
+During this Technology Preview phase of OLM 1.0 in "Red Hat OpenShift Container Platform" "4.14", administrators can explore the following features:
+
+
+Fully declarative model that supports GitOps workflows
+OLM 1.0 simplifies Operator management through two key APIs:
+Improved control over Operator updates
+With improved insight into catalog content, administrators can specify target versions for installation and updates. This grants administrators more control over the target version of Operator updates. For more information, see Installing an Operator from a catalog.
+Flexible Operator packaging format
+Administrators can use file-based catalogs to install and manage the following types of content:
+
+
+For "Red Hat OpenShift Container Platform" 4.14, documented procedures for OLM 1.0 are CLI-based only. Alternatively, administrators can create and view related objects in the web console by using normal methods, such as the Import YAML and Search pages. However, the existing OperatorHub and Installed Operators pages do not yet display OLM 1.0 components.
+For more information, see About Operator Lifecycle Manager 1.0.
+Operator development
+Token authentication for Operators on cloud providers: AWS STS
+With this release, Operators managed by Operator Lifecycle Manager (OLM) can support token authentication when running on Amazon Web Services (AWS) clusters that use the Security Token Service (STS). The Cloud Credential Operator (CCO) is updated to semi-automate provisioning certain limited-privilege, short-term credentials, provided that the Operator author has enabled their Operator to support AWS STS. For more information about enabling OLM-based Operators to support CCO-based workflows with AWS STS, see Token authentication for Operators on cloud providers.
+Configuring Operator projects with support for multiple platforms
+With this release, Operator authors can configure their Operator projects with support for multiple architectures and operating systems, or platforms. Operator authors can configure support for multiple platforms by performing the following actions:
+
+Building a manifest list that specifies the platforms that the Operator supports.
+
+Setting the Operator’s node affinity to support multi-architecture compute machines.
+
+
+For more information, see Configuring Operator projects for multi-platform support.
+Builds
+With this update, the Source-to-Image (S2I) tool is now generally available in "Red Hat OpenShift Container Platform" "4.14". You can use the S2I tool to build container images from source code, and transform application code into ready-to-deploy container images. This feature enhances the platform's ability to support reproducible containerized application development. For more information, see Using Source-to-Image (S2I) tool.
+
+With this update, the Build CSI Volumes feature is now generally available in "Red Hat OpenShift Container Platform" "4.14".
+Machine Config Operator
+Handling of registry certificate authorities
+The Machine Config Operator now handles distributing certificate authorities for image registries. This change does not affect end users.
+Additional metrics available in Prometheus
+With this release, you can query additional metrics to more closely monitor the state of your machines and machine config pools.
+
+For more information on how to use Prometheus, see Viewing a list of available metrics.
+Support for offline Tang provisioning
+With this release, you can now provision an "Red Hat OpenShift Container Platform" cluster with Tang-enforced, network-bound disk encryption (NBDE) by using Tang servers that are unreachable during first boot.
+
+For more information, see Configuring an encryption threshold and Configuring disk encryption and mirroring.
+Certificates are now handled by the Machine Config Daemon
+In previous "Red Hat OpenShift Container Platform" versions, the MCO read and handled certificates directly from machine configuration files. This led to rotation issues and created unwanted situations, such as certificates getting stuck behind a paused machine config pool.
+
+With this release, certificates are no longer templated from bootstrap into machine configuration files. Instead, they are put directly into the Ignition object, written onto a disk using the controller config, and handled by the Machine Config Daemon (MCD) during regular cluster operation. The certs are then visible by using the ControllerConfig resource.
+
+The Machine Config Controller (MCC) holds the following certificate data:
+
+/etc/kubernetes/kubelet-ca.crt
+
+/etc/kubernetes/static-pod-resources/configmaps/cloud-config/ca-bundle.pem
+
+/etc/pki/ca-trust/source/anchors/openshift-config-user-ca-bundle.crt
+
+
+The MCC also handles the image registry certificates and its associated user bundle certificate. This means that certificates are not bound by the machine config pool status and are more timely in their rotation. The previously listed CAs stored in machine configuration files are removed, and the templated files found during cluster installation no longer exist. For more information on how to access these certificates, see Viewing and interacting with certificates.
+Machine API
+Support for control plane machine sets on Nutanix clusters
+With this release, control plane machine sets are supported for Nutanix clusters. For more information, see Getting started with the Control Plane Machine Set Operator.
+Support for control plane machine sets on RHOSP clusters
+With this release, control plane machine sets are supported for clusters that run on RHOSP.
+
+For more information, see Getting started with the Control Plane Machine Set Operator.
+Support for assigning AWS machines to placement groups
+With this release, you can configure a machine set to deploy machines within an existing AWS placement group. You can use this feature with Elastic Fabric Adapter (EFA) instances to improve network performance for machines within the specified placement group. You can use this feature with compute and control plane machine sets.
+Azure confidential VMs and trusted launch (Technology Preview)
+With this release, you can configure a machine set to deploy machines that use Azure confidential VMs, trusted launch, or both. These machines can use Unified Extensible Firmware Interface (UEFI) security features such as Secure Boot or a dedicated virtual Trusted Platform Module (vTPM) instance.
+
+You can use this feature with compute and control plane machine sets.
+Nodes
+Descheduler resource limits for large clusters
+With this release, the resource limits for the descheduler operand are removed. This enables the descheduler to be used for large clusters with many nodes and pods without failing due to out-of-memory errors.
+Pod topology spread constraints matchLabelKeys parameter is now generally available
+The matchLabelKeys parameter for configuring pod topology spread constraints is now generally available in "Red Hat OpenShift Container Platform" "4.14". Previously, the parameter was available as a Technology Preview feature by enabling the TechPreviewNoUpgrade feature set. The matchLabelKeys parameter takes a list of pod label keys to select the pods to calculate spreading over.
+
+For more information, see Controlling pod placement by using pod topology spread constraints.
+MaxUnavailableStatefulSet enabled
+With this release, the MaxUnavailableStatefulSet featureSet configuration parameter is enabled by default. You can now define the maximum number of StatefulSet pods that can be unavailable during updates; thereby, reducing application downtime when upgrading.
+Pod disruption budget (PDB) unhealthy pod eviction policy
+With this release, specifying an unhealthy pod eviction policy for pod disruption budgets (PDBs) is Generally Available in "Red Hat OpenShift Container Platform" and has been removed from the TechPreviewNoUpgrade featureSet. This helps evict malfunctioning applications during a node drain.
+
+For more information, see Specifying the eviction policy for unhealthy pods.
+Linux Control Groups version 2 is now default
+Beginning with "Red Hat OpenShift Container Platform" 4.14, new installs use Control Groups version 2 by default, also known as cgroup v2, cgroup2, or cgroupsv2. This enhancement includes many bug fixes, performance improvements, and the ability to integrate with new features. cgroup v1 is still used in upgraded clusters that have initial installation dates prior to "Red Hat OpenShift Container Platform" 4.14. cgroup v1 can still be used by changing the cgroupMode field in the node.config object to v1.
+
+For more information, see Configuring the Linux cgroup version on your nodes.
+Monitoring
+The monitoring stack for this release includes the following new and modified features:
+
+Updates to monitoring stack components and dependencies
+This release includes the following version updates for monitoring stack components and dependencies:
+
+kube-state-metrics to 2.9.2
+
+node-exporter to 1.6.1
+
+prom-label-proxy to 0.7.0
+
+Prometheus to 2.46.0
+
+prometheus-operator to 0.67.1
+Changes to alerting rules
+Red Hat does not guarantee backward compatibility for recording rules or alerting rules.
+New
+
+Changed
+
+Removed
+New option to create alerts based on core platform metrics
+With this release, administrators can create new alerting rules based on core platform metrics. You can now modify settings for existing platform alerting rules by adjusting thresholds and by changing labels. You can also define and add new custom alerting rules by constructing a query expression based on core platform metrics in the openshift-monitoring namespace. This feature was included as a Technology Preview feature in the "Red Hat OpenShift Container Platform" 4.12 release, and the feature is now generally available in "Red Hat OpenShift Container Platform" "4.14". For more information, see Managing alerting rules for core platform monitoring.
+New option to specify resource limits for all monitoring components
+With this release, you can now specify resource requests and limits for all monitoring components, including the following:
+
+Alertmanager
+
+kube-state-metrics
+
+monitoring-plugin
+
+node-exporter
+
+openshift-state-metrics
+
+Prometheus
+
+Prometheus Adapter
+
+Prometheus Operator and its admission webhook service
+
+Telemeter Client
+
+Thanos Querier
+
+Thanos Ruler
+
+
+In previous versions of "Red Hat OpenShift Container Platform", you could only set options for Prometheus, Alertmanager, Thanos Querier, and Thanos Ruler.
+New options to configure node-exporter collectors
+With this release, you can customize Cluster Monitoring Operator (CMO) config map settings for additional node-exporter collectors. The following node-exporter collectors are now optional, and you can enable or disable each one individually in the config map settings:
+
+ksmd collector
+
+mountstats collector
+
+processes collector
+
+systemd collector
+
+
+In addition, you can now exclude network devices from the relevant collector configuration for the netdev and netclass collectors. You can also now use the maxProcs option to set the maximum number of processes that can run node-exporter.
+New option to deploy monitoring web console plugin resources
+With this release, the monitoring pages in the Observe section of the "Red Hat OpenShift Container Platform" web console are deployed as a dynamic plugin. With this change, the Cluster Monitoring Operator (CMO) is now the component that deploys the "Red Hat OpenShift Container Platform" web console monitoring plugin resources. You can now use CMO settings to configure the following features of the console monitoring plugin resource:
+
+Node selectors
+
+Tolerations
+
+Topology spread constraints
+
+Resource requests
+
+Resource limits
+Network Observability Operator
+The Network Observability Operator releases updates independently from the "Red Hat OpenShift Container Platform" minor version release stream. Updates are available through a single, rolling stream which is supported on all currently supported versions of "Red Hat OpenShift Container Platform" 4. Information regarding new features, enhancements, and bug fixes for the Network Observability Operator is found in the Network Observability release notes.
+Scalability and performance
+PAO must-gather image added to default must-gather image
+With this release, the Performance Addon Operator (PAO) must-gather image is no longer required as an argument for the must-gather command to capture debugging data related to low-latency tuning. The functions of the PAO must-gather image are now under the default plugin image used by the must-gather command without any image arguments. For further information about gathering debugging information relating to low-latency tuning, see Collecting low latency tuning debugging data for Red Hat Support.
+Collecting data for the NUMA Resources Operator with the must-gather image of the Operator
+In this release, the must-gather tool is updated to collect the data of the NUMA Resources Operator with the must-gather image of the Operator. For further information about gathering debugging information for the NUMA Resources Operator, see Collecting NUMA Resources Operator data.
+Enabling more control over the C-states for each pod
+With this release, you have more control over the C-states for your pods. Now, instead of disabling C-states completely, you can specify a maximum latency in microseconds for C-states. You can configure this option in the cpu-c-states.crio.io annotation. This helps to optimize power savings in high-priority applications by enabling some of the shallower C-states instead of disabling them completely. For further information about controlling pod C-states, see Optional: Power saving configurations.
+Support for provisioning IPv6 spoke clusters from dual-stack hub clusters
+With this update, you can provision IPv6 address spoke clusters from dual-stack hub clusters. In a zero touch provisioning (ZTP) environment, the HTTP server on the hub cluster that hosts the boot ISO now listens on both IPv4 and IPv6 networks. The provisioning service also checks the baseboard management controller (BMC) address scheme on the target spoke cluster and provides a matching URL for the installation media. These updates offer the ability to provision single-stack, IPv6 spoke clusters from a dual-stack hub cluster.
+Dual-stack networking for RHOSP clusters (Technology Preview)
+Dual-stack network configuration is now available for clusters that run on RHOSP. This is a Technology Preview feature. You can configure dual-stack networking during the deployment of a cluster on installer-provisioned infrastructure.
+
+For more information, see Configuring a cluster with dual-stack networking.
+Security group management for RHOSP clusters
+In "Red Hat OpenShift Container Platform" 4.14, security for clusters that run on RHOSP is enhanced. By default, the OpenStack cloud provider now sets the manage-security-groups option for load balancers to true, ensuring that only node ports that are required for cluster operation are open. Previously, security groups for both compute and control plane machines were configured to open a wide range of node ports for all incoming traffic.
+
+You can opt to use the previous configuration by setting the manage-security-groups option to false in the configuration of a load balancer and ensuring that the security group rules permit traffic from 0.0.0.0/0 on the node ports range 30000 through 32767.
+
+For clusters that are upgraded to 4.14, you must manually remove permissive security group rules that open the deployment to all traffic. For example, you must remove a rule that permits traffic from 0.0.0.0/0 on the node ports range 30000 through 32767.
+Using custom CRs with PolicyGenTemplate CRs in the GitOps Zero Touch Provisioning (ZTP) pipeline
+You can now use GitOps ZTP to include custom CRs in addition to the base source CRs provided by the GitOps ZTP plugin in the ztp-site-generate container. For more information, see Adding custom content to the GitOps ZTP pipeline.
+GitOps ZTP independence from managed cluster version
+You can now use GitOps ZTP to provision managed clusters that are running different versions of "Red Hat OpenShift Container Platform". This means that the hub cluster and the GitOps ZTP plugin version can be independent of the version of "Red Hat OpenShift Container Platform" running on the managed clusters. For more information, see Preparing the GitOps ZTP site configuration repository for version independence.
+Pre-caching user-specified images with Topology Aware Lifecycle Manager
+With this release, you can precache your application workload images before upgrading your applications on single-node OpenShift clusters with Topology Aware Lifecycle Manager. For more information, see Pre-caching user-specified images with TALM on single-node OpenShift clusters.
+Disk cleaning option through SiteConfig and GitOps ZTP
+With this release, you can remove the partitioning table before installation by using the automatedCleaningMode field in the SiteConfig CR. For more information, see Deploying a managed cluster with SiteConfig and GitOps ZTP.
+Support for adding custom node labels in the SiteConfig CR through GitOps ZTP
+With this update, you can add the nodeLabels field in the SiteConfig CR to create custom roles for nodes in managed clusters. For more information about how to add custom labels, see Deploying a managed cluster with SiteConfig and GitOps ZTP, Generating GitOps ZTP installation and configuration CRs manually, and single-node OpenShift SiteConfig CR installation reference.
+Insights Operator
+On demand data gathering (Technology Preview)
+In "Red Hat OpenShift Container Platform" "4.14", Insights Operator can now run gather operations on demand. For more information about running gather operations on demand, see Running an Insights Operator gather operation.
+Running gather operations as individual pods (Technology Preview)
+In "Red Hat OpenShift Container Platform" "4.14" Technology Preview clusters, Insights Operator runs gather operations in individual pods. This supports the new on demand data gathering feature.
+Notable technical changes
+"Red Hat OpenShift Container Platform" "4.14" introduces the following notable technical changes.
+
+
+The Kubernetes community plans to deprecate the use of the Kubernetes controller manager to interact with underlying cloud platforms in favor of using cloud controller managers. As a result, there is no plan to add Kubernetes controller manager support for any new cloud platforms.
+
+This release introduces the General Availability of using cloud controller managers for Amazon Web Services and Microsoft Azure.
+
+To learn more about the cloud controller manager, see the Kubernetes Cloud Controller Manager documentation.
+
+To manage the cloud controller manager and cloud node manager deployments and lifecycles, use the Cluster Cloud Controller Manager Operator. For more information, see the Cluster Cloud Controller Manager Operator entry in the Platform Operators reference.
+
+
+Currently, pod security violations are shown as warnings and logged in the audit logs, but do not cause the pod to be rejected.
+
+Global restricted enforcement for pod security admission is currently planned for the next minor release of "Red Hat OpenShift Container Platform". When this restricted enforcement is enabled, pods with pod security violations will be rejected.
+
+To prepare for this upcoming change, ensure that your workloads match the pod security admission profile that applies to them. Workloads that are not configured according to the enforced security standards defined globally or at the namespace level will be rejected. The restricted-v2 SCC admits workloads according to the Restricted Kubernetes definition.
+
+If you are receiving pod security violations, see the following resources:
+
+See Identifying pod security violations for information about how to find which workloads are causing pod security violations.
+
+See Security context constraint synchronization with pod security standards to understand when pod security admission label synchronization is performed. Pod security admission labels are not synchronized in certain situations, such as the following situations:
+
+If necessary, you can set a custom admission profile on the namespace or pod by setting the pod-security.kubernetes.io/enforce label.
+
+
+
+"Red Hat OpenShift Container Platform" "4.14" introduces a RHEL 9.2 based RHCOS. Before this update, SSH keys were located in /home/core/.ssh/authorized_keys on RHCOS. With this update, on RHEL 9.2 based RHCOS, SSH keys are located in /home/core/.ssh/authorized_keys.d/ignition.
+
+If you customized the default OpenSSH /etc/ssh/sshd_config server configuration file, you must update it according to this Red Hat Knowledgebase article.
+
+
+The cert-manager Operator for Red Hat OpenShift 1.11 is now generally available in "Red Hat OpenShift Container Platform" "4.14" and "Red Hat OpenShift Container Platform" 4.13 and "Red Hat OpenShift Container Platform" 4.12.
+
+
+"Red Hat OpenShift Container Platform" "4.14" introduces an optimization of Open Virtual Network Kubernetes (OVN-K) in which its internal architecture was modified to reduce operational latency to remove barriers to scale and performance of the networking control plane. Network flow data is now localized to cluster nodes instead of centralizing information on the control plane. This reduces operational latency and reduces cluster-wide traffic between worker and control nodes. As a result, cluster networking scales linearly with node count, because additional networking capacity is added with each additional node, which optimizes larger clusters. Because network flow is localized on every node, RAFT leader election of control plane nodes is no longer needed, and a primary source of instability is removed. An additional benefit to localized network flow data is that the effect of node loss on networking is limited to the failed node and has no bearing on the rest of the cluster’s networking, thereby making the cluster more resilient to failure scenarios. For more information, see OVN-Kubernetes architecture.
+
+
+"Red Hat OpenShift Container Platform" "4.14" supports Operator SDK 1.31.0. See Installing the Operator SDK CLI to install or update to this latest version.
+
+Operator SDK 1.31.0 supports Kubernetes 1.26.
+If you have Operator projects that were previously created or maintained with Operator SDK 1.28.0, update your projects to keep compatibility with Operator SDK 1.31.0.
+
+Updating Go-based Operator projects
+
+Updating Ansible-based Operator projects
+
+Updating Helm-based Operator projects
+
+Updating Hybrid Helm-based Operator projects
+
+Updating Java-based Operator projects
+
+
+
+Previously, OpenShift CLI (oc) commands that used the registry configuration, for example oc adm release or oc image commands, obtained credentials from Docker configuration file locations, such as ~/.docker/config.json, first. If a registry entry could not be found in the Docker configuration locations, oc commands obtained the credentials from Podman configuration file locations, such as ${XDG_RUNTIME_DIR}/containers/auth.json.
+
+With this release, oc commands now default to obtaining the credentials from Podman configuration locations first. If a registry entry cannot be found in the Podman configuration locations, oc commands obtain the credentials from Docker configuration locations.
+
+Additionally, the oc registry login command now stores credentials in the Podman configuration locations instead of the Docker configuration file locations.
+Deprecated and removed features
+Some features available in previous releases have been deprecated or removed.
+
+Deprecated functionality is still included in "Red Hat OpenShift Container Platform" and continues to be supported; however, it will be removed in a future release of this product and is not recommended for new deployments. For the most recent list of major functionality deprecated and removed within "Red Hat OpenShift Container Platform" "4.14", refer to the table below. Additional details for more functionality that has been deprecated and removed are listed after the table.
+
+In the following tables, features are marked with the following statuses:
+
+General Availability
+
+Deprecated
+
+Removed
+
+
+
+
+
+
+
+
+For "Red Hat OpenShift Container Platform" "4.14", you must install the "Red Hat OpenShift Container Platform" cluster on a VMware vSphere version 7.0 Update 2 or later instance, including VMware vSphere version 8.0, that meets the requirements for the components that you use.
+
+
+
+
+
+
+
+
+
+
+
+
+Deprecated features
+DeploymentConfig resources are now deprecated
+As of "Red Hat OpenShift Container Platform" "4.14", DeploymentConfig objects are deprecated. DeploymentConfig objects are still supported, but are not recommended for new installations. Only security-related and critical issues will be fixed.
+
+Instead, use Deployment objects or another alternative to provide declarative updates for pods.
+Operator-specific CatalogSource CRs used in GitOps ZTP are deprecated
+From "Red Hat OpenShift Container Platform" "4.14", you must only use the DefaultCatSrc.yaml CatalogSource CR when updating Operators with Topology Aware Lifecycle Manager (TALM). All other CatalogSource CRs are deprecated and are planned to be removed in a future release. Red Hat will provide bug fixes and support for this feature during the current release lifecycle, but this feature will no longer receive enhancements and will be removed. For more information about DefaultCatSrc CR, see Performing an Operator update.
+The --cloud parameter for the oc adm release extract command
+As of "Red Hat OpenShift Container Platform" "4.14", the --cloud parameter for the oc adm release extract command is deprecated. The introduction of the --included and --install-config parameters make the --cloud parameter unnecessary.
+
+For more information, see Simplified installation and update experience for clusters with manually maintained cloud credentials.
+Red Hat Virtualization (RHV) as a host platform for "Red Hat OpenShift Container Platform"
+Red Hat Virtualization (RHV) as a host platform for "Red Hat OpenShift Container Platform" was deprecated and is no longer supported. This platform will be removed from "Red Hat OpenShift Container Platform" in a future "Red Hat OpenShift Container Platform" release.
+Using the REGISTRY_AUTH_PREFERENCE environment variable is now deprecated
+Using the REGISTRY_AUTH_PREFERENCE environment variable to specify your preferred location to obtain registry credentials for OpenShift CLI (oc) commands is now deprecated.
+
+OpenShift CLI (oc) commands now default to obtaining the credentials from Podman configuration locations first, but will fall back to checking the deprecated Docker configuration file locations.
+Removed features
+Beta APIs removed from Kubernetes 1.27
+Kubernetes 1.27 removed the following deprecated API, so you must migrate manifests and API clients to use the appropriate API version. For more information about migrating removed APIs, see the Kubernetes documentation.
+Support for the LatencySensitive feature set is removed
+As of "Red Hat OpenShift Container Platform" "4.14", support for the LatencySensitive feature set is removed.
+oc registry login no longer stores credentials in Docker configuration file locations
+As of "Red Hat OpenShift Container Platform" "4.14", the oc registry login command no longer stores registry credentials in the Docker file locations, such as ~/.docker/config.json. The oc registry login command now stores credentials in the Podman configuration file locations, such as ${XDG_RUNTIME_DIR}/containers/auth.json.
+Notice of future deprecation
+Future deprecation of the OpenShift SDN network plugin
+It is currently planned that the OpenShift SDN CNI network plugin will not be an option for new installations in the next minor release of "Red Hat OpenShift Container Platform". However, at that time, it is planned to be supported in clusters that were previously installed with the OpenShift SDN network plugin. In a subsequent future release, the OpenShift SDN network plugin will be removed and no longer supported.
+Bug fixes
+
+Previously, when creating a pod controller with a pod spec that would be mutated by security context constraints, users might get a warning that the pod did not meet the given namespace's pod security level. With this release, you no longer get a warning about pod security violations if the pod controller will create pods that do not violate pod security in that namespace. (OCPBUGS-7267)
+
+A user:check-access scoped token grants sufficient permissions to send a SelfSubjectAccessReview request. Previously, the cluster did not grant sufficient permissions to perform the access review unless the token also had the user:full scope or a role scope. With this release, the cluster authorizes a SelfSubjectAccessReview request as if it has either the full user's permissions or the permissions of the user's role set on the request in order to be able to perform the access review. (OCPBUGS-7415)
+
+Previously, the pod security admission controller required the RoleBinding object's .subject[].namespace field to be set when .subjects[].kind is set to ServiceAccount in order to successfully bind the service account to a role. With this release, the pod security admission controller uses the namespace of the RoleBinding object if the .subject[].namespace is not specified. (OCPBUGS-160)
+
+Previously, the clientConfig of all the webhooks of ValidatingWebhookConfiguration and MutatingWebhookConfiguration objects did not get a properly injected caBundle with the service-ca trust bundle. With this release, the clientConfig of all the webhooks of ValidatingWebhookConfiguration and MutatingWebhookConfiguration objects now get a properly injected caBundle with the service-ca trust bundle. (OCPBUGS-19318)
+
+Previously, kube-apiserver did not change to Degraded=True when an invalid secret name was specified for servingCertificate in  namedCertificates. With this release, kube-apiserver now switches to Degraded=True and shows why the certificate was not accepted to allow for easier troubleshooting. (OCPBUGS-8404)
+
+Previously, observability dashboards used large queries to show data which caused frequent timeouts on clusters with a large number of nodes. With this release, observability dashboards use recording rules that are precalculated to ensure reliability on clusters with a large number of nodes. (OCPBUGS-3986)
+
+
+
+Previously, if the hostname of a bare-metal machine was not provided by either reverse DNS or DHCP, it would default to localhost during bare-metal cluster provisioning on installer-provisioned infrastructure. This issue caused Kubernetes node name conflicts and prevented the cluster from being deployed. Now, if the hostname is detected to be localhost, the provisioning agent sets the persistent hostname to the name of the BareMetalHost object. (OCPBUGS-9072)
+
+
+
+Previously, the Machine API controller could not determine the zone of machines in vSphere clusters that use multiple zones. With this release, the zone lookup logic is based on the host of a VM and, as a result, machine objects indicate proper zones. (OCPBUGS-7249)
+
+Previously, after the rotation of cloud credentials in the clouds.yaml file, the OpenStack machine API provider would need to be restarted in order to pick up the new cloud credentials. As a result, the ability of a machine set to scale to zero could be affected. With this change, cloud credentials are no longer cached, and the provider reads the corresponding secret freshly as needed. (OCPBUGS-8687)
+
+Previously, some conditions during the startup process of the Cluster Autoscaler Operator caused a lock that prevented the Operator from successfully starting and marking itself as available. As a result, the cluster became degraded. The issue is resolved with this release. (OCPBUGS-20038)
+
+Previously, the bootstrap credentials used to request client credentials for control plane nodes did not include the generic, all service accounts group. As a result, the cluster machine approver ignored certificate signing requests (CSRs) created during this phase. In certain conditions, this prevented approval of CSRs during bootstrap and caused the installation to fail. With this release, the bootstrap credential includes the groups that the cluster machine approver expects for a service account. This change allows the machine approver to take over from the bootstrap CSR approver earlier in the cluster lifecycle and should reduce bootstrap failures related to CSR approval. (OCPBUGS-8349)
+
+Previously, if scaling the machines on a Nutanix cluster exceeded the available memory to complete the operation, machines would get stuck in the Provisioning state and could not be scaled up or down. The issue is resolved in this release. (OCPBUGS-19731)
+
+Previously, for clusters on which the Control Plane Machine Set Operator is configured to use the OnDelete update strategy, cached information about machines caused the Operator to balance machines incorrectly and place them in an unexpected failure domain during reconciliation. With this release, the Operator refreshes this information immediately before creating new machines so that it correctly identifies the failure domains to place machines in. (OCPBUGS-15338)
+
+Previously, the Control Plane Machine Set Operator used the Infrastructure object specification to determine the platform type for the cluster. For clusters upgraded from "Red Hat OpenShift Container Platform" version 4.5 and earlier, this practice meant that the Operator could not correctly determine that a cluster was running on AWS, and therefore did not generate the ControlPlaneMachineSet custom resource (CR) as expected. With this release, the Operator uses the status platform type, which is populated on all clusters independent of when they were created and is now able to generate the ControlPlaneMachineSet CR for all clusters. (OCPBUGS-11389)
+
+Previously, machines created by a control plane machine set were considered ready once the underlying Machine API machine was running. With this release, the machine is not considered ready until the node linked to that machine is also ready. (OCPBUGS-7989)
+
+Previously, the Control Plane Machine Set Operator prioritized failure domains alphabetically and moved machines from alphabetically later failure domains to alphabetically earlier failure domains, even if doing so did not improve the availability of the machines across the failure domains. With this release, the Operator is updated to prioritize failure domains that are present in the existing machines and to respect existing failure domains that provide better availability. (OCPBUGS-7921)
+
+Previously, when a control plane machine on a vSphere cluster that uses a control plane machine set was deleted, sometimes two replacement machines were created. With this release, the control plane machine set no longer causes an extra machine to be created. (OCPBUGS-7516)
+
+Previously, when the availability zone and subnet ID in a machine set were mismatched, a machine was created successfully by using the machine set specification with no indication to the user of the mismatch. Because the mismatched values can cause problems with some configurations, this occurrence might be visible as a warning message. With this release, a warning about the mismatch is logged. (OCPBUGS-6882)
+
+Previously, when creating an "Red Hat OpenShift Container Platform" cluster on Nutanix that uses Dynamic Host Configuration Protocol (DHCP) instead of an IP address management (IPAM) network configuration, the hostname of the VM was not set by DHCP. With this release, the VM hostname is set with values from the ignition configuration files. As a result, the issue is resolved for DHCP as well as other network configuration types. (OCPBUGS-6727)
+
+Previously, multiple clusters could be created in the openshift-cluster-api namespace. This namespace must contain only one cluster. With this release, additional clusters cannot be created in this namespace. (OCPBUGS-4147)
+
+Previously, clearing some parameters from the providerSpec field of a control plane machine set custom resource caused a loop of control plane machine deletion and creation. With this release, these parameters receive a default value if they are cleared or left empty, which resolves the issue. (OCPBUGS-2960)
+
+
+
+Previously, the Cloud Credential Operator utility (ccoctl) used an incorrect Amazon Resource Names (ARN) prefix for AWS GovCloud (US) and AWS China regions. The incorrect ARN prefix caused the ccoctl aws create-all command that is used to create AWS resources during installation to fail. This release updates the ARN prefixes to the correct values. (OCPBUGS-13549)
+
+Previously, security changes to Amazon S3 buckets caused the Cloud Credential Operator utility (ccoctl) command that is used to create AWS resources during installation (ccoctl aws create-all) to fail. With this release, the ccoctl utility is updated to reflect the Amazon S3 security changes. (OCPBUGS-11671)
+
+
+
+Previously, the Cluster Version Operator (CVO) did not reconcile SecurityContextConstraints resources as expected. The CVO now properly reconciles SecurityContextConstraints resources towards the state defined in the release image, reverting any unsupported modifications to them.
+
+Previously, the Cluster Version Operator did not prioritize likely targets when determining which conditional update risks to evaluate first. Now for conditional updates to which risks do not apply, these updates are available faster after Cluster Version Operator detection. . (OCPBUGS-5469)
+
+
+
+Previously, if you tried to edit a Helm chart repository in the Developer console by navigating to Helm, clicking the Repositories tab, then selecting Edit HelmChartRepository through the  menu for your Helm chart repository, an Error page displayed a 404: Page Not Found error. This was caused by a component path that was not up to date. This issue is now fixed. (OCPBUGS-14660)
+
+Previously, distinguishing between the types of samples listed in the Samples page was difficult. With this fix, you can easily identify the sample type from the badges displayed on the Samples page. (OCPBUGS-7446)
+
+Previously on the Pipeline Metrics page, only four legends were visible for TaskRun duration charts. With this update, you can see all the legends present for the TaskRun duration charts. (OCPBUGS-19878)
+
+Previously, an issue occurred when creating an application by using the Import JAR form in a disconnected cluster with the Cluster Samples Operator not installed. With this update, the Import JAR form from the Add page and the Topology page is hidden when the Java Builder Image is absent. (OCPBUGS-15011)
+
+Previously, the Operator backed catalog did not show any catalog items if cluster service version (CSV) copies were disabled. With this fix, Operator backed catalogs are shown in every namespace even if CSV copies are disabled. (OCPBUGS-14907)
+
+Previously, in the Import from Git and Deploy Image flows, the Resource Type section was moved to Advanced section. As a result, it was difficult to identify the type of resource created. With this fix, the Resource Type section is moved to the General section. (OCPBUGS-7395)
+
+
+
+Previously, the etcdctl binary was cached on the local machine indefinitely, making updates to the binary impossible. The binary is now properly updated on every invocation of the cluster-backup.sh script. (OCPBUGS-19499)
+
+
+
+Previously, if you did not specify a custom Red Hat Enterprise Linux CoreOS (RHCOS) Amazon Machine Image (AMI) when installing an AWS cluster to a supported secret partition, the installation failed. With this update, the installation program validates that you have specified the ID of an RHCOS AMI in the installation configuration file before deploying the cluster. (OCPBUGS-13636)
+
+Previously, the "Red Hat OpenShift Container Platform" installation program did not find private hosted zones in the host project during installations on Google Cloud Platform (GCP) by using a shared VPC. With this update, the installation program checks for an existing private hosted zone in the host project and uses the private hosted zone if it exists. (OCPBUGS-11736)
+
+Previously, if you configured user-defined outbound routing when installing a private Azure cluster, the cluster was incorrectly deployed with the default public load balancer. This behavior occurred when using the installer-provisioned infrastructure to install the cluster. With this update, the installation program no longer creates the public load balancer when user-defined routing is configured. (OCPBUGS-9404)
+
+Previously, for clusters that run on RHOSP, in the deprovisioning phase of installation, the installer deleted object storage containers sequentially. This behavior caused slow and inefficient deletion of objects, especially with large containers. This problem occurred in part because image streams that use Swift containers accumulated objects over time. Now, bulk object deletion occurs concurrently with up to 3 calls to the RHOSP API, improving efficiency by handling a higher object count per call. This optimization speeds up resource cleanup during deprovisioning. (OCPBUGS-9081)
+
+Previously, SSH access to bootstrap and cluster nodes failed when the bastion host ran in the same VPC network as the cluster nodes. Additionally, this configuration caused SSH access from the temporary bootstrap node to the cluster nodes to fail. These issues are now fixed by updating the IBM Cloud SecurityGroupRules to support SSH traffic between the temporary bootstrap node and cluster nodes, and to support SSH traffic from a bastion host to cluster nodes on the same VPC network. Log and debug information can be accurately collected for analysis during installer-provisioned infrastructure failure.(OCPBUGS-8035)
+
+Previously, DNS records that the installation program created were not removed when uninstalling a private cluster. With this update, the installation program now correctly removes these DNS records. (OCPBUGS-7973)
+
+Previously, a script provided in the documentation for checking invalid HTTPS certificates in the RHOSP API assumed a recent version of the RHOSP client. For users who did not have a recent version of the client, this script failed. Now, manual instructions are added to the documentation that users can follow to perform the check with any version of the client. (OCPBUGS-7954)
+
+Previously, when defining static IP addresses in the agent-config.yaml or nmstateconfig.yaml files for the configuration of an Agent-based install, the configured static IP addresses might not have been configured during bootstrap. As a result, the host interfaces would choose an address through DHCP. With this update, timing issues are fixed to ensure that the configured static IP address is correctly applied to the host interface. (OCPBUGS-16219)
+
+Previously, during an Agent-based installation, the certificates in the AdditionalTrustBundle field of the install-config.yaml file were only propagated to the final image when the ImageContentSources field was also set for mirroring. If mirroring was not set, the additional certificates were on the bootstrap but not the final image. This situation can cause issues when you have set up a proxy and want to add additional certificates as described in Configuring the cluster-wide proxy during installation. With this update, these additional certificates are propagated to the final image whether or not the ImageContentSources field is also set. (OCPBUGS-13535)
+
+Previously, the openshift-install agent create command did not return the help output when running an invalid command. With this update, the help output is now shown when you run an invalid openshift-install agent create command. (OCPBUGS-10638)
+
+Previously, primary networks were not correctly set for generated machines that used Technology Preview failure domains. As a consequence, port targets with the ID control-plane were not set as the primary network on machines, which could cause installations that use Kuryr to function improperly. The field is now set to use the proper port target, if set. The primary network for generated machines is now set correctly, allowing installations that use Kuryr to complete. (OCPBUGS-10570)
+
+Previously, when running the openshift-install agent create image command while using a releaseImage that contained a digest, the command produced the following warning message: WARNING The ImageContentSources configuration in install-config.yaml should have at-least one source field matching the releaseImage. This message was produced every time, regardless of how ImageContentSources was configured, and could cause confusion. With this update, the warning message is only produced when ImageContentSources is legitimately not set to have at least one source field matching the release image. (OCPBUGS-10207)
+
+Previously, when running the openshift-install agent create image command to generate a bootable ISO image, the command output provided a message indicating a successful generated image. This output message existed even if the Agent-based installer could not extract a base ISO image from the release image. With this update, the command output now produces an error message if the Agent-based Installer cannot locate the base ISO image, which might be indicative of an issue with releaseImage. (OCPBUGS-9949)
+
+Previously, shared VPC installations on GCP that used passthrough credentials mode could fail because the installation program used credentials from the default service account. With this update, you can specify another service account to use for node creation instead of the default. (OCPBUGS-15421)
+
+Previously, if you defined more control plane nodes than compute nodes in either the agent-config.yaml or the nmstateconfig.yaml configuration file, you received a warning message. Now, if you specify this configuration in either file, you receive an error message, which indicates that compute nodes cannot exceed control plane nodes in either file. (OCPBUGS-14877)
+
+Previously, an Agent-based installation would fail if a non-canonical IPv6 address was used for the RendezvousIP field in the agent-config.yaml file. Non-canonical IPv6 addresses contain leading zeros, for example, 2001:0db8:0000:0000:0000:0000:0000:0000. With this update, these valid addresses can now be used for the RendezvousIP. (OCPBUGS-14121)
+
+Previously, the Operator cached the cloud credentials, which resulted in authentication issues when these credentials were rotated. Now, the Operator always uses the latest credentials. The Manila CSI Driver Operator now automatically creates an OpenShift storage class for each available Manila share type. As part of this operation, the Operator queries the Manila API. (OCPBUGS-14049)
+
+Previously, when configuring the install-config.yaml file for use during an Agent-based installation, changing the cpuPartitioning field to a non-default value did not produce a warning to alert users that the field is ignored for Agent-based installations. With this update, changing the cpuPartitioning field causes a warning to users that the configuration does not impact the install. (OCPBUGS-13662)
+
+Previously, installing an Azure cluster into an existing Azure Virtual Network (VNet) could fail because the installation program created a default network security group, which allowed traffic from 0.0.0.0. The failure occurred when the existing VNet had the following rule enabled in the tenant: Rule: Network Security Groups shall not allow rule with 0.0.0.0/Any Source/Destination IP Addresses - Custom Deny. With this fix, the installation program no longer creates the default network security group when installing a cluster into an existing VNet, and the installation succeeds. (OCPBUGS-11796)
+
+During an installation, when the cluster status is installing-pending-user-action, the installation does not complete until the status is resolved. Previously, if you ran the openshift-install agent wait-for bootstrap-complete command, no indication existed of how to resolve the problem that caused this status. With this update, the command output provides a message indicating which actions must be taken to resolve the issue. (OCPBUGS-4998)
+
+Previously, the assisted-installer-controller on the installed cluster would run continuously even after the cluster had completed installation. Because assisted-service runs on the bootstrap node and not on the cloud, and because the assisted-service goes offline after the bootstrap node reboots to join the cluster, the assisted-installer-controller was unable to communicate with assisted-service to post updates and upload logs and loops. Now, the assisted-installer-controller checks the cluster installation without using assisted-service, and exits when the cluster installation is complete. (OCPBUGS-4240)
+
+Previously, installing a cluster to the AWS Commercial Cloud Services (C2S) us-iso-east-1 region failed with an error message stating an UnsupportedOperation. With this fix, installing to this region now succeeds. (OCPBUGS-2324)
+
+Previously, installations on AWS could fail because the installation program did not create the cloud.conf file with the necessary service endpoints in it. This led to the machine config operator creating an empty cloud.conf file that lacked the service endpoints, leading to an error. With this update, the installation program always creates the cloud.conf file so that the installation succeeds. (OCPBUGS-20401)
+
+Previously, if you installed a cluster using the Agent-based installer and your pull secret had a null auth or email field, the installation would fail without providing a useful error. With this update, the openshift-install agent wait-for install-complete command validates your pull secret and notifies you if there are null fields. (OCPBUGS-14405)
+
+Previously, the create agent-config-template command printed a line with INFO only, but no details about whether the command was successful and where the template file was written to. Now, if the command is successful, the command will print INFO Created Agent Config Template in <path> directory. (OCPBUGS-13408)
+
+Previously, when a user specified the vendor hint in the agent-config.yaml file, the value was checked against the wrong field so that the hint would not match. With this update, the use of the vendor hint correctly selects a disk. (OCPBUGS-13356)
+
+Previously, setting the metadataService.authentication field to Required when installing a cluster on AWS did not configure the bootstrap VM to use IMDSv2 authentication. This could result in installations failing if you configured your AWS account to block IMDSv1 authentication. With this update, the metadataService.authentication field correctly configures the bootstrap VM to use IMDSv2 authentication when set to Required. (OCPBUGS-12964)
+
+Previously, if you configured user-defined outbound routing when installing a private Azure cluster, the cluster was incorrectly deployed with the default public load balancer. This behavior occurred when using the installer-provisioned infrastructure to install the cluster. With this update, the installation program no longer creates the public load balancer when user-defined routing is configured. (OCPBUGS-9404)
+
+Previously, the vSphere Terraform vsphere_virtual_machine resource did not include the firmware parameter. This issue caused the firmware of the VM to be set to bios by default instead of efi. Now, the resource includes the firmware parameter and sets efi as the default value for the parameter, so that the VM runs the Extensible Firmware Interface (EFI) instead of the basic input/output system (BIOS) interface. (OCPBUGS-9378)
+
+Previously, for clusters that run on RHOSP, in the deprovisioning phase of installation, the installer deleted object storage containers sequentially. This behavior caused slow and inefficient deletion of objects, especially with large containers. This problem occurred in part because image streams that use Swift containers accumulated objects over time. Now, bulk object deletion now occurs concurrently with up to 3 calls to the RHOSP API, improving efficiency by handling a higher object count per call. This optimization speeds up resource cleanup during deprovisioning. (OCPBUGS-9081)
+
+Previously, the installation program did not exit with an error if you installed a cluster on Azure by using disk encryption without providing a subscription ID. This caused the installation to begin, and then only to fail later on. With this update, the installation program requires you to specify a subscription ID for encrypted Azure installations and exits with an error if you do not provide one. (OCPBUGS-8449)
+
+Previously, the Agent-based installer showed the results of secondary checks such as ping and nslookup, which can harmlessly fail even when the installation succeeds. This could result in errors being displayed despite the cluster installing successfully. With this update, secondary checks only display results if the primary installation checks fail, so that you can use the secondary checks to troubleshoot the failed installation. (OCPBUGS-8390)
+
+Using an IPI install-config with the Agent-based Installer results in warning log messages showing the contents of any unused fields. Previously, these warnings printed sensitive information such as passwords. With this update, the warning messages for the credentials fields in the vsphere and baremetal platform sections have been changed to avoid logging any sensitive information. (OCPBUGS-8203)
+
+Previously, clusters on Azure Stack Hub could not create new control plane nodes unless the nodes had custom disk sizes, because the default disk size could not be validated. With this update, the default disk size has been set to 128 GB and the installation program enforces user-specified disk size values between 128 and 1023 GB. (OCPBUGS-6759)
+
+Previously, the installation program used port 80 to provide images to the Baseboard Management Controller (BMC) and the deployment agent when installing on bare metal with installer-provisioned infrastructure. This could present security concerns because many types of public traffic use port 80. With this update, the installation program uses port 6180 for this purpose. (OCPBUGS-8509)
+
+
+
+Previously, "Red Hat OpenShift Container Platform" clusters that were installed on AWS used 4.1 boot images that were not able to scale up. This issue occurred because two systemd units, configured from Ignition then rendered and launched by the MCO during the initial boot of a new machine, have a dependency on the application Afterburn. Because "Red Hat OpenShift Container Platform" 4.1 boot images do not contain Afterburn, this issue prevented new nodes from being able to join the cluster. Now, systemd units contain an additional check for Afterburn along with fallback code that does not rely on the presence of Afterburn. (OCPBUGS-7559)
+
+
+
+Previously, alerts loaded from non-Prometheus datasources such as logs. This caused the source of all alerts to be displayed always as Prometheus. With this update, alert sources are displayed correctly. (OCPBUGS-9907)
+
+Previously, there was an issue with Patternfly 4 where you could not select or change the log component under the logs section of master node once a selection was already made. With this update, when you change to the log component from the log section of the master node, refresh the page to reload the default options. (OCPBUGS-18727)
+
+Previously, an empty page was displayed when viewing route details on the Metrics tab of the alertmanager-main page. With this update, user privileges were updated so you can view the route details on the Metrics tab. (OCPBUGS-15021)
+
+Previously, Red Hat OpenShift Service on AWS used custom branding and the favicon would disappear so no specific branding appeared when custom branding was being used. With this update, Red Hat OpenShift Service on AWS branding is now part of the branding API. (OCPBUGS-14716)
+
+Previously, the "Red Hat OpenShift Container Platform" web console did not render the monitoring Dashboard page when a proxy was expected. As a result, the websocket connection failed. With this update, the web console also detects proxy settings from environment variables. (OCPBUGS-14550)
+
+Previously, if the console.openshift.io/disable-operand delete: "true" and operator.openshift.io/uninstall-message: "some message" annotations were used on an operator CSV, the uninstall instructions did not show up in the web console. With this update, the instructions to opt out of the installment are available. (OCPBUGS-13782)
+
+Previously, the size on the PersistentVolumeClaims namespace Details page was incorrect. With this update, the Prometheus query on PersistentVolumeClaims namespace Details page includes the namespace label and the size is now correct. (OCPBUGS-13208)
+
+Previously, after customizing the routes for console and downloads, the downloads route did not update in the ConsoleCLIDownloads link and pointed to the default downloads route. With this update, the ConsoleCLIDownloads link updates when the custom downloads route is set. (OCPBUGS-12990)
+
+Previously, the print preview displayed incomplete topology information from the list view. With this update, a full list of resources is printed when they are longer than one page. (OCPBUGS-11219)
+
+Previously, dynamic plugins that proxy to services with longer response times timed out at 30 seconds with a 504 error message. With this update, a 5-minute HAProxy timeout annotation was added to the console route to match the maximum timeout of most browsers. (OCPBUGS-9917)
+
+Previously, the provided API page used the displayName of the provided API, but this value was not always set. As a result, the list was empty but you could still click all instances to get to the YAML of a new instance. With this update, if the displayName is not set, the list displays text. (OCPBUGS-8682)
+
+Previously, the CronJobs table and details view did not have a suspend indication. With this update, spec.suspend was added to the list and details view for CronJobs. (OCPBUGS-8299)
+
+Previously, when enabling a single plugin in the configuration of the console operator, the redeployed console fails. With this update, the list of plugins is now unique and pods run as expected. (OCPBUGS-5059)
+
+Previously, after upgrading a plugin image, old plugin files were still requested. With this update, the ?cacheBuster=${getRandomChars()} query string was added when plugin-entry.js resources are requested. (OCPBUGS-3495)
+
+
+
+Before this update, large amounts of CPU resources might be consumed during metrics scraping as a result of the way the node-exporter collected network interface information. This release fixes this issue by improving the performance of node-exporter when collecting network interface information, thereby resolving the issue with excessive CPU usage during metrics scraping. (OCPBUGS-12714)
+
+Before this update, Thanos Querier failed to de-duplicate metrics by node roles. This update fixes the issue so that Thanos Querier now properly de-duplicates metrics by node roles. (OCPBUGS-12525)
+
+Before this update, the btrfs collector of node-exporter was always enabled, which caused increased CPU usage because Red Hat Enterprise Linux (RHEL) does not support the btrfs storage format. With this update, the btrfs collector is now disabled, thereby resolving the issue. (OCPBUGS-11434)
+
+Before this update, for the cluster:capacity_cpu_cores:sum metric, nodes with the infra role but not master role were not assigned a value of infra for the label_node_role_kubernetes_io label. With this update, nodes with the infra role, but not master role, are now correctly labeled as infra for this metric. (OCPBUGS-10387)
+
+Before this update, the lack of a startup probe prevented the Prometheus Adapter pods from starting when the Kubernetes API had many custom resource definitions installed because the program initialization would take longer than what was allowed by the liveness probe. With this update, the Prometheus Adapter pods are now configured with a startup probe that waits five minutes before failing, thereby resolving the issue. (OCPBUGS-7694)
+
+The node_exporter collector is meant to collect network interface metrics for physical interfaces only, but before this update, the node-exporter collector did not exclude Calico Virtual network interface controllers (NICs) when collecting these metrics. This update adds the cali[a-f0-9]* value to the collector.netclass.ignored-devices list to ensure that metrics are not collected for Calico Virtual NICs. (OCPBUGS-7282)
+
+With this release, as a security measure, Cross Origin Resource Sharing (CORS) headers are now disabled by default for Thanos Querier. If you still need to use CORS headers, you can enable them by setting the value of the enableCORS parameter to true for the ThanosQuerierConfig resource. (OCPBUGS-11889)
+
+
+
+Previously, when a client mutual TLS (mTLS) was configured on an ingress controller, and the certificate authority (CA) certificates in the CA bundle required more than 1 MB of certificate revocation lists (CRL) to be downloaded, the CRL config map could not be updated due to size limitations. Because of the missing CRLs, connections with valid client certificates might have been rejected with the following error: unknown ca.
+
+Previously, a non-compliant upstream DNS server that provided a UDP response larger than "Red Hat OpenShift Container Platform"'s specified buffer size of 512 bytes caused CoreDNS to throw an overflow error. Consequently, it would not provide a response to a DNS query.
+
+Previously, if cluster administrators configured an infra node using a taint with the NoExecute effect, the Ingress Operator's canary pods would not be scheduled on these infra nodes. After some time, the DaemonSet configuration would get overridden, and the pods would be terminated on the infra nodes.
+
+Previously, when a client mutual TLS (mTLS) was configured on an ingress controller, if any of the client certificate authority (CA) certificates included a certificate revocation list (CRL) distribution point for a CRL issued by a different CA and that CRL expired, the mismatch between the distributing CA and the issuing CA caused the incorrect CRL to be downloaded. Consequently, the CRL bundle would be updated to contain an extra copy of the erroneously downloaded CRL, and the CRL that needed to be updated would be missing. Because of the missing CRL, connections with valid client certificates might have been rejected with the following error: unknown ca.
+
+Previously, when the Gateway API was enabled for Red Hat OpenShift Service Mesh, the Ingress Operator would fail to configure and would return the following error: the spec.techPreview.controlPlaneMode field is not supported in version 2.4+; use spec.mode. With this release, the Service Mesh spec.techPreview.controlPlaneMode API field in the ServiceMeshControlPlane custom resource (CR) has been replaced with spec.mode. As a result, the Ingress Operator is able to create a ServiceMeshControlPlane custom resource, and the Gateway API works properly. (OCPBUGS-10714)
+
+Previously, when configuring DNS for Gateway API gateways, the Ingress Operator would attempt to create a DNS record for a gateway listener, even if the listener specified a hostname with a domain that was outside of the cluster's base domain. Consequently, the Ingress Operator attempted, and failed, to publish DNS records, and would return the following error: failed to publish DNS record to zone.
+
+Previously, the oc explain route.spec.tls.insecureEdgeTerminationPolicy command documented the incorrect possible options that could be confusing to some users. With this release, the API documentation has been updated so that it shows the correct possible options for the insecureEdgeTerminationPolicy field. This is an API documentation fix only. (OCPBUGS-11393)
+
+Previously, a Cluster Network Operator controller monitored a broader set of resources than necessary, which resulted in its reconciler being triggered too often. Consequently, this increased the loads on both the Cluster Network Operator and the kube-apiserver.
+
+segfault failures that were related to HaProxy have been resolved. Users should no longer receive these errors. (OCPBUGS-11595)
+
+Previously, CoreDNS terminated unexpectedly if a user created an EndpointSlice port without a port number. With this update, validation was added to CoreDNS to prevent it from unexpectedly terminated. (OCPBUGS-19805)
+
+Previously, the OpenShift router directed traffic to a route with a weight of 0 when it had only one back-end service. With this update, the router no longer sends traffic to routes with a single backend with weight 0. (OCPBUGS-16623)
+
+Previously, the Ingress Operator created its canary route without specifying the spec.subdomain or the spec.host parameter on the route. Usually, this caused the API server to use the cluster's Ingress domain, which matches the domain of the default Ingress Controller, to set a default value for the spec.host parameter. However, if you configured the cluster by using the appsDomain option to set an alternative Ingress domain, the route host would have the alternative domain. Further, if you deleted the canary route, the route would be recreated with a domain that did not match the default Ingress Controller's domain, which would cause canary checks to fail. Now, the Ingress Controller specifies the spec.subdomain parameter when it creates the canary route. If you use the appsDomain option to configure your cluster and then delete the canary route, the canary checks do not fail. (OCPBUGS-16089)
+
+Previously, the Ingress Operator did not check status of DNS records in public hosted zones when updating the Operator status. This caused the Ingress Operator to report the DNS status as Ready when there could be errors in DNS records in public hosted zones. Now, the Ingress Operator checks the status of both public and private hosted zones, which fixes the issue. (OCPBUGS-15978)
+
+Previously, the CoreDNS bufsize setting was configured as 512 bytes. Now, the maximum size of the buffer for "Red Hat OpenShift Container Platform" CoreDNS is 1232 bytes. This modification enhances DNS performance by reducing the occurrence of DNS truncations and retries. (OCPBUGS-15605)
+
+Previously, the Ingress Operator would specify the spec.template.spec.hostNetwork: true parameter on a router deployment without specifying the spec.template.spec.containers[].ports[].hostPort. This caused the API server to set a default value for each port's hostPort field, which the Ingress Operator would then detect as an external update and attempt to revert it. Now, the Ingress Operator no longer incorrectly performs these updates. (OCPBUGS-14995)
+
+Previously, the DNS Operator logged the cluster-dns-operator startup has an error message: [controller-runtime] log.SetLogger(&#8230;&#8203;) was never called, logs will not be displayed: error message on startup, which could mislead users. Now, the error message is not displayed on startup. (OCPBUGS-14395)
+
+Previously, the Ingress Operator was leaving the spec.internalTrafficPolicy, spec.ipFamilies, and spec.ipFamilyPolicy fields unspecified for NodePort and ClusterIP type services. The API would then set default values for these fields, which the Ingress Operator would try to revert. With this update, the Ingress Operator specifies an initial value and fixes the error caused by API default values. (OCPBUGS-13190)
+
+Previously, transmission control protocol (TCP) connections were load balanced for all DNS. With this update, TCP connections are enabled to prefer local DNS endpoints. (OCPBUGS-9985)
+
+Previously, for Intel E810 NICs, resetting a MAC address on an SR-IOV with a virtual function (VF) when a pod was deleted caused a failure. This resulted in a long delay when creating a pod with SR-IOV VF. With this update, the container network interface (CNI) does not fail fixing this issue. (OCPBUGS-5892)
+
+
+
+Previously, container image references that have both tag and digest were not correctly interpreted by the oc-mirror plug-in and resulted in the following error:
+
+Previously, you were receiving 401 - Unauthorized error for registries where the number of path components exceeded the expected maximum path components. This issue is fixed by ensuring that the oc-mirror fails when the number of path components exceeds maximum path components. You can now set the maximum path components by using the flag --max-nested-paths, which accepts an integer value. By default, there is no limit to the maximum path components and is set to 0. The generated ImageContentSourcePolicy will contain source and mirror references up to the repository level.
+(OCPBUGS-8111, OCPBUGS-11910, OCPBUGS-11922)
+
+Previously, the oc-mirror flags --short, -v, and --verbose provided incorrect version information. You can now use the oc mirror version flag to know the correct version of oc-mirror. The oc-mirror flags --short, -v, and --verbose have been deprecated and will no longer be supported. (OCPBUGS-7845)
+
+Previously, mirroring from registry to disk would fail when several digests of an image were specified in the imageSetConfig without tags. The oc-mirror would add the default tag latest to the images. The issue is now fixed by using a truncated digest as the tag. (OCPBUGS-2633)
+
+Previously, oc-mirror would incorrectly add the Operator catalog to ImageContentSourcePolicy specification. This is an unexpected behavior because the Operator catalog is directly used from the destination registry through CatalogSource resource. This bug is fixed by ensuring that the oc-mirror does not add the Operator catalog as an entry to ImageContentSourcePolicy. (OCPBUGS-10051)
+
+Previously, mirroring images for Operators would fail when the registry domain name was not a part of the image reference. With this fix, the images are downloaded from docker.io if the registry domain name is not specified.(OCPBUGS-10348)
+
+Previously, when both tag and digest were included in container image references, oc-mirror would incorrectly interpret it resulting in an invalid reference format error. This issue has been fixed and the images are successfully mirrored. (OCPBUGS-11840)
+
+Previously, you could not create a CatalogSource resource if the name started with a number. With this fix, by default, the CatalogSource resource name is generated with the cs- prefix and is compliant with RFC 1035. (OCPBUGS-13332)
+
+Previously, when using the registries.conf file, some images were not included in the mapping. With this bug fix, you can now see the images included in the mapping without any errors. (OCPBUGS-13962)
+
+Previously, while using the insecure mirrors in the registries.conf file that is referenced in --oci-registries-config flag, oc-mirror tried to establish an HTTPS connection with the mirror registry. With this fix, you can configure oc-mirror to not use an HTTPS connection by specifying either --source-skip-tls or --source-use-http in the command line. (OCPBUGS-14402)
+
+Previously, image mirroring would fail when you attempted to mirror OCI indexes by using oc-mirror plugins. With this fix, you can mirror OCI indexes by using oc-mirror plugins. (OCPBUGS-15329)
+
+Previously, when mirroring several large catalogs on a low-bandwidth network, mirroring would be interrupted due to an expired authentication token resulting in an HTTP 401 unauthorized error. This issue is now fixed by refreshing the authentication tokens before starting the mirroring process of each catalog. (OCPBUGS-20137)
+
+
+
+Before this update, Operator Lifecycle Manager (OLM) could cause failed installations due to initialization errors when the API server was busy. This update fixes the issue by adding a one-minute-retry interval for initialization errors.
+(OCPBUGS-13128)
+
+Before this update, a race condition occurred if custom catalogs used the same names as the default Red Hat catalogs in a disconnected environment. If the default Red Hat catalogs were disabled, the catalogs were created at start and deleted after the OperatorHub custom resource (CR) was reconciled. As a result, the custom catalogs were deleted along with the default Red Hat catalogs. With this update, the OperatorHub CR is reconciled before any catalogs are deleted, preventing the race condition.
+(OCPBUGS-9357)
+
+Before this update, the channels of some Operators were displayed on OperatorHub in a random order. With this update, Operator channels are displayed in lexicographical order.
+(OCPBUGS-7910)
+
+Before this update, registry pods were not drained gracefully by the autoscaler if the controller flag was not set to true in the owner references file. With this update, the controller flag is set to true and draining nodes no longer requires a forceful shutdown.
+(OCPBUGS-7431)
+
+Before this update, collect-profiles pods caused regular spikes of CPU usage due to the way certificates were generated. With this update, certificates are generated daily, the loading of the certificate is optimized, and CPU usage is lower.
+(OCPBUGS-1684)
+
+
+
+Previously, the metadata.namespace field would be automatically populated in update and patch requests to the projects resource. As a result, the affected requests would generate spurious validation errors. With this release, the projects resource is no longer automatically populated. (OCPBUGS-8232)
+
+
+
+Previously, pods in "Red Hat OpenShift Container Platform" that access block persistent volume claims (PVC) storage with logical volume manager (LVM) metadata could get stuck when terminating. This is because the same LVM devices were active both inside the container and on the host. An example of this occurred when running a virtual machine inside a pod that used OpenShift Virtualization that in turn used LVM for the virtual machine. With this update, RHCOS by default only attempts to setup and access devices that are in the /etc/lvm/devices/system.devices file. This prevents contentious access to the LVM devices inside the virtual machine guests. (OCPBUGS-5223)
+
+Previously, pods were stuck in the ContainerCreating state on Google Cloud Platform (GCP) Confidential Computing instances, which caused a volume mount failure. This fix adds support for the Persistent Disk storage type for Confidential Computing instances in Google Cloud Platform, which can be used as persistent volumes in "Red Hat OpenShift Container Platform". As a result, pods are able to enter a Running state and volumes can be mounted. (OCPBUGS-7582)
+
+
+
+Previously, when the cluster-wide proxy is enabled on {ibmcloudVPCRegProductName} clusters, there was a failure to provision volumes. (OCPBUGS-18142)
+
+The vsphereStorageDriver field of the Storage Operator object has been deprecated. This field was used to opt in to CSI migration on "Red Hat OpenShift Container Platform" 4.13 vSphere clusters, but it has no effect on "Red Hat OpenShift Container Platform" "4.14" and newer clusters. (OCPBUGS-13914)
+Technology Preview features
+Some features in this release are currently in Technology Preview. These experimental features are not intended for production use. Note the following scope of support on the Red Hat Customer Portal for these features:
+
+Technology Preview Features Support Scope
+
+In the following tables, features are marked with the following statuses:
+
+Technology Preview
+
+General Availability
+
+Not Available
+
+Deprecated
+Known issues
+In "Red Hat OpenShift Container Platform" 4.1, anonymous users could access discovery endpoints. Later releases revoked this access to reduce the possible attack surface for security exploits because some discovery endpoints are forwarded to aggregated API servers. However, unauthenticated access is preserved in upgraded clusters so that existing use cases are not broken.
+
+
+The oc annotate command does not work for LDAP group names that contain an equal sign (=), because the command uses the equal sign as a delimiter between the annotation name and value. As a workaround, use oc patch or oc edit to add the annotation. (BZ#1917280)
+
+If the installation program cannot get all of the projects that are associated with the Google Cloud Platform (GCP) service account, the installation fails with a context deadline exceeded error message.
+
+Booting fails in a large compute node. (OCPBUGS-20075)
+
+When you deploy a cluster with a Network Type of OVNKubernetes on {ibmpowerRegProductName}, compute nodes might reboot because of a kernel stack overflow. As a workaround, you can deploy the cluster with a Network Type of OpenShiftSDN. (RHEL-3901)
+
+The following known issue applies to users who updated their "Red Hat OpenShift Container Platform" deployment to an early access version of "4.14" using release candidate 3 or 4:
+
+Currently, users cannot modify the interface-specific safe sysctl list by updating the cni-sysctl-allowlist config map in the openshift-multus namespace. As a workaround, you can modify, either manually or with a DaemonSet, the /etc/cni/tuning/allowlist.conf file on the node or nodes. (OCPBUGS-11046)
+
+In "Red Hat OpenShift Container Platform" "4.14", all nodes use Linux control group version 2 (cgroup v2) for internal resource management in alignment with the default RHEL 9 configuration. However, if you apply a performance profile in your cluster, the low-latency tuning features associated with the performance profile do not support cgroup v2.
+
+AWS M4 and C4 instances might fail to boot properly in clusters installed using "Red Hat OpenShift Container Platform" "4.14". There is no current workaround. (OCPBUGS-17154)
+
+There is a known issue in this release which prevents installing a cluster on Alibaba Cloud by using installer-provisioned infrastructure. Installing a cluster on Alibaba Cloud is a Technology Preview feature in this release. (OCPBUGS-20552)
+
+From "Red Hat OpenShift Container Platform" "4.14" onwards, global IP address forwarding is disabled on OVN-Kubernetes based cluster deployments to prevent undesirable effects for cluster administrators with nodes acting as routers. OVN-Kubernetes now enables and restricts forwarding on a per-managed interface basis.
+
+For clusters that have root volume availability zones and are running on RHOSP that you upgrade to "4.14" and have root volume availability zones, you must converge control plane machines onto one server group before you can enable control plane machine sets. To make the required change, follow the instructions in the Knowledgebase article. (OCPBUGS-13300)
+
+For clusters that have compute zones configured with at least one zone and are running on RHOSP, which is upgradable to version "4.14", root volumes must now also be configured with at least one zone. If this configuration change does not occur, a control plane machine set cannot be generated for your cluster. To make the required change, follow the instructions in Knowledge Base article. (OCPBUGS-15997)
+
+Currently, an error might occur when deleting a pod that uses an SR-IOV network device. This error is caused by a change in RHEL 9 where the previous name of a network interface is added to its alternative names list when it is renamed. As a consequence, when a pod attached to an SR-IOV virtual function (VF) is deleted, the VF returns to the pool with a new unexpected name, such as dev69, instead of its original name, such as ensf0v2. Although this error is not severe, the Multus and SR-IOV logs might show the error while the system recovers on its own. Deleting the pod might take a few seconds longer due to this error. (OCPBUGS-11281, OCPBUGS-18822, RHEL-5988)
+
+Starting from RHEL 5.14.0-284.28.1.el9_2, if you configure a SR-IOV virtual function with a specific MAC address, configuration errors might occur in the i40e driver. Consequently, Intel 7xx Series NICs might have connectivity issues. As a workaround, avoid specifying MAC addresses in the metadata.annotations field in the Pod resource. Instead, use the default address that the driver assigns to the virtual function.(RHEL-7168, OCPBUGS-19536, OCPBUGS-19407, OCPBUGS-18873)
+
+Currently, defining a sysctl value for a setting with a slash in its name, such as for bond devices, in the profile field of a Tuned resource might not work. Values with a slash in the sysctl option name are not mapped correctly to the /proc filesystem. As a workaround, create a MachineConfig resource that places a configuration file with the required values in the /etc/sysctl.d node directory. (RHEL-3707)
+
+Currently, due to an issue with Kubernetes, the CPU Manager is unable to return CPU resources from the last pod admitted to a node to the pool of available CPU resources. These resources can be allocated if a subsequent pod is admitted to the node. However, this in turn becomes the last pod, and again, the CPU manager cannot return the resources of this pod to the available pool.
+
+Currently, the Machine Config Operator (MCO) might apply an incorrect cgroup version argument for custom pools because of how the MCO handles machine configurations for worker pools and custom pools. As a consequence, nodes in the custom pool might have an incorrect cgroup kernel argument, resulting in unpredictable behavior. As a workaround, specify the cgroup version kernel arguments for worker and control plane pools only. (OCPBUGS-19352)
+
+Currently, due to a race condition between the application of a udev rule on physical network devices and the application of the default requests per second (RPS) mask to all network devices, some physical network devices might feature the wrong RPS mask configuration. As a consequence, a performance degradation might affect the physical network devices with the wrong RPS mask configuration. It is anticipated that an upcoming z-stream release will include a fix for this issue.
+(OCPBUGS-21845)
+
+Broadcom network interface controllers in legacy Single Root I/O Virtualization (SR-IOV) do not support quality of service (QoS) and tag protocol identifier (TPID) settings for the SRIOV VLAN. This affects Broadcom BCM57414, Broadcom BCM57508, and Broadcom BCM57504. (RHEL-9881)
+
+In hosted control planes for "Red Hat OpenShift Container Platform", the following Operators and components are not tested (OCPSTRAT-605):
+
+In hosted control planes for "Red Hat OpenShift Container Platform", installing the File Integrity Operator on a hosted cluster fails. (OCPBUGS-3410)
+
+In hosted control planes for "Red Hat OpenShift Container Platform", the Vertical Pod Autoscaler Operator fails to install on a hosted cluster. (PODAUTO-65)
+
+In hosted control planes for "Red Hat OpenShift Container Platform", on the bare metal and OpenShift Virtualization platforms, the auto-repair function is disabled. (OCPBUGS-20028)
+
+In hosted control planes for "Red Hat OpenShift Container Platform", using the Secrets Store CSI Driver Operator with AWS Secrets Manager or AWS Systems Manager Parameter Store is not supported. (OCPBUGS-18711)
+
+In hosted control planes for "Red Hat OpenShift Container Platform", the default, kube-system, and kube-public namespaces are not properly excluded from pod security admission. (OCPBUGS-22379)
+
+Agent-based installations on vSphere will fail due to a failure to remove node taint, which causes the installation to be stuck in a pending state.
+Single-node OpenShift clusters are not impacted.
+You can work around this issue by running the following command to manually remove the node taint:
+
+There is a known issue with using Azure confidential virtual machines, which is a Technology Preview feature in this release. Configuring a cluster to encrypt the managed disk and the Azure VM Guest State (VMGS) blob with a platform-managed key (PMK) or a customer-managed key (CMK) is unsupported. To avoid this issue, only enable encryption of the VMGS blob by setting the value of the securityEncryptionType parameter to VMGuestStateOnly. (OCPBUGS-18379)
+
+There is a known issue with using Azure confidential virtual machines, which is a Technology Preview feature in this release. Installing a cluster configured to use this feature fails because the control plane provisioning process times out after 30 minutes.
+
+When you run hosted control planes for "Red Hat OpenShift Container Platform" on a bare-metal platform, if a worker node fails, another node is not automatically added to the hosted cluster, even when other agents are available. As a workaround, manually delete the machine that is associated with the failed worker node. (MGMT-15939)
+
+Since the source catalog bundles an architecture specific opm binary, you must run the mirroring from that architecture. For instance if you are mirroring a ppc64le catalog, you must run oc-mirror from a system that runs on the ppc64le architecture. (OCPBUGS-22264)
+
+If more than one "Red Hat OpenShift Container Platform" group points to the same LDAP group, only one "Red Hat OpenShift Container Platform" group is synced. The oc adm groups sync command prints a warning when multiple groups point to the same LDAP group, indicating that only a single group is eligible for mapping. (OCPBUGS-11123)
+
+Installation fails when installing "Red Hat OpenShift Container Platform" with the bootMode set to UEFISecureBoot on a node where Secure Boot is disabled. Subsequent attempts to install "Red Hat OpenShift Container Platform" with Secure Boot enabled will proceed normally. (OCPBUGS-19884)
+
+In "Red Hat OpenShift Container Platform" "4.14", a MachineConfig object with Ignition version 3.4 might fail scans of the api-collector pods with CrashLoopBackOff errors, causing the Compliance Operator to not work as expected. (OCPBUGS-18025)
+
+In "Red Hat OpenShift Container Platform" "4.14", assigning an IPv6 egress IP to a network interface that is not the primary network interface is unsupported. This is a known issue and will be fixed in a future version of "Red Hat OpenShift Container Platform". (OCPBUGS-17637)
+
+
+When you run CNF latency tests on an "Red Hat OpenShift Container Platform" cluster, the oslat test can sometimes return results greater than 20 microseconds. This results in an oslat test failure.
+(RHEL-9279)
+
+When you use preempt-rt patches with the realtime kernel and you update the SMP affinity of a network interrupt, the corresponding IRQ thread does not immediately receive the update.
+Instead, the update takes effect when the next interrupt is received, and the thread is subsequently migrated to the correct core.
+(RHEL-9148)
+
+Low-latency applications that rely on high-resolution timers to wake up their threads might experience higher wake up latencies than expected. Although the expected wake up latency is under 20μs, latencies exceeding this can occasionally be seen when running the cyclictest tool for long durations (24 hours or more). Testing has shown that wake up latencies are under 20μs for over 99.999999% of the samples.
+(RHELPLAN-138733)
+
+The global navigation satellite system (GNSS) module in an Intel Westport Channel e810 NIC that is configured as a grandmaster clock (T-GM) can report the GPS FIX state and the GNSS offset between the GNSS module and the GNSS constellation satellites.
+
+In a PTP grandmaster clock clocked sourced from GNSS, when the GNSS signal is lost, the Digital Phase Locked Loop (DPLL) clock state can change in 2 ways: it can transition to unlocked, or it can enter a holdover state. Currently, the driver transitions the DPLL state to unlocked by default.
+An upstream change is currently being developed to handle the holdover state functionality and to configure which state machine handling is used.
+(RHELPLAN-164754)
+
+The DPLL subsystem and DPLL support is not currently enabled in the Intel Westport Channel e810 NIC ice driver.
+(RHELPLAN-165955)
+
+The current grandmaster clock (T-GM) implementation has a single NMEA sentence generator sourced from the GNSS without a backup NMEA sentence generator.
+If NMEA sentences are lost on their way to the e810 NIC, the T-GM cannot synchronize the devices in the network synchronization chain and the PTP Operator reports an error.
+A proposed fix is to report a FREERUN event when the NMEA string is lost.
+(OCPBUGS-19838)
+
+Currently, due to differences in setting up a container's cgroup hierarchy, containers that use the crun OCI runtime along with a PerformanceProfile configuration encounter performance degradation.
+As a workaround, use the runc OCI container runtime.
+Although the runc container runtime has lower performance during container startup, shutdown operations, and exec probes, the crun and runc container runtimes are functionally identical.
+It is anticipated that an upcoming z-stream release will include a fix for this issue.
+(OCPBUGS-20492)
+
+There is a known issue after enabling and disabling IPsec during runtime that causes the cluster to be in an unhealthy state with the error message: an unknown error has occurred: MultipleErrors. (OCPBUGS-19408)
+
+Creating pods with Microsoft Azure File NFS volumes that are scheduled to the control plane node causes the mount to be denied.
+
+For clusters that run on RHOSP 17.1 and use network function virtualization (NFV), a known issue in RHOSP prevents successful cluster deployment. There is no workaround for this issue. Contact Red Hat Support to request a hotfix. (BZ2228643)
+
+There is no support for Kuryr installations on RHOSP 17.1.
+
+Currently, the update to HAProxy version 2.6.13 in "Red Hat OpenShift Container Platform" "4.14" causes an increase in P99 latency for re-encrypt traffic. This is observed when the volume of ingress traffic puts the HAProxy component of the IngressController custom resource (CR) under a considerable load. The latency increase does not affect overall throughput, which remains consistent.
+
+For Single-node OpenShift on "4.14" and Google Cloud Platform (GCP), there is a known issue with the Cloud Network Config Controller (CNCC) entering a CrashLoopBackOff state. This occurs at initialization time when the CNCC tries to reach the GCP internal load balancer address and the resulting hairpin traffic is not correctly prevented in OVN-Kubernetes shared gateway mode on GCP causing it to get dropped. Cluster Network Operator will show a Progressing=true status in such case. Currently, there is no workaround for this issue. (OCPBUGS-20554)
+
+On an Single-node OpenShift that has guaranteed CPUs and where Interrupt Request (IRQ) load balancing is disabled, large latency spikes can occur at container startup. (OCPBUGS-22901)
+
+When deploying an application that has a large number of pods, some of which have CPU limits configured, the deployment can fail. The workaround is to re-deploy the application. (RHEL-7232)
+
+On an Single-node OpenShift that has disabled capabilities, the openshift-controller-manager-operator may continuously restart. As a workaround, enable the build capability or manually create the builds.config.openshift.io CRD.
+
+There is a known issue that prevents installing a cluster on or updating a cluster to this version of "Red Hat OpenShift Container Platform" on Microsoft Azure Stack Hub. For more details and a workaround, see the information in this Red Hat Knowledgebase article. (OCPBUGS-20548)
+
+There is a known issue with Microsoft Azure clusters that use Azure AD Workload Identity. A recent change to the default security settings for new Azure storage accounts in the eastus region prevents the installation of clusters that use Azure AD Workload Identity in that region. Other regions do not seem to be impacted at this time, but might be impacted in the future.
+Asynchronous errata updates
+Security, bug fix, and enhancement updates for "Red Hat OpenShift Container Platform" "4.14" are released as asynchronous errata through the Red Hat Network. All "Red Hat OpenShift Container Platform" "4.14" errata is available on the Red Hat Customer Portal. See the "Red Hat OpenShift Container Platform" Life Cycle for more information about asynchronous errata.
+
+Red Hat Customer Portal users can enable errata notifications in the account settings for Red Hat Subscription Management (RHSM). When errata notifications are enabled, users are notified through email whenever new errata relevant to their registered systems are released.
+
+Red Hat Customer Portal user accounts must have systems registered and consuming "Red Hat OpenShift Container Platform" entitlements for "Red Hat OpenShift Container Platform" errata notification emails to generate.
+This section will continue to be updated over time to provide notes on enhancements and bug fixes for future asynchronous errata releases of "Red Hat OpenShift Container Platform" "4.14". Versioned asynchronous releases, for example with the form "Red Hat OpenShift Container Platform" "4.14".z, will be detailed in subsections. In addition, releases in which the errata text cannot fit in the space provided by the advisory will be detailed in subsections that follow.
+
+For any "Red Hat OpenShift Container Platform" release, always review the instructions on updating your cluster properly.
+RHSA-2023:5006 - "Red Hat OpenShift Container Platform" "4.14".0 image release, bug fix, and security update advisory
+Issued: 2023-10-31
+
+"Red Hat OpenShift Container Platform" release "4.14".0, which includes security updates, is now available. The list of bug fixes that are included in the update is documented in the RHSA-2023:5006 advisory. The RPM packages that are included in the update are provided by the RHSA-2023:5009 advisory.
+
+Space precluded documenting all of the container images for this release in the advisory.
+
+You can view the container images in this release by running the following command:
+
+$ oc adm release info 4.14.0 --pullspecs
+RHBA-2023:6153 - "Red Hat OpenShift Container Platform" 4.14.1 bug fix update
+Issued: 2023-11-01
+
+"Red Hat OpenShift Container Platform" release 4.14.1, which includes security updates, is now available. The list of bug fixes that are included in the update is documented in the RHBA-2023:6153 advisory. The RPM packages that are included in the update are provided by the RHBA-2023:6152 advisory.
+
+Space precluded documenting all of the container images for this release in the advisory.
+
+You can view the container images in this release by running the following command:
+
+$ oc adm release info 4.14.1 --pullspecs
+Updating
+To update an existing "Red Hat OpenShift Container Platform" 4.14 cluster to this latest release, see Updating a cluster using the CLI.

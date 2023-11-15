@@ -67,7 +67,8 @@ kube-public
 
 openshift
 
-All system-created namespaces that are prefixed with openshift-, except for openshift-operators
+All system-created namespaces that are prefixed with openshift-
+, except for openshift-operators
 
 
 

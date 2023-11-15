@@ -15,13 +15,13 @@ Administration host: You must have a computer to prepare the ISO, to create the 
 
 
 For the ppc64le platform, the host should prepare the ISO, but does not need to create the USB boot drive. The ISO can be mounted to PowerVM directly.
-ISO is not required for IBM Z installations.
+ISO is not required for IBM Z&#174; installations.
 CPU Architecture: Installing "Red Hat OpenShift Container Platform" on a single node supports x86_64, arm64,ppc64le, and s390x CPU architectures.
 
-Supported platforms: Installing "Red Hat OpenShift Container Platform" on a single node is supported on bare metal, vSphere, AWS, Red Hat OpenStack, OpenShift Virtualization, IBM Power, and IBM Z platforms.
+Supported platforms: Installing "Red Hat OpenShift Container Platform" on a single node is supported on bare metal, vSphere, AWS, Red Hat OpenStack, OpenShift Virtualization, IBM Power&#174;, and IBM Z&#174; platforms.
 
 Production-grade server: Installing "Red Hat OpenShift Container Platform" on a single node requires a server with sufficient resources to run "Red Hat OpenShift Container Platform" services and a production workload.
 
 
-BMC is not supported on IBM Z and IBM Power.
+BMC is not supported on IBM Z&#174; and IBM Power&#174;.
 Networking: The server must have access to the internet or access to a local registry if it is not connected to a routable network. The server must have a DHCP reservation or a static IP address for the Kubernetes API, ingress route, and cluster node domain names. You must configure the DNS to resolve the IP address to each of the following fully qualified domain names (FQDN):

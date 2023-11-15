@@ -14,7 +14,7 @@ Amazon Web Services (AWS)
 
 Google Cloud Platform (GCP)
 
-IBM Cloud
+IBM Cloud&#174;
 
 Microsoft Azure
 

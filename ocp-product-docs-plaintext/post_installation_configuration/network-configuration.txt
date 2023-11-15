@@ -108,7 +108,7 @@ Configuring network policy
 As a cluster administrator or project administrator, you can configure network policies for a project.
 
 About network policy
-In a cluster using a network plugin that supports Kubernetes network policy, network isolation is controlled entirely by NetworkPolicy objects. In "Red Hat OpenShift Container Platform" {product-version}, OpenShift SDN supports using network policy in its default network isolation mode.
+In a cluster using a network plugin that supports Kubernetes network policy, network isolation is controlled entirely by NetworkPolicy objects. In "Red Hat OpenShift Container Platform" "4.14", OpenShift SDN supports using network policy in its default network isolation mode.
 
 Network policy does not apply to the host network namespace. Pods with host networking enabled are unaffected by network policy rules. However, pods connecting to the host-networked pods might be affected by the network policy rules.
 
@@ -257,7 +257,7 @@ OVN-Kubernetes is available on all supported versions of "Red Hat OpenShift Cont
 
 Third-Party Container Network Interface (CNI) plugins that have been certified on "Red Hat OpenShift Container Platform" and passed Service Mesh conformance testing. See Certified OpenShift CNI Plug-ins for more information.
 Supported configurations for Service Mesh
-This release of Red Hat OpenShift Service Mesh is only available on "Red Hat OpenShift Container Platform" x86_64, IBM Z, and IBM Power.
+This release of Red Hat OpenShift Service Mesh is only available on "Red Hat OpenShift Container Platform" x86_64, IBM Z&#174;, and IBM Power&#174;.
 
 Configurations where all Service Mesh components are contained within a single "Red Hat OpenShift Container Platform" cluster.
 

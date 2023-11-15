@@ -14,11 +14,18 @@ When the LokiStack ruler component is enabled, users can define a group of LogQL
 
 Administrators can enable the ruler by modifying the LokiStack custom resource (CR).
 
+You have installed the Red Hat OpenShift Logging Operator and the Loki Operator.
+
+You have created a LokiStack CR.
+
+You have administrator permissions.
+
+
 Enable the ruler by ensuring that the LokiStack CR contains the following spec configuration:
 Authorizing Loki rules RBAC permissions
 Administrators can allow users to create and manage their own alerting rules by creating a ClusterRole object and binding this role to usernames. The ClusterRole object defines the necessary role-based access control (RBAC) permissions for users.
 
-The Cluster Logging Operator is installed in the openshift-logging namespace.
+The Red Hat OpenShift Logging Operator is installed in the openshift-logging namespace.
 
 You have administrator permissions.
 
@@ -41,7 +48,7 @@ If none of above applies, an alerting rule is considered valid.
 
 
 
-Logging subsystem for Red Hat OpenShift Operator 5.7 and later
+Red Hat OpenShift Logging Operator 5.7 and later
 
 "Red Hat OpenShift Container Platform" 4.13 and later
 

@@ -1,13 +1,13 @@
 Viewing the status of the Elasticsearch log store
 
-You can view the status of the OpenShift Elasticsearch Operator and for a number of Elasticsearch components.
-Viewing the status of the log store
-You can view the status of your log store.
+You can view the status of the Elasticsearch Operator and for a number of Elasticsearch components.
+Viewing the status of the Elasticsearch log store
+You can view the status of the Elasticsearch log store.
 
-The Red Hat OpenShift Logging and Elasticsearch Operators must be installed.
+The Red Hat OpenShift Logging Operator and Elasticsearch Operator are installed.
 
 
-Change to the openshift-logging project.
+Change to the openshift-logging project by running the following command:
 
 To view the status:
 
@@ -41,7 +41,7 @@ status:
       type: NodeStorage
     deploymentName: example-elasticsearch-cdm-0-1
     upgradeStatus: {}
-The following status message indicates that the log store node selector in the CR does not match any nodes in the cluster:
+The following status message indicates that the Elasticsearch log store node selector in the custom resource (CR) does not match any nodes in the cluster:
 
 status:
     nodes:
@@ -51,7 +51,7 @@ status:
         reason: Unschedulable
         status: "True"
         type: Unschedulable
-The following status message indicates that the log store CR uses a non-existent persistent volume claim (PVC).
+The following status message indicates that the Elasticsearch log store CR uses a non-existent persistent volume claim (PVC).
 
 status:
    nodes:
@@ -61,7 +61,7 @@ status:
        reason:                Unschedulable
        status:                True
        type:                  Unschedulable
-The following status message indicates that your log store cluster does not have enough nodes to support the redundancy policy.
+The following status message indicates that your Elasticsearch log store cluster does not have enough nodes to support the redundancy policy.
 
 status:
   clusterHealth: ""

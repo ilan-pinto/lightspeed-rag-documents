@@ -5,6 +5,34 @@ The cert-manager Operator for Red Hat OpenShift is a cluster-wide service that p
 These release notes track the development of cert-manager Operator for Red Hat OpenShift.
 
 For more information, see About the cert-manager Operator for Red Hat OpenShift.
+Release notes for cert-manager Operator for Red Hat OpenShift 1.12.1
+Issued: 2023-11-15
+
+The following advisory is available for the cert-manager Operator for Red Hat OpenShift 1.12.1:
+
+RHSA-2023:6269-02
+
+
+Version 1.12.1 of the cert-manager Operator for Red Hat OpenShift is based on the upstream cert-manager version v1.12.5. For more information, see the cert-manager project release notes for v1.12.5.
+
+Bug fixes
+Previously, in a multi-architecture environment, the cert-manager Operator pods were prone to failures because of the invalid node affinity configuration. With this fix, the cert-manager Operator pods run without any failures. (OCPBUGS-19446)
+CVEs
+CVE-2023-44487
+
+CVE-2023-39325
+
+CVE-2023-4527
+
+CVE-2023-4806
+
+CVE-2023-4813
+
+CVE-2023-4911
+
+CVE-2023-38545
+
+CVE-2023-38546
 Release notes for cert-manager Operator for Red Hat OpenShift 1.12.0
 Issued: 2023-10-02
 
@@ -25,6 +53,44 @@ Previously, if you updated the ClusterIssuer object, the cert-manager Operator f
 Previously, the cert-manager Operator for Red Hat OpenShift did not support enabling the  --enable-certificate-owner-ref flag. Now, the cert-manager Operator for Red Hat OpenShift supports enabling the --enable-certificate-owner-ref flag by adding the spec.controllerConfig.overrideArgs field in the cluster object. After enabling the --enable-certificate-owner-ref flag, cert-manager can automatically delete the secret when the Certificate resource is removed from the cluster. For more information on enabling the --enable-certificate-owner-ref flag and deleting the TLS secret automatically, see Deleting a TLS secret automatically upon Certificate removal (CM-98)
 
 Previously, the cert-manager Operator for Red Hat OpenShift could not pull the jetstack-cert-manager-container-v1.12.4-1 image. The cert-manager controller, CA injector, and Webhook pods were stuck in the ImagePullBackOff state. Now, the cert-manager Operator for Red Hat OpenShift pulls the jetstack-cert-manager-container-v1.12.4-1 image to run the cert-manager controller, CA injector, and Webhook pods successfully. (OCPBUGS-19986)
+Release notes for cert-manager Operator for Red Hat OpenShift 1.11.5
+Issued: 2023-11-15
+
+The following advisory is available for the cert-manager Operator for Red Hat OpenShift 1.11.5:
+
+RHSA-2023:6279-03
+
+
+The golang version is updated to the version 1.20.10 to fix Common Vulnerabilities and Exposures (CVEs). Version 1.11.5 of the cert-manager Operator for Red Hat OpenShift is based on the upstream cert-manager version v1.11.5. For more information, see the cert-manager project release notes for v1.11.5.
+
+Bug fixes
+Previously, in a multi-architecture environment, the cert-manager Operator pods were prone to failures because of the invalid node affinity configuration. With this fix, the cert-manager Operator pods run without any failures. (OCPBUGS-19446)
+CVEs
+CVE-2023-44487
+
+CVE-2023-39325
+
+CVE-2023-29409
+
+CVE-2023-2602
+
+CVE-2023-2603
+
+CVE-2023-4527
+
+CVE-2023-4806
+
+CVE-2023-4813
+
+CVE-2023-4911
+
+CVE-2023-28484
+
+CVE-2023-29469
+
+CVE-2023-38545
+
+CVE-2023-38546
 Release notes for cert-manager Operator for Red Hat OpenShift 1.11.4
 Issued: 2023-07-26
 
@@ -70,36 +136,6 @@ Known issues
 After installing the cert-manager Operator for Red Hat OpenShift, if you navigate to Operators → Installed Operators and select Operator details in the "Red Hat OpenShift Container Platform" web console, you cannot see the cert-manager resources that are created across all namespaces. As a workaround, you can navigate to Home -> API Explorer to see the cert-manager resources. (OCPBUGS-11647)
 
 After uninstalling the cert-manager Operator for Red Hat OpenShift by using the web console, the cert-manager Operator for Red Hat OpenShift does not remove the cert-manager controller, CA injector, and Webhook pods automatically from the cert-manager namespace. As a workaround, you can manually delete the cert-manager controller, CA injector, and Webhook pod deployments present in the cert-manager namespace. (OCPBUGS-13679)
-Release notes for cert-manager Operator for Red Hat OpenShift 1.10.3
-Issued: 2023-08-08
-
-The following advisory is available for the cert-manager Operator for Red Hat OpenShift 1.10.3:
-
-RHSA-2023:4335
-
-
-The version 1.10.3 of the cert-manager Operator for Red Hat OpenShift is based on the cert-manager upstream version v1.10.2. With this release, the version of the cert-manager Operator for Red Hat OpenShift is 1.10.3 but the cert-manager operand version is 1.10.2. For more information, see the cert-manager project release notes for v1.10.2.
-
-CVEs
-CVE-2022-41725
-
-CVE-2022-41724
-
-CVE-2023-24536
-
-CVE-2023-24538
-
-CVE-2023-24537
-
-CVE-2023-24534
-
-CVE-2022-41723
-
-CVE-2023-29400
-
-CVE-2023-24540
-
-CVE-2023-24539
 Release notes for cert-manager Operator for Red Hat OpenShift 1.10.2
 Issued: 2023-03-23
 

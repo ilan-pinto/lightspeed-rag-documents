@@ -15,6 +15,7 @@ RHBA-2023:5669 - OpenShift Compliance Operator bug fix and enhancement update
 
 This update addresses a CVE in an underlying dependency.
 
+It is recommended to update the Compliance Operator to version 1.3.1 or later before updating your "Red Hat OpenShift Container Platform" cluster to version 4.14 or later.
 New features and enhancements
 You can install and use the Compliance Operator in an "Red Hat OpenShift Container Platform" cluster running in FIPS mode.
 OpenShift Compliance Operator 1.3.0
@@ -26,7 +27,7 @@ RHBA-2023:5102 - OpenShift Compliance Operator enhancement update
 New features and enhancements
 The Defense Information Systems Agency Security Technical Implementation Guide (DISA-STIG) for "Red Hat OpenShift Container Platform" is now available from Compliance Operator 1.3.0. See Supported compliance profiles for additional information.
 
-Compliance Operator 1.3.0 now supports IBM Power and IBM Z for NIST 800-53 Moderate-Impact Baseline for "Red Hat OpenShift Container Platform" platform and node profiles.
+Compliance Operator 1.3.0 now supports IBM Power&#174; and IBM Z&#174; for NIST 800-53 Moderate-Impact Baseline for "Red Hat OpenShift Container Platform" platform and node profiles.
 OpenShift Compliance Operator 1.2.0
 The following advisory is available for the OpenShift Compliance Operator 1.2.0:
 
@@ -160,7 +161,7 @@ RHBA-2022:5537 - OpenShift Compliance Operator bug fix update
 Bug fixes
 Previously, the ocp4-kubelet-enable-streaming-connections rule contained an incorrect variable comparison, resulting in false positive scan results. Now, the Compliance Operator provides accurate scan results when setting streamingConnectionIdleTimeout.  (BZ#2069891)
 
-Previously, group ownership for /etc/openvswitch/conf.db was incorrect on IBM Z architectures, resulting in ocp4-cis-node-worker-file-groupowner-ovs-conf-db check failures. Now, the check is marked NOT-APPLICABLE on IBM Z architecture systems. (BZ#2072597)
+Previously, group ownership for /etc/openvswitch/conf.db was incorrect on IBM Z&#174; architectures, resulting in ocp4-cis-node-worker-file-groupowner-ovs-conf-db check failures. Now, the check is marked NOT-APPLICABLE on IBM Z&#174; architecture systems. (BZ#2072597)
 
 Previously, the ocp4-cis-scc-limit-container-allowed-capabilities rule reported in a FAIL state due to incomplete data regarding the security context constraints (SCC) rules in the deployment. Now, the result is MANUAL, which is consistent with other checks that require human intervention. (BZ#2077916)
 
@@ -212,7 +213,7 @@ Previously, ocp-cis-configure-network-policies-namespace used pagination when re
 
 Previously, remediations using the sshd jinja macros were hard-coded to specific sshd configurations. As a result, the configurations were inconsistent with the content the rules were checking for and the check would fail. Now, the sshd configuration is parameterized and the rules apply successfully. (BZ#2049141)
 
-Previously, the ocp4-cluster-version-operator-verify-integrity always checked the first entry in the Cluter Version Operator (CVO) history. As a result, the upgrade would fail in situations where subsequent versions of {product-name} would be verified. Now, the compliance check result for ocp4-cluster-version-operator-verify-integrity is able to detect verified versions and is accurate with the CVO history. (BZ#2053602)
+Previously, the ocp4-cluster-version-operator-verify-integrity always checked the first entry in the Cluter Version Operator (CVO) history. As a result, the upgrade would fail in situations where subsequent versions of "Red Hat OpenShift Container Platform" would be verified. Now, the compliance check result for ocp4-cluster-version-operator-verify-integrity is able to detect verified versions and is accurate with the CVO history. (BZ#2053602)
 
 Previously, the ocp4-api-server-no-adm-ctrl-plugins-disabled rule did not check for a list of empty admission controller plugins. As a result, the rule would always fail, even if all admission plugins were enabled. Now, more robust checking of the ocp4-api-server-no-adm-ctrl-plugins-disabled rule accurately passes with all admission controller plugins enabled. (BZ#2058631)
 

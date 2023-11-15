@@ -167,11 +167,11 @@ Bare metal
 
 VMware vSphere
 
-IBM Z and IBM&#174; LinuxONE
+IBM Z&#174; and IBM&#174; LinuxONE
 
-IBM Z and IBM&#174; LinuxONE for Red Hat Enterprise Linux (RHEL) KVM
+IBM Z&#174; and IBM&#174; LinuxONE for Red Hat Enterprise Linux (RHEL) KVM
 
-IBM Power
+IBM Power&#174;
 
 
 MetalLB Operator and MetalLB are supported with the OpenShift SDN and OVN-Kubernetes network providers.

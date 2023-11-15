@@ -4,7 +4,7 @@ The release notes for Migration Toolkit for Containers (MTC) describe new featur
 
 The MTC enables you to migrate application workloads between "Red Hat OpenShift Container Platform" clusters at the granularity of a namespace.
 
-You can migrate from "Red Hat OpenShift Container Platform" 3 to {product-version} and between "Red Hat OpenShift Container Platform" 4 clusters.
+You can migrate from "Red Hat OpenShift Container Platform" 3 to "4.14" and between "Red Hat OpenShift Container Platform" 4 clusters.
 
 MTC provides a web console and an API, based on Kubernetes custom resources, to help you control the migration and minimize application downtime.
 
@@ -299,13 +299,13 @@ The procedure for updating deprecated APIs has been removed from the troubleshoo
 Known issues
 This release has the following known issues:
 
-PV resizing does not work as expected for AWS gp2 storage unless the pv_resizing_threshold is 42% or greater. (BZ#1973148)
-
-If a migration fails, the migration plan does not retain custom PV settings for quiesced pods. You must manually roll back the migration, delete the migration plan, and create a new migration plan with your PV settings. (BZ#1784899)
-
 Microsoft Azure storage is unavailable if you create more than 400 migration plans. The MigStorage custom resource displays the following message: The request is being throttled as the limit has been reached for operation type. (BZ#1977226)
 
-On "Red Hat OpenShift Container Platform" 3.10, the MigrationController pod takes too long to restart. The bug report contains a workaround. (BZ#1986796)
+If a migration fails, the migration plan does not retain custom persistent volume (PV) settings for quiesced pods. You must manually roll back the migration, delete the migration plan, and create a new migration plan with your PV settings. (BZ#1784899)
+
+PV resizing does not work as expected for AWS gp2 storage unless the pv_resizing_threshold is 42% or greater. (BZ#1973148)
+
+PV resizing does not work with "Red Hat OpenShift Container Platform" 3.7 and 3.9 source clusters in the following scenarios:
 Technical changes
 This release has the following technical changes:
 

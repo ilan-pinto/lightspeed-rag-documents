@@ -181,8 +181,7 @@ In terms of the SCCs, this means that an admission controller can inspect the us
 
 The set of SCCs that admission uses to authorize a pod are determined by the user identity and groups that the user belongs to. Additionally, if the pod specifies a service account, the set of allowable SCCs includes any constraints accessible to the service account.
 
-When you create a workload resource, such as a deployment, only the service account is used to find the SCCs and is used to admit the pods when they are created.
-When creating pods directly, SCCs admission considers SCC permissions of both the caller and the Service Account that runs the pod. When a pod is created by a pod controller such as a deployment or a job, only Service Account SCC permissions are considered.
+When you create a workload resource, such as deployment, only the service account is used to find the SCCs and admit the pods when they are created.
 Admission uses the following approach to create the final security context for the pod:
 
 Retrieve all SCCs available for use.

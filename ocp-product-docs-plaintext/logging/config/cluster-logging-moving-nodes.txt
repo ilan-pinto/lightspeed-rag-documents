@@ -1,12 +1,12 @@
 Moving logging subsystem resources with node selectors
 
 You can use node selectors to deploy the Elasticsearch and Kibana pods to different nodes.
-Moving OpenShift Logging resources
-You can configure the Cluster Logging Operator to deploy the pods for logging subsystem components, such as Elasticsearch and Kibana, to different nodes. You cannot move the Cluster Logging Operator pod from its installed location.
+Moving logging subsystem resources
+You can configure the Red Hat OpenShift Logging Operator to deploy the pods for logging subsystem components, such as Elasticsearch and Kibana, to different nodes. You cannot move the Red Hat OpenShift Logging Operator pod from its installed location.
 
 For example, you can move the Elasticsearch pods to a separate node because of high CPU, memory, and disk requirements.
 
-The Red Hat OpenShift Logging and Elasticsearch Operators must be installed. These features are not installed by default.
+You have installed the Red Hat OpenShift Logging Operator and the Elasticsearch Operator.
 
 
 Edit the ClusterLogging custom resource (CR) in the openshift-logging project:

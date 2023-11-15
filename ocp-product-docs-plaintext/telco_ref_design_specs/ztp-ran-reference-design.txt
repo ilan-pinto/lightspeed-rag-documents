@@ -1,4 +1,4 @@
-Telco RAN reference design specification for "Red Hat OpenShift Container Platform" {product-version}
+Telco RAN reference design specification for "Red Hat OpenShift Container Platform" "4.14"
 
 The Telco RAN reference design specification captures the recommended, tested, and supported configurations to get reliable and repeatable performance for a cluster running the telco RAN DU profile.
 

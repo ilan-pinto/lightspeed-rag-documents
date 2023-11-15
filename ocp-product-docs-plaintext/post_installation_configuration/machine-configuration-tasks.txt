@@ -271,7 +271,7 @@ Enabling multipathing with kernel arguments on RHCOS
 Red Hat Enterprise Linux CoreOS (RHCOS) supports multipathing on the primary disk, allowing stronger resilience to hardware failure to achieve higher host availability. Postinstallation support is available by activating multipathing via the machine config.
 
 Enabling multipathing during installation is supported and recommended for nodes provisioned in "Red Hat OpenShift Container Platform" 4.8 or higher. In setups where any I/O to non-optimized paths results in I/O system errors, you must enable multipathing at installation time. For more information about enabling multipathing during installation time, see "Enabling multipathing with kernel arguments on RHCOS" in the Installing on bare metal documentation.
-On IBM Z and IBM&#174; LinuxONE, you can enable multipathing only if you configured your cluster for it during installation. For more information, see "Installing RHCOS and starting the "Red Hat OpenShift Container Platform" bootstrap process" in Installing a cluster with z/VM on IBM Z and IBM&#174; LinuxONE.
+On IBM Z&#174; and IBM&#174; LinuxONE, you can enable multipathing only if you configured your cluster for it during installation. For more information, see "Installing RHCOS and starting the "Red Hat OpenShift Container Platform" bootstrap process" in Installing a cluster with z/VM on IBM Z&#174; and IBM&#174; LinuxONE.
 You have a running "Red Hat OpenShift Container Platform" cluster that uses version 4.7 or later.
 
 You are logged in to the cluster as a user with administrative privileges.
@@ -297,7 +297,7 @@ See Enabling multipathing with kernel arguments on RHCOS for more information ab
 Adding a real-time kernel to nodes
 Some "Red Hat OpenShift Container Platform" workloads require a high degree of determinism.While Linux is not a real-time operating system, the Linux real-time kernel includes a preemptive scheduler that provides the operating system with real-time characteristics.
 
-If your "Red Hat OpenShift Container Platform" workloads require these real-time characteristics, you can switch your machines to the Linux real-time kernel. For "Red Hat OpenShift Container Platform", {product-version} you can make this switch using a MachineConfig object. Although making the change is as simple as changing a machine config kernelType setting to realtime, there are a few other considerations before making the change:
+If your "Red Hat OpenShift Container Platform" workloads require these real-time characteristics, you can switch your machines to the Linux real-time kernel. For "Red Hat OpenShift Container Platform", "4.14" you can make this switch using a MachineConfig object. Although making the change is as simple as changing a machine config kernelType setting to realtime, there are a few other considerations before making the change:
 
 Currently, real-time kernel is supported only on worker nodes, and only for radio access network (RAN) use.
 

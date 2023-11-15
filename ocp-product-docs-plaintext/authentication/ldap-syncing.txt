@@ -211,12 +211,16 @@ You can sync all groups from the LDAP server with "Red Hat OpenShift Container P
 
 Create a sync configuration file.
 
+You have access to the cluster as a user with the cluster-admin role.
+
 
 To sync all groups from the LDAP server with "Red Hat OpenShift Container Platform":
 Syncing "Red Hat OpenShift Container Platform" groups with the LDAP server
 You can sync all groups already in "Red Hat OpenShift Container Platform" that correspond to groups in the LDAP server specified in the configuration file.
 
 Create a sync configuration file.
+
+You have access to the cluster as a user with the cluster-admin role.
 
 
 To sync "Red Hat OpenShift Container Platform" groups with the LDAP server:
@@ -225,6 +229,8 @@ You can sync a subset of LDAP groups with "Red Hat OpenShift Container Platform"
 
 You can use any combination of blacklist files, whitelist files, or whitelist literals. Whitelist and blacklist files must contain one unique group identifier per line, and you can include whitelist literals directly in the command itself. These guidelines apply to groups found on LDAP servers as well as groups already present in "Red Hat OpenShift Container Platform".
 Create a sync configuration file.
+
+You have access to the cluster as a user with the cluster-admin role.
 
 
 To sync a subset of LDAP groups with "Red Hat OpenShift Container Platform", use any the following commands:
@@ -324,6 +330,8 @@ the group.
 
 Create the configuration file.
 
+You have access to the cluster as a user with the cluster-admin role.
+
 
 Run the sync with the rfc2307_config.yaml file:
 Syncing groups using the RFC2307 schema with user-defined name mappings
@@ -366,6 +374,8 @@ fine-grained  filtering, use the whitelist / blacklist method.
 
 
 Create the configuration file.
+
+You have access to the cluster as a user with the cluster-admin role.
 
 
 Run the sync with the rfc2307_config_user_defined.yaml file:
@@ -457,6 +467,8 @@ member of a group is out of scope.
 
 Create the configuration file.
 
+You have access to the cluster as a user with the cluster-admin role.
+
 
 Run the sync with the rfc2307_config_tolerating.yaml file:
 Syncing groups using the Active Directory schema
@@ -494,6 +506,8 @@ during search and returned to the client, but not committed to the database.
 
 
 Create the configuration file.
+
+You have access to the cluster as a user with the cluster-admin role.
 
 
 Run the sync with the active_directory_config.yaml file:
@@ -543,6 +557,8 @@ The group is a first-class entry on the LDAP server.
 
 
 Create the configuration file.
+
+You have access to the cluster as a user with the cluster-admin role.
 
 
 Run the sync with the augmented_active_directory_config.yaml file:
@@ -662,6 +678,8 @@ of LDAP_MATCHING_RULE_IN_CHAIN.
 
 
 Create the configuration file.
+
+You have access to the cluster as a user with the cluster-admin role.
 
 
 Run the sync with the augmented_active_directory_config_nested.yaml file:

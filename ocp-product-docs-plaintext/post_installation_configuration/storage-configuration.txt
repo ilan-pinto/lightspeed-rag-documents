@@ -248,7 +248,7 @@ Understand your persistent storage options so that you can optimize your "Red Ha
 
 
 NetApp NFS supports dynamic PV provisioning when using the Trident plugin.
-Currently, CNS is not supported in "Red Hat OpenShift Container Platform" {product-version}.
+Currently, CNS is not supported in "Red Hat OpenShift Container Platform" "4.14".
 Recommended configurable storage technology
 The following table summarizes the recommended and configurable storage technologies for the given "Red Hat OpenShift Container Platform" cluster application.
 

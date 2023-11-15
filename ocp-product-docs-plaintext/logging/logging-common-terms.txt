@@ -1,28 +1,28 @@
 Glossary
 
-This glossary defines common terms that are used in the "Red Hat OpenShift Container Platform" Logging content.
+This glossary defines common terms that are used in the logging subsystem documentation.
 
 
-annotation
+Annotation
 You can use annotations to attach metadata to objects.
-Cluster Logging Operator (CLO)
-The Cluster Logging Operator provides a set of APIs to control the collection and forwarding of application, infrastructure, and audit logs.
-Custom Resource (CR)
-A CR is an extension of the Kubernetes API. To configure "Red Hat OpenShift Container Platform" Logging and log forwarding, you can customize the ClusterLogging and the ClusterLogForwarder custom resources.
-event router
-The event router is a pod that watches "Red Hat OpenShift Container Platform" events. It collects logs by using "Red Hat OpenShift Container Platform" Logging.
+Red Hat OpenShift Logging Operator
+The Red Hat OpenShift Logging Operator provides a set of APIs to control the collection and forwarding of application, infrastructure, and audit logs.
+Custom resource (CR)
+A CR is an extension of the Kubernetes API. To configure the logging subsystem and log forwarding, you can customize the ClusterLogging and the ClusterLogForwarder custom resources.
+Event router
+The event router is a pod that watches "Red Hat OpenShift Container Platform" events. It collects logs by using the logging subsystem.
 Fluentd
 Fluentd is a log collector that resides on each "Red Hat OpenShift Container Platform" node. It gathers application, infrastructure, and audit logs and forwards them to different outputs.
-garbage collection
+Garbage collection
 Garbage collection is the process of cleaning up cluster resources, such as terminated containers and images that are not referenced by any running pods.
 Elasticsearch
-Elasticsearch is a distributed search and analytics engine. "Red Hat OpenShift Container Platform" uses ELasticsearch as a default log store for "Red Hat OpenShift Container Platform" Logging.
+Elasticsearch is a distributed search and analytics engine. "Red Hat OpenShift Container Platform" uses Elasticsearch as a default log store for the logging subsystem.
 Elasticsearch Operator
-Elasticsearch operator is used to run Elasticsearch cluster on top of "Red Hat OpenShift Container Platform". The Elasticsearch Operator provides self-service for the Elasticsearch cluster operations and is used by "Red Hat OpenShift Container Platform" Logging.
-indexing
+The Elasticsearch Operator is used to run an Elasticsearch cluster on "Red Hat OpenShift Container Platform". The Elasticsearch Operator provides self-service for the Elasticsearch cluster operations and is used by the logging subsystem.
+Indexing
 Indexing is a data structure technique that is used to quickly locate and access data. Indexing optimizes the performance by minimizing the amount of disk access required when a query is processed.
 JSON logging
-"Red Hat OpenShift Container Platform" Logging Log Forwarding API enables you to parse JSON logs into a structured object and forward them to either "Red Hat OpenShift Container Platform" Logging-managed Elasticsearch or any other third-party system supported by the Log Forwarding API.
+The Log Forwarding API enables you to parse JSON logs into a structured object and forward them to either the logging subsystem managed Elasticsearch or any other third-party system supported by the Log Forwarding API.
 Kibana
 Kibana is a browser-based console interface to query, discover, and visualize your Elasticsearch data through histograms, line graphs, and pie charts.
 Kubernetes API server
@@ -30,26 +30,26 @@ Kubernetes API server validates and configures data for the API objects.
 Labels
 Labels are key-value pairs that you can use to organize and select subsets of objects, such as a pod.
 Logging
-With "Red Hat OpenShift Container Platform" Logging you can aggregate application, infrastructure, and audit logs throughout your cluster. You can also store them to a default log store, forward them to third party systems, and query and visualize the stored logs in the default log store.
-logging collector
+With the logging subsystem, you can aggregate application, infrastructure, and audit logs throughout your cluster. You can also store them to a default log store, forward them to third party systems, and query and visualize the stored logs in the default log store.
+Logging collector
 A logging collector collects logs from the cluster, formats them, and forwards them to the log store or third party systems.
-log store
-A log store is used to store aggregated logs. You can use the default Elasticsearch log store or forward logs to external log stores. The default log store is optimized and tested for short-term storage.
-log visualizer
-Log visualizer is the user interface (UI) component you can use to view information such as logs, graphs, charts, and other metrics. The current implementation is Kibana.
-node
+Log store
+A log store is used to store aggregated logs. You can use an internal log store or forward logs to external log stores.
+Log visualizer
+Log visualizer is the user interface (UI) component you can use to view information such as logs, graphs, charts, and other metrics.
+Node
 A node is a worker machine in the "Red Hat OpenShift Container Platform" cluster. A node is either a virtual machine (VM) or a physical machine.
 Operators
 Operators are the preferred method of packaging, deploying, and managing a Kubernetes application in an "Red Hat OpenShift Container Platform" cluster. An Operator takes human operational knowledge and encodes it into software that is packaged and shared with customers.
-pod
-A pod is the smallest logical unit in Kubernetes. A pod consists of one or more containers and runs on a worker node..
+Pod
+A pod is the smallest logical unit in Kubernetes. A pod consists of one or more containers and runs on a worker node.
 Role-based access control (RBAC)
 RBAC is a key security control to ensure that cluster users and workloads have access only to resources required to execute their roles.
-shards
-Elasticsearch organizes the log data from Fluentd into datastores, or indices, then subdivides each index into multiple pieces called shards.
-taint
+Shards
+Elasticsearch organizes log data from Fluentd into datastores, or indices, then subdivides each index into multiple pieces called shards.
+Taint
 Taints ensure that pods are scheduled onto appropriate nodes. You can apply one or more taints on a node.
-toleration
+Toleration
 You can apply tolerations to pods. Tolerations allow the scheduler to schedule pods with matching taints.
-web console
+Web console
 A user interface (UI) to manage "Red Hat OpenShift Container Platform".

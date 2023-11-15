@@ -1,6 +1,6 @@
 Installing a user-provisioned bare metal cluster on a restricted network
 
-In "Red Hat OpenShift Container Platform" {product-version}, you can install a cluster on bare metal infrastructure that you provision in a restricted network.
+In "Red Hat OpenShift Container Platform" "4.14", you can install a cluster on bare metal infrastructure that you provision in a restricted network.
 
 While you might be able to follow this procedure to deploy a cluster on virtualized or cloud environments, you must be aware of additional considerations for non-bare metal platforms. Review the information in the guidelines for deploying "Red Hat OpenShift Container Platform" on non-tested platforms before you attempt to install an "Red Hat OpenShift Container Platform" cluster in such an environment.
 Prerequisites
@@ -14,7 +14,7 @@ You provisioned persistent storage for your cluster. To deploy a private image r
 
 If you use a firewall and plan to use the Telemetry service, you configured the firewall to allow the sites that your cluster requires access to.
 About installations in restricted networks
-In "Red Hat OpenShift Container Platform" {product-version}, you can perform an installation that does not require an active connection to the internet to obtain software components. Restricted network installations can be completed using installer-provisioned infrastructure or user-provisioned infrastructure, depending on the cloud platform to which you are installing the cluster.
+In "Red Hat OpenShift Container Platform" "4.14", you can perform an installation that does not require an active connection to the internet to obtain software components. Restricted network installations can be completed using installer-provisioned infrastructure or user-provisioned infrastructure, depending on the cloud platform to which you are installing the cluster.
 
 If you choose to perform a restricted network installation on a cloud platform, you still require access to its cloud APIs. Some cloud functions, like Amazon Web Service's Route 53 DNS and IAM services, require internet access. Depending on your network, you might require less internet access for an installation on bare metal hardware, Nutanix, or on VMware vSphere.
 
@@ -30,7 +30,7 @@ error.
 By default, you cannot use the contents of the Developer Catalog because
 you cannot access the required image stream tags.
 Internet access for "Red Hat OpenShift Container Platform"
-In "Red Hat OpenShift Container Platform" {product-version}, you require access to the internet to obtain the images that are necessary to install your cluster.
+In "Red Hat OpenShift Container Platform" "4.14", you require access to the internet to obtain the images that are necessary to install your cluster.
 
 You must have internet access to:
 
@@ -734,7 +734,7 @@ installation.
 
 Live install Ignition config: This type can be created by using the coreos-installer customize subcommand and its various options. With this method, the Ignition config passes to the live install medium, runs immediately upon booting, and performs setup tasks before or after the RHCOS system installs to disk. This method should only be used for performing tasks that must be done once and not applied again later, such as with advanced partitioning that cannot be done using a machine config.
 Default console configuration
-Red Hat Enterprise Linux CoreOS (RHCOS) nodes installed from an "Red Hat OpenShift Container Platform" {product-version} boot image use a default console that is meant to accomodate most virtualized and bare metal setups. Different cloud and virtualization platforms may use different default settings depending on the chosen architecture. Bare metal installations use the kernel default settings which typically means the graphical console is the primary console and the serial console is disabled.
+Red Hat Enterprise Linux CoreOS (RHCOS) nodes installed from an "Red Hat OpenShift Container Platform" "4.14" boot image use a default console that is meant to accomodate most virtualized and bare metal setups. Different cloud and virtualization platforms may use different default settings depending on the chosen architecture. Bare metal installations use the kernel default settings which typically means the graphical console is the primary console and the serial console is disabled.
 
 The default consoles may not match your specific hardware configuration or you might have specific needs that require you to adjust the default console. For example:
 
@@ -1016,7 +1016,7 @@ You can enable multipathing at installation time for nodes that were provisioned
 
 In setups where any I/O to non-optimized paths results in I/O system errors, you must enable multipathing at installation time.
 
-On IBM Z and IBM&#174; LinuxONE, you can enable multipathing only if you configured your cluster for it during installation. For more information, see "Installing RHCOS and starting the "Red Hat OpenShift Container Platform" bootstrap process" in Installing a cluster with z/VM on IBM Z and IBM&#174; LinuxONE.
+On IBM Z&#174; and IBM&#174; LinuxONE, you can enable multipathing only if you configured your cluster for it during installation. For more information, see "Installing RHCOS and starting the "Red Hat OpenShift Container Platform" bootstrap process" in Installing a cluster with z/VM on IBM Z&#174; and IBM&#174; LinuxONE.
 The following procedure enables multipath at installation time and appends kernel arguments to the coreos-installer install command so that the installed system itself will use multipath beginning from the first boot.
 
 You have a running "Red Hat OpenShift Container Platform" cluster that uses version 4.8 or later.
@@ -1186,7 +1186,7 @@ For an installation with Fibre Channel Protocol (FCP), additional steps are requ
 
 Register your cluster on the Cluster registration page.
 Telemetry access for "Red Hat OpenShift Container Platform"
-In "Red Hat OpenShift Container Platform" {product-version}, the Telemetry service, which runs by default to provide metrics about cluster health and the success of updates, requires internet access. If your cluster is connected to the internet, Telemetry runs automatically, and your cluster is registered to OpenShift Cluster Manager Hybrid Cloud Console.
+In "Red Hat OpenShift Container Platform" "4.14", the Telemetry service, which runs by default to provide metrics about cluster health and the success of updates, requires internet access. If your cluster is connected to the internet, Telemetry runs automatically, and your cluster is registered to OpenShift Cluster Manager Hybrid Cloud Console.
 
 After you confirm that your OpenShift Cluster Manager Hybrid Cloud Console inventory is correct, either maintained automatically by Telemetry or manually by using OpenShift Cluster Manager, use subscription watch to track your "Red Hat OpenShift Container Platform" subscriptions at the account or multi-cluster level.
 

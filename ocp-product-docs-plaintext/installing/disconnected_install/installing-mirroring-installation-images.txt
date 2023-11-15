@@ -6,6 +6,9 @@ You must have access to the internet to obtain the necessary container images. I
 Prerequisites
 You must have a container image registry that supports Docker v2-2 in the location that will host the "Red Hat OpenShift Container Platform" cluster, such as one of the following registries:
 
+
+If you have an entitlement to Red Hat Quay, see the documentation on deploying Red Hat Quay for proof-of-concept purposes or by using the Quay Operator. If you need additional assistance selecting and installing a registry, contact your sales representative or Red Hat support.
+
 If you do not already have an existing solution for a container image registry, subscribers of "Red Hat OpenShift Container Platform" are provided a mirror registry for Red Hat OpenShift. The mirror registry for Red Hat OpenShift is included with your subscription and is a small-scale container registry that can be used to mirror the required container images of "Red Hat OpenShift Container Platform" in disconnected installations.
 About the mirror registry
 You can mirror the images that are required for "Red Hat OpenShift Container Platform" installation and subsequent product updates to a container mirror registry such as Red Hat Quay, JFrog Artifactory, Sonatype Nexus Repository, or Harbor. If you do not have access to a large-scale container registry, you can use the mirror registry for Red Hat OpenShift, a small-scale container registry included with "Red Hat OpenShift Container Platform" subscriptions.
@@ -27,7 +30,7 @@ Before you perform the mirror procedure, you must prepare the host to retrieve c
 Installing the OpenShift CLI by downloading the binary
 You can install the OpenShift CLI (oc) to interact with "Red Hat OpenShift Container Platform" from a command-line interface. You can install oc on Linux, Windows, or macOS.
 
-If you installed an earlier version of oc, you cannot use it to complete all of the commands in "Red Hat OpenShift Container Platform" {product-version}. Download and install the new version of oc.
+If you installed an earlier version of oc, you cannot use it to complete all of the commands in "Red Hat OpenShift Container Platform" "4.14". Download and install the new version of oc.
 
 You can install the OpenShift CLI (oc) binary on Linux by using the following procedure.
 
@@ -37,7 +40,7 @@ Select the architecture from the Product Variant drop-down list.
 
 Select the appropriate version from the Version drop-down list.
 
-Click Download Now next to the OpenShift v{product-version} Linux Client entry and save the file.
+Click Download Now next to the OpenShift v"4.14" Linux Client entry and save the file.
 
 Unpack the archive:
 
@@ -54,7 +57,7 @@ Navigate to the "Red Hat OpenShift Container Platform" downloads page on the Red
 
 Select the appropriate version from the Version drop-down list.
 
-Click Download Now next to the OpenShift v{product-version} Windows Client entry and save the file.
+Click Download Now next to the OpenShift v"4.14" Windows Client entry and save the file.
 
 Unzip the archive with a ZIP program.
 
@@ -71,7 +74,7 @@ Navigate to the "Red Hat OpenShift Container Platform" downloads page on the Red
 
 Select the appropriate version from the Version drop-down list.
 
-Click Download Now next to the OpenShift v{product-version} macOS Client entry and save the file.
+Click Download Now next to the OpenShift v"4.14" macOS Client entry and save the file.
 
 Unpack and unzip the archive.
 

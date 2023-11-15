@@ -1,11 +1,5 @@
 Network APIs
 
-AdminPolicyBasedExternalRoute [k8s.ovn.org/v1]
-
-Description
-
-Type
-object
 CloudPrivateIPConfig [cloud.network.openshift.io/v1]
 
 Description

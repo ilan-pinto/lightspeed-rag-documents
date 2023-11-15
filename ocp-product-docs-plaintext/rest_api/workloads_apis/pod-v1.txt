@@ -467,19 +467,6 @@ Description
 Type
 object
 Required
-.spec.containers[].resizePolicy
-
-Description
-
-Type
-array
-.spec.containers[].resizePolicy[]
-
-Description
-
-Type
-object
-Required
 .spec.containers[].resources
 
 Description
@@ -887,19 +874,6 @@ Type
 object
 Required
 .spec.ephemeralContainers[].readinessProbe.tcpSocket
-
-Description
-
-Type
-object
-Required
-.spec.ephemeralContainers[].resizePolicy
-
-Description
-
-Type
-array
-.spec.ephemeralContainers[].resizePolicy[]
 
 Description
 
@@ -1319,19 +1293,6 @@ Type
 object
 Required
 .spec.initContainers[].readinessProbe.tcpSocket
-
-Description
-
-Type
-object
-Required
-.spec.initContainers[].resizePolicy
-
-Description
-
-Type
-array
-.spec.initContainers[].resizePolicy[]
 
 Description
 
@@ -2076,25 +2037,6 @@ Description
 
 Type
 object
-.status.containerStatuses[].resources
-
-Description
-
-Type
-object
-.status.containerStatuses[].resources.claims
-
-Description
-
-Type
-array
-.status.containerStatuses[].resources.claims[]
-
-Description
-
-Type
-object
-Required
 .status.containerStatuses[].state
 
 Description
@@ -2158,25 +2100,6 @@ Description
 
 Type
 object
-.status.ephemeralContainerStatuses[].resources
-
-Description
-
-Type
-object
-.status.ephemeralContainerStatuses[].resources.claims
-
-Description
-
-Type
-array
-.status.ephemeralContainerStatuses[].resources.claims[]
-
-Description
-
-Type
-object
-Required
 .status.ephemeralContainerStatuses[].state
 
 Description
@@ -2240,25 +2163,6 @@ Description
 
 Type
 object
-.status.initContainerStatuses[].resources
-
-Description
-
-Type
-object
-.status.initContainerStatuses[].resources.claims
-
-Description
-
-Type
-array
-.status.initContainerStatuses[].resources.claims[]
-
-Description
-
-Type
-object
-Required
 .status.initContainerStatuses[].state
 
 Description

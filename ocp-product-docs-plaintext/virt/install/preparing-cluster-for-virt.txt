@@ -17,7 +17,7 @@ On-premise bare metal servers. See Planning a bare metal cluster for OpenShift V
 
 Amazon Web Services bare metal instances. See Installing a cluster on AWS with customizations.
 
-IBM Cloud Bare Metal Servers. See Deploy OpenShift Virtualization on IBM Cloud Bare Metal nodes.
+IBM Cloud&#174; Bare Metal Servers. See Deploy OpenShift Virtualization on IBM Cloud&#174; Bare Metal nodes.
 
 
 Bare metal instances or servers offered by other cloud providers are not supported.

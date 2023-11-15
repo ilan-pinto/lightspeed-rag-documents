@@ -1,8 +1,6 @@
 Installing an on-premise cluster using the Assisted Installer
 
-You can install "Red Hat OpenShift Container Platform" on on-premise hardware or on-premise VMs using the Assisted Installer. Installing "Red Hat OpenShift Container Platform" using the Assisted Installer supports x86_64, AArch64, ppc64le, and s390x CPU architectures.
-
-Installing "Red Hat OpenShift Container Platform" on IBM Z (s390x) is supported only with RHEL KVM installations.
+You can install "Red Hat OpenShift Container Platform" on on-premise hardware or on-premise VMs by using the Assisted Installer. Installing "Red Hat OpenShift Container Platform" by using the Assisted Installer supports x86_64, AArch64, ppc64le, and s390x CPU architectures.
 Using the Assisted Installer
 The "Red Hat OpenShift Container Platform" Assisted Installer is a user-friendly installation solution offered on the Red Hat Hybrid Cloud Console. The Assisted Installer supports the various deployment platforms with a focus on bare metal, Nutanix, and vSphere infrastructures.
 

@@ -37,12 +37,6 @@ View the default DNS
 Every new "Red Hat OpenShift Container Platform" installation has a dns.operator named default.
 
 Use the oc describe command to view the default dns:
-
-To find the service CIDR of your cluster,
-use the oc get command:
-
-
-[172.30.0.0/16]
 Using DNS forwarding
 You can use DNS forwarding to override the default forwarding configuration in the /etc/resolv.conf file in the following ways:
 

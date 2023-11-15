@@ -27,9 +27,9 @@ Run the following command:
 
 Run the following command to view the usage statistics for pods with labels:
 Viewing resource logs
-You can view the log for various resources in the {first-oc} and web console. Logs read from the tail, or end, of the log.
+You can view the log for various resources in the OpenShift CLI (oc) and web console. Logs read from the tail, or end, of the log.
 
-Access to the {first-oc}.
+Access to the OpenShift CLI (oc).
 
 
 In the "Red Hat OpenShift Container Platform" console, navigate to Workloads -> Pods or navigate to the pod through the resource you want to investigate.

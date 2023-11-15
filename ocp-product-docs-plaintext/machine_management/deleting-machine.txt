@@ -47,7 +47,7 @@ preTerminate lifecycle hooks must be resolved before the instance can be removed
 Hook-implementing controller
 A hook-implementing controller is a controller, other than the machine controller, that can interact with a lifecycle hook. A hook-implementing controller can do one or more of the following actions:
 Machine deletion processing order
-In "Red Hat OpenShift Container Platform" {product-version}, there are two lifecycle hooks for the machine deletion phase: preDrain and preTerminate. When all hooks for a given lifecycle point are removed, reconciliation continues as normal.
+In "Red Hat OpenShift Container Platform" "4.14", there are two lifecycle hooks for the machine deletion phase: preDrain and preTerminate. When all hooks for a given lifecycle point are removed, reconciliation continues as normal.
 
 
 The machine Deleting phase proceeds in the following order:

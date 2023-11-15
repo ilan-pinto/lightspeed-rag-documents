@@ -1,6 +1,6 @@
 Installing a cluster on IBM Power in a restricted network
 
-In "Red Hat OpenShift Container Platform" version {product-version}, you can install a cluster on IBM Power infrastructure that you provision in a restricted network.
+In "Red Hat OpenShift Container Platform" version "4.14", you can install a cluster on IBM Power&#174; infrastructure that you provision in a restricted network.
 
 Additional considerations exist for non-bare metal platforms. Review the information in the guidelines for deploying "Red Hat OpenShift Container Platform" on non-tested platforms before you install an "Red Hat OpenShift Container Platform" cluster.
 Prerequisites
@@ -16,7 +16,7 @@ You provisioned persistent storage using OpenShift Data Foundation or other supp
 
 If you use a firewall and plan to use the Telemetry service, you configured the firewall to allow the sites that your cluster requires access to.
 About installations in restricted networks
-In "Red Hat OpenShift Container Platform" {product-version}, you can perform an installation that does not require an active connection to the internet to obtain software components. Restricted network installations can be completed using installer-provisioned infrastructure or user-provisioned infrastructure, depending on the cloud platform to which you are installing the cluster.
+In "Red Hat OpenShift Container Platform" "4.14", you can perform an installation that does not require an active connection to the internet to obtain software components. Restricted network installations can be completed using installer-provisioned infrastructure or user-provisioned infrastructure, depending on the cloud platform to which you are installing the cluster.
 
 To complete a restricted network installation, you must create a registry that mirrors the contents of the OpenShift image registry and contains the installation media. You can create this registry on a mirror host, which can access both the internet and your closed network, or by using other methods that meet your restrictions.
 
@@ -30,7 +30,7 @@ error.
 By default, you cannot use the contents of the Developer Catalog because
 you cannot access the required image stream tags.
 Internet access for "Red Hat OpenShift Container Platform"
-In "Red Hat OpenShift Container Platform" {product-version}, you require access to the internet to obtain the images that are necessary to install your cluster.
+In "Red Hat OpenShift Container Platform" "4.14", you require access to the internet to obtain the images that are necessary to install your cluster.
 
 You must have internet access to:
 
@@ -63,21 +63,21 @@ If an instance type for your platform meets the minimum requirements for cluster
 
 Optimizing storage
 Minimum IBM Power requirements
-You can install "Red Hat OpenShift Container Platform" version {product-version} on the following IBM hardware:
+You can install "Red Hat OpenShift Container Platform" version "4.14" on the following IBM&#174; hardware:
 
-IBM Power9 or Power10 processor-based systems
+IBM Power&#174;9 or IBM Power&#174;10 processor-based systems
 
 
-Support for RHCOS functionality for all IBM Power8 models, IBM Power AC922, IBM Power IC922, and IBM Power LC922 is deprecated in "Red Hat OpenShift Container Platform" {product-version}. Red Hat recommends that you use later hardware models.
+Support for RHCOS functionality for all IBM Power&#174;8 models, IBM Power&#174; AC922, IBM Power&#174; IC922, and IBM Power&#174; LC922 is deprecated in "Red Hat OpenShift Container Platform" "4.14". Red Hat recommends that you use later hardware models.
 
 Six logical partitions (LPARs) across multiple PowerVM servers
 
 
 
-One instance of an IBM Power9 or Power10 processor-based system
+One instance of an IBM Power&#174;9 or Power10 processor-based system
 
 
-On your IBM Power instance, set up:
+On your IBM Power&#174; instance, set up:
 
 Three LPARs for "Red Hat OpenShift Container Platform" control plane machines
 
@@ -95,7 +95,7 @@ Dedicated physical adapter, or SR-IOV virtual function
 
 Available by the Virtual I/O Server using Shared Ethernet Adapter
 
-Virtualized by the Virtual I/O Server using IBM vNIC
+Virtualized by the Virtual I/O Server using IBM&#174; vNIC
 
 
 
@@ -110,10 +110,10 @@ Six LPARs across multiple PowerVM servers
 
 
 
-One instance of an IBM Power9 or Power10 processor-based system
+One instance of an IBM Power&#174;9 or IBM Power&#174;10 processor-based system
 
 
-On your IBM Power instance, set up:
+On your IBM Power&#174; instance, set up:
 
 Three LPARs for "Red Hat OpenShift Container Platform" control plane machines
 
@@ -131,7 +131,7 @@ Dedicated physical adapter, or SR-IOV virtual function
 
 Available by the Virtual I/O Server using Shared Ethernet Adapter
 
-Virtualized by the Virtual I/O Server using IBM vNIC
+Virtualized by the Virtual I/O Server using IBM&#174; vNIC
 
 
 
@@ -418,7 +418,7 @@ Back up the install-config.yaml file so that you can use it to install
 multiple clusters.
 
 
-Installation configuration parameters for IBM Power
+Installation configuration parameters for IBM Power&#174;
 
 
 Sample install-config.yaml file for IBM Power
@@ -482,7 +482,7 @@ The cluster network plugin to install. The supported values are OVNKubernetes an
 The IP address pool to use for service IP addresses. You can enter only one IP address pool. This block must not overlap with existing physical networks. If you need to access the services from an external network, configure load balancers and routers to manage the traffic.
 
 You must set the platform to none. You cannot provide additional platform configuration variables for
-IBM Power infrastructure.
+IBM Power&#174; infrastructure.
 
 Whether to enable or disable FIPS mode. By default, FIPS mode is not enabled. If FIPS mode is enabled, the Red Hat Enterprise Linux CoreOS (RHCOS) machines that "Red Hat OpenShift Container Platform" runs on bypass the default Kubernetes cryptography suite and use the cryptography modules that are provided with RHCOS instead.
 
@@ -596,7 +596,7 @@ Check that the mastersSchedulable parameter in the <installation_directory>/mani
 
 To create the Ignition configuration files, run the following command from the directory that contains the installation program:
 Installing RHCOS and starting the "Red Hat OpenShift Container Platform" bootstrap process
-To install "Red Hat OpenShift Container Platform" on IBM Power infrastructure that you provision, you must install Red Hat Enterprise Linux CoreOS (RHCOS) on the machines. When you install RHCOS, you must provide the Ignition config file that was generated by the "Red Hat OpenShift Container Platform" installation program for the type of machine you are installing. If you have configured suitable networking, DNS, and load balancing infrastructure, the "Red Hat OpenShift Container Platform" bootstrap process begins automatically after the RHCOS machines have rebooted.
+To install "Red Hat OpenShift Container Platform" on IBM Power&#174; infrastructure that you provision, you must install Red Hat Enterprise Linux CoreOS (RHCOS) on the machines. When you install RHCOS, you must provide the Ignition config file that was generated by the "Red Hat OpenShift Container Platform" installation program for the type of machine you are installing. If you have configured suitable networking, DNS, and load balancing infrastructure, the "Red Hat OpenShift Container Platform" bootstrap process begins automatically after the RHCOS machines have rebooted.
 
 Follow either the steps to use an ISO image or network PXE booting to install RHCOS on the machines.
 
@@ -791,7 +791,7 @@ Check the console output to verify that Ignition ran.
 
 Continue to create the machines for your cluster.
 Enabling multipathing with kernel arguments on RHCOS
-In "Red Hat OpenShift Container Platform" version {product-version}, during installation, you can enable multipathing for provisioned nodes. RHCOS supports multipathing on the primary disk. Multipathing provides added benefits of stronger resilience to hardware failure to achieve higher host availability.
+In "Red Hat OpenShift Container Platform" version "4.14", during installation, you can enable multipathing for provisioned nodes. RHCOS supports multipathing on the primary disk. Multipathing provides added benefits of stronger resilience to hardware failure to achieve higher host availability.
 
 During the initial cluster creation, you might want to add kernel arguments to all master or worker nodes. To add kernel arguments to master or worker nodes, you can create a MachineConfig object and inject that object into the set of manifest files used by Ignition during cluster setup.
 
@@ -890,7 +890,7 @@ As a cluster administrator, following installation you must configure your regis
 You have access to the cluster as a user with the cluster-admin role.
 
 You have a cluster
-on IBM Power.
+on IBM Power&#174;.
 
 You have provisioned persistent storage for your cluster, such as Red Hat OpenShift Data Foundation.
 

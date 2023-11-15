@@ -110,7 +110,7 @@ On the right-hand side of the Operator Details page, select Uninstall Operator f
 
 Select Remove. LVM Storage stops running and is completely removed.
 Installing LVM Storage in a disconnected environment
-You can install LVM Storage on "Red Hat OpenShift Container Platform" {product-version} in a disconnected environment. All sections referenced in this procedure are linked in Additional resources.
+You can install LVM Storage on "Red Hat OpenShift Container Platform" "4.14" in a disconnected environment. All sections referenced in this procedure are linked in Additional resources.
 
 You read the About disconnected installation mirroring section.
 
@@ -251,7 +251,7 @@ To create a PVC where the application requires storage, save the following YAML 
 
 Create the PVC by running the following command:
 Monitoring LVM Storage
-When LVM Storage is installed using the "Red Hat OpenShift Container Platform" Web Console, you can monitor the cluster by using the Block and File dashboard in the console by default. However, when you use RHACM to install LVM Storage, you need to configure RHACM Observability to monitor all the single-node OpenShift clusters from one place.
+When you use RHACM to install LVM Storage, you must configure RHACM Observability to monitor all the single-node OpenShift clusters from one place.
 
 Metrics
 You can monitor LVM Storage by viewing the metrics exported by the Operator on the RHACM dashboards and the alerts that are triggered.
@@ -334,18 +334,23 @@ Scaling up storage by adding capacity to your single-node OpenShift cluster usin
 
 Enabling volume expansion support
 Upgrading LVM Storage on single-node OpenShift clusters
-Currently, it is not possible to upgrade from OpenShift Data Foundation Logical Volume Manager Operator 4.11 to LVM Storage 4.12 on single-node OpenShift clusters.
+You can upgrade the Logical volume manager storage (LVM Storage) Operator to ensure compatibility with your single-node OpenShift version.
 
-The data will not be preserved during this process.
-Back up any data that you want to preserve on the persistent volume claims (PVCs).
+You have upgraded your single-node OpenShift cluster.
 
-Delete all PVCs provisioned by the OpenShift Data Foundation Logical Volume Manager Operator and their pods.
+You have installed a previous version of the LVM Storage Operator.
 
-Reinstall LVM Storage on "Red Hat OpenShift Container Platform" 4.12.
+You have installed the OpenShift CLI (oc).
 
-Recreate the workloads.
+You have logged in as a user with cluster-admin privileges.
 
-Copy the backup data to the PVCs created after upgrading to 4.12.
+
+Update the Subscription resource for the LVM Storage Operator by running the following command:
+
+View the upgrade events to check that the installation is complete by running the following command:
+
+
+Verify the version of the LVM Storage Operator by running the following command:
 Volume snapshots for single-node OpenShift
 You can take volume snapshots of persistent volumes (PVs) that are provisioned by LVM Storage. You can also create volume snapshots of the cloned volumes. Volume snapshots help you to do the following:
 

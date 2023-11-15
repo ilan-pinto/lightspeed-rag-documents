@@ -62,7 +62,7 @@ Microsoft Azure
 Unsupported backup storage providers
 The following AWS S3 compatible object storage providers, are known to work with Velero through the AWS plugin, for use as backup storage locations, however, they are unsupported and have not been tested by Red Hat:
 
-IBM Cloud
+IBM Cloud&#174;
 
 Oracle Cloud
 

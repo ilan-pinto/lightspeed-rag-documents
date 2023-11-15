@@ -238,9 +238,9 @@ You can use an OVN-Kubernetes additional network with the following supported pl
 
 Bare metal
 
-IBM Power
+IBM Power&#174;
 
-IBM Z
+IBM Z&#174;
 
 IBM&#174; LinuxONE
 

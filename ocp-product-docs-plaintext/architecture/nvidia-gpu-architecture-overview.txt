@@ -135,7 +135,7 @@ You can install a monitoring dashboard to display GPU usage information on the c
 
 NVIDIA-Certified Systems
 
-NVIDIA AI Enterprise with OpenShift
+NVIDIA AI Enterprise
 
 NVIDIA Container Toolkit
 
@@ -147,6 +147,4 @@ Time-slicing NVIDIA GPUs in OpenShift
 
 Deploy GPU Operators in a disconnected or airgapped environment
 
-Installing the Node Feature Discovery (NFD) Operator
-
-"Red Hat OpenShift Container Platform" Installing the Node Feature Discovery Operator
+Node Feature Discovery Operator

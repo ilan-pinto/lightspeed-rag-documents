@@ -491,7 +491,7 @@ Specify the zone within your region to place machines on. Be sure that your regi
 
 Machine sets running on Azure Stack Hub do not support non-guaranteed Spot VMs.
 Sample YAML for a compute machine set custom resource on IBM Cloud
-This sample YAML defines a compute machine set that runs in a specified IBM Cloud zone in a region and creates nodes that are labeled with node-role.kubernetes.io/infra: "".
+This sample YAML defines a compute machine set that runs in a specified IBM Cloud&#174; zone in a region and creates nodes that are labeled with node-role.kubernetes.io/infra: "".
 
 In this sample, <infrastructure_id> is the infrastructure ID label that is based on the cluster ID that you set when you provisioned the cluster, and <infra> is the node label to add.
 
@@ -553,7 +553,7 @@ The custom Red Hat Enterprise Linux CoreOS (RHCOS) image that was used for clust
 
 The infrastructure ID and zone within your region to place machines on. Be sure that your region supports the zone that you specify.
 
-Specify the IBM Cloud instance profile.
+Specify the IBM Cloud&#174; instance profile.
 
 Specify the region to place machines on.
 
@@ -1039,12 +1039,12 @@ Edit the cluster-monitoring-config config map and change the nodeSelector to use
 Watch the monitoring pods move to the new machines:
 
 If a component has not moved to the infra node, delete the pod with this component:
-Moving OpenShift Logging resources
-You can configure the Cluster Logging Operator to deploy the pods for logging subsystem components, such as Elasticsearch and Kibana, to different nodes. You cannot move the Cluster Logging Operator pod from its installed location.
+Moving logging subsystem resources
+You can configure the Red Hat OpenShift Logging Operator to deploy the pods for logging subsystem components, such as Elasticsearch and Kibana, to different nodes. You cannot move the Red Hat OpenShift Logging Operator pod from its installed location.
 
 For example, you can move the Elasticsearch pods to a separate node because of high CPU, memory, and disk requirements.
 
-The Red Hat OpenShift Logging and Elasticsearch Operators must be installed. These features are not installed by default.
+You have installed the Red Hat OpenShift Logging Operator and the Elasticsearch Operator.
 
 
 Edit the ClusterLogging custom resource (CR) in the openshift-logging project:

@@ -1,15 +1,13 @@
-Uninstalling OpenShift Logging
+Uninstalling Logging
 
 You can remove the logging subsystem from your "Red Hat OpenShift Container Platform" cluster.
-Uninstalling the logging subsystem for Red Hat OpenShift
+Uninstalling the logging subsystem
 You can stop log aggregation by deleting the ClusterLogging custom resource (CR). After deleting the CR, there are other logging subsystem components that remain, which you can optionally remove.
 
 Deleting the ClusterLogging CR does not remove the persistent volume claims (PVCs). To preserve or delete the remaining PVCs, persistent volumes (PVs), and associated data, you must take further action.
 
-The Red Hat OpenShift Logging and Elasticsearch Operators must be installed.
+The Red Hat OpenShift Logging Operator and Elasticsearch Operator are installed.
 
-
-To remove OpenShift Logging:
 
 Use the
 "Red Hat OpenShift Container Platform" web console
@@ -17,9 +15,9 @@ Use the
 
 Optional: Delete the custom resource definitions (CRD):
 
-Optional: Remove the Red Hat OpenShift Logging Operator and OpenShift Elasticsearch Operator:
+Optional: Remove the Red Hat OpenShift Logging Operator and Elasticsearch Operator:
 
-Optional: Remove the OpenShift Logging and Elasticsearch projects.
+Optional: Remove the openshift-logging and openshift-operators-redhat projects.
 
 To keep the PVCs for reuse with other pods, keep the labels or PVC names that you need to reclaim the PVCs.
 

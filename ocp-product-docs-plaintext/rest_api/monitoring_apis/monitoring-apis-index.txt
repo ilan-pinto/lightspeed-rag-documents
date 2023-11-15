@@ -12,18 +12,6 @@ Description
 
 Type
 object
-AlertRelabelConfig [monitoring.openshift.io/v1]
-
-Description
-
-Type
-object
-AlertingRule [monitoring.openshift.io/v1]
-
-Description
-
-Type
-object
 PodMonitor [monitoring.coreos.com/v1]
 
 Description

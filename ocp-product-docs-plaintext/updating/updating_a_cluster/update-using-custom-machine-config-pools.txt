@@ -56,7 +56,7 @@ To pause an MCP:
 
 Patch the MCP that you want paused:
 Performing the cluster update
-When the MCPs enter ready state, you can perform the cluster update. See one of the following update methods, as appropriate for your cluster:
+When the MCPs enter ready state, you can peform the cluster update. See one of the following update methods, as appropriate for your cluster:
 
 Updating a cluster using the web console
 

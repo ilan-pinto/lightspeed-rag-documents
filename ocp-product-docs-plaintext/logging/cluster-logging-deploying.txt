@@ -32,7 +32,7 @@ Create a ClusterLogging instance.
 
 Create an OpenShift Logging instance:
 
-Verify the installation:
+Verify the install:
 
 
 If Alertmanager logs alerts such as Prometheus could not scrape fluentd for more than 10m, make sure that openshift.io/cluster-monitoring is set to "true" for the OpenShift Elasticsearch Operator and OpenShift Logging Operator. See the Red Hat KnowledgeBase for more information: Prometheus could not scrape fluentd for more than 10m alert in Alertmanager

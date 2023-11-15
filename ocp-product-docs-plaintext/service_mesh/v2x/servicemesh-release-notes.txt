@@ -61,7 +61,7 @@ spec:
 Integration with cert-manager istio-csr
 With this update, Red Hat OpenShift Service Mesh integrates with the cert-manager controller and the istio-csr agent. cert-manager adds certificates and certificate issuers as resource types in Kubernetes clusters, and simplifies the process of obtaining, renewing, and using those certificates. cert-manager provides and rotates an intermediate CA certificate for Istio. Integration with istio-csr enables users to delegate signing certificate requests from Istio proxies to cert-manager. ServiceMeshControlPlane v2.4 accepts CA certificates provided by cert-manager as cacerts secret.
 
-Integration with cert-manager and istio-csr is not supported on IBM Power, IBM Z, and IBM&#174; LinuxONE.
+Integration with cert-manager and istio-csr is not supported on IBM Power&#174;, IBM Z&#174;, and IBM&#174; LinuxONE.
 Integration with external authorization systems
 This enhancement introduces a generally available method of integrating Red Hat OpenShift Service Mesh with external authorization systems by using the action: CUSTOM field of the AuthorizationPolicy resource. Use the envoyExtAuthzHttp field to delegate the access control to an external authorization system.
 Integration with external Prometheus installation
@@ -84,7 +84,7 @@ spec:
 Single stack IPv6 support
 This enhancement introduces generally available support for single stack IPv6 clusters, providing access to a broader range of IP addresses. Dual stack IPv4 or IPv6 cluster is not supported.
 
-Single stack IPv6 support is not available on IBM Power, IBM Z, and IBM&#174; LinuxONE.
+Single stack IPv6 support is not available on IBM Power&#174;, IBM Z&#174;, and IBM&#174; LinuxONE.
 "Red Hat OpenShift Container Platform" Gateway API support
 "Red Hat OpenShift Container Platform" Gateway API support is a Technology Preview feature only. Technology Preview features are not supported with Red Hat production service level agreements (SLAs) and might not be functionally complete. Red Hat does not recommend using them in production. These features provide early access to upcoming product features, enabling customers to test functionality and provide feedback during the development process.
 
@@ -612,7 +612,7 @@ Added an option to the must-gather data collection tool that gathers information
 
 Improved performance for Service Mesh control planes with hundreds of namespaces
 New features Red Hat OpenShift Service Mesh 2.0.2
-This release of Red Hat OpenShift Service Mesh adds support for IBM Z and IBM Power Systems. It also addresses Common Vulnerabilities and Exposures (CVEs) and bug fixes.
+This release of Red Hat OpenShift Service Mesh adds support for IBM Z&#174; and IBM Power&#174; Systems. It also addresses Common Vulnerabilities and Exposures (CVEs) and bug fixes.
 New features Red Hat OpenShift Service Mesh 2.0.1
 This release of Red Hat OpenShift Service Mesh addresses Common Vulnerabilities and Exposures (CVEs) and bug fixes.
 New features Red Hat OpenShift Service Mesh 2.0
@@ -722,13 +722,13 @@ Graph layout - The layout for the Kiali graph can render differently, depending 
 
 The first time you access related services such as distributed tracing platform (Jaeger) and Grafana, from the Kiali console, you must accept the certificate and re-authenticate using your "Red Hat OpenShift Container Platform" login credentials. This happens due to an issue with how the framework displays embedded pages in the console.
 
-The Bookinfo sample application cannot be installed on IBM Power, IBM Z, and IBM&#174; LinuxONE.
+The Bookinfo sample application cannot be installed on IBM Power&#174;, IBM Z&#174;, and IBM&#174; LinuxONE.
 
-WebAssembly extensions are not supported on IBM Power, IBM Z, and IBM&#174; LinuxONE.
+WebAssembly extensions are not supported on IBM Power&#174;, IBM Z&#174;, and IBM&#174; LinuxONE.
 
-LuaJIT is not supported on IBM Power, IBM Z, and IBM&#174; LinuxONE.
+LuaJIT is not supported on IBM Power&#174;, IBM Z&#174;, and IBM&#174; LinuxONE.
 
-Single stack IPv6 support is not available on IBM Power, IBM Z, and IBM&#174; LinuxONE.
+Single stack IPv6 support is not available on IBM Power&#174;, IBM Z&#174;, and IBM&#174; LinuxONE.
 
 
 Service Mesh known issues
@@ -756,7 +756,7 @@ OSSM-882 This applies for Service Mesh 2.1 and earlier. Namespace is in the acce
 
 MAISTRA-2692 With Mixer removed, custom metrics that have been defined in Service Mesh 2.0.x cannot be used in 2.1. Custom metrics can be configured using EnvoyFilter. Red Hat is unable to support EnvoyFilter configuration except where explicitly documented. This is due to tight coupling with the underlying Envoy APIs, meaning that backward compatibility cannot be maintained.
 
-MAISTRA-2648 Service mesh extensions are currently not compatible with meshes deployed on IBM Z.
+MAISTRA-2648 Service mesh extensions are currently not compatible with meshes deployed on IBM Z&#174;.
 
 MAISTRA-1959 Migration to 2.0 Prometheus scraping (spec.addons.prometheus.scrape set to true) does not work when mTLS is enabled. Additionally, Kiali displays extraneous graph data when mTLS is disabled.
 

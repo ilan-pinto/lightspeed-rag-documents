@@ -1,6 +1,6 @@
 About log collection and forwarding
 
-The Cluster Logging Operator deploys a collector based on the ClusterLogForwarder resource specification. There are two collector options supported by this Operator: the legacy Fluentd collector, and the Vector collector.
+The Red Hat OpenShift Logging Operator deploys a collector based on the ClusterLogForwarder resource specification. There are two collector options supported by this Operator: the legacy Fluentd collector, and the Vector collector.
 
 As of logging version 5.6 Fluentd is deprecated and is planned to be removed in a future release. Red Hat will provide bug fixes and support for this feature during the current release lifecycle, but this feature will no longer receive enhancements and will be removed. As an alternative to Fluentd, you can use Vector instead.
 Log collection
@@ -71,13 +71,13 @@ You cannot create a ClusterLogForwarder resource named collector in the openshif
 Enabling the multi log forwarder feature for a cluster
 To use the multi log forwarder feature, you must create a service account and cluster role bindings for that service account. You can then reference the service account in the ClusterLogForwarder resource to control access permissions.
 
-In order to support multi log forwarding in additional namespaces other than the openshift-logging namespace, you must update the Cluster Logging Operator to watch all namespaces. This functionality is supported by default in new Cluster Logging Operator version 5.8 installations.
+In order to support multi log forwarding in additional namespaces other than the openshift-logging namespace, you must update the Red Hat OpenShift Logging Operator to watch all namespaces. This functionality is supported by default in new Red Hat OpenShift Logging Operator version 5.8 installations.
 Authorizing log collection RBAC permissions
-In logging 5.8 and later, the Cluster Logging Operator provides collect-audit-logs, collect-application-logs, and collect-infrastructure-logs cluster roles, which enable the collector to collect audit logs, application logs, and infrastructure logs respectively.
+In logging 5.8 and later, the Red Hat OpenShift Logging Operator provides collect-audit-logs, collect-application-logs, and collect-infrastructure-logs cluster roles, which enable the collector to collect audit logs, application logs, and infrastructure logs respectively.
 
 You can authorize RBAC permissions for log collection by binding the required cluster roles to a service account.
 
-The Cluster Logging Operator is installed in the openshift-logging namespace.
+The Red Hat OpenShift Logging Operator is installed in the openshift-logging namespace.
 
 You have administrator permissions.
 
@@ -626,7 +626,7 @@ Forwarding logs to Google Cloud Platform (GCP)
 You can forward logs to Google Cloud Logging in addition to, or instead of, the internal default "Red Hat OpenShift Container Platform" log store.
 
 Using this feature with Fluentd is not supported.
-Logging subsystem for Red Hat OpenShift Operator 5.5.1 and later
+Red Hat OpenShift Logging Operator 5.5.1 and later
 
 
 Create a secret using your Google service account key.
@@ -641,9 +641,9 @@ Forwarding logs to Splunk
 You can forward logs to the Splunk HTTP Event Collector (HEC) in addition to, or instead of, the internal default "Red Hat OpenShift Container Platform" log store.
 
 Using this feature with Fluentd is not supported.
-Red Hat OpenShift Logging Operator 5.6 and higher
+Red Hat OpenShift Logging Operator 5.6 or later
 
-ClusterLogging instance with vector specified as collector
+A ClusterLogging instance with vector specified as the collector
 
 Base64 encoded Splunk HEC token
 
@@ -652,9 +652,9 @@ Create a secret using your Base64 encoded Splunk HEC token.
 
 Create or edit the ClusterLogForwarder Custom Resource (CR) using the template below:
 Forwarding logs over HTTP
-Forwarding logs over HTTP is supported for both fluentd and vector collectors. To enable, specify http as the output type in the ClusterLogForwarder custom resource (CR).
+Forwarding logs over HTTP is supported for both the Fluentd and Vector log collectors. To enable, specify http as the output type in the ClusterLogForwarder custom resource (CR).
 
-Create or edit the ClusterLogForwarder Custom Resource (CR) using the template below:
+Create or edit the ClusterLogForwarder CR using the template below:
 
 
 apiVersion: "logging.openshift.io/v1"

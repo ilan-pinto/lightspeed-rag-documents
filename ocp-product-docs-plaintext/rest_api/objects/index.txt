@@ -675,7 +675,7 @@ Description
 
 Type
 object
-io.k8s.api.core.v1.ResourceRequirements schema
+io.k8s.api.core.v1.ResourceRequirements_v2 schema
 
 Description
 
@@ -741,20 +741,6 @@ Type
 object
 Required
 io.k8s.api.events.v1.EventList schema
-
-Description
-
-Type
-object
-Required
-io.k8s.api.flowcontrol.v1beta3.FlowSchemaList schema
-
-Description
-
-Type
-object
-Required
-io.k8s.api.flowcontrol.v1beta3.PriorityLevelConfigurationList schema
 
 Description
 
@@ -1371,20 +1357,6 @@ Description
 Type
 object
 Required
-io.openshift.monitoring.v1.AlertingRuleList schema
-
-Description
-
-Type
-object
-Required
-io.openshift.monitoring.v1.AlertRelabelConfigList schema
-
-Description
-
-Type
-object
-Required
 io.openshift.network.cloud.v1.CloudPrivateIPConfigList schema
 
 Description
@@ -1624,13 +1596,6 @@ Type
 object
 Required
 io.x-k8s.cluster.infrastructure.v1beta1.Metal3RemediationTemplateList schema
-
-Description
-
-Type
-object
-Required
-org.ovn.k8s.v1.AdminPolicyBasedExternalRouteList schema
 
 Description
 

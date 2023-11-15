@@ -94,96 +94,12 @@ Supported object store (AWS S3, Google Cloud Storage, Azure, Swift, Minio, OpenS
 
 Install the Loki Operator by creating the following objects:
 
+Create a LokiStack instance:
 
-apiVersion: operators.coreos.com/v1alpha1
-kind: Subscription
-metadata:
-  name: loki-operator
-  namespace: openshift-operators-redhat 1
-spec:
-  charsion: operators.coreos.com/v1alpha1
-kind: Subscription
-metadata:
-  name: loki-operator
-  namespace: openshift-operators-redhat 1
-spec:
-  channel: stable 2
-  name: loki-operator
-  source: redhat-operators 3
-  sourceNamespace: openshift-marketplace
-You must specify the openshift-operators-redhat namespace.
+Install the Red Hat OpenShift Logging Operator by creating the following objects:
 
-Specify stable, or stable-5.<y> as the channel.
+Create an OpenShift Logging instance:
 
-Specify redhat-operators. If your "Red Hat OpenShift Container Platform" cluster is installed on a restricted network, also known as a disconnected cluster, specify the name of the CatalogSource object you created when you configured the Operator Lifecycle Manager (OLM).
-
-
-apiVersion: loki.grafana.com/v1
-kind: LokiStack
-metadata:
-  name: logging-loki
-  namespace: openshift-logging
-spec:
-  size: 1x.small 1
-  storage:
-    schemas:
-    - version: v12
-      effectiveDate: "2022-06-01"
-    secret:
-      name: logging-loki-s3 2
-      type: s3 3
-  storageClassName: <storage_class_name> 4
-  tenants:
-    mode: openshift-logging
-Supported size options for production instances of Loki are 1x.small and 1x.medium.
-
-Enter the name of your log store secret.
-
-Enter the type of your log store secret.
-
-Enter the name of an existing storage class for temporary storage. For best performance, specify a storage class that allocates block storage. Available storage classes for your cluster can be listed using oc get storageclasses.
-
-
-apiVersion: operators.coreos.com/v1
-kind: OperatorGroup
-metadata:
-  name: cluster-logging
-  namespace: openshift-logging 1
-spec:
-  targetNamespaces:
-  - openshift-logging
-You must specify the openshift-logging namespace.
-
-
-apiVersion: operators.coreos.com/v1alpha1
-kind: Subscription
-metadata:
-  name: cluster-logging
-  namespace: openshift-logging 1
-spec:
-  channel: stable 2
-  name: cluster-logging
-  source: redhat-operators 3
-  sourceNamespace: openshift-marketplace
-You must specify the openshift-logging namespace.
-
-Specify stable, or stable-5.<y> as the channel.
-
-Specify redhat-operators. If your "Red Hat OpenShift Container Platform" cluster is installed on a restricted network, also known as a disconnected cluster, specify the name of the CatalogSource object you created when you configured the Operator Lifecycle Manager (OLM).
-
-
-apiVersion: logging.openshift.io/v1
-kind: ClusterLogging
-metadata:
-  name: instance
-  namespace: openshift-logging
-spec:
-  logStore:
-    type: lokistack
-    lokistack:
-      name: logging-loki
-  collection:
-    type: vector
 Verify the installation by listing the pods in the openshift-logging project.
 LokiStack behavior during cluster restarts
 In logging version 5.8 and newer versions, when an "Red Hat OpenShift Container Platform" cluster is restarted, LokiStack ingestion and the query path continue to operate within the available CPU and memory resources available for the node. This means that there is no downtime for the LokiStack during "Red Hat OpenShift Container Platform" cluster updates. This behavior is achieved by using PodDisruptionBudget resources. The Loki Operator provisions PodDisruptionBudget resources for Loki, which determine the minimum number of pods that must be available per component to ensure normal operations under certain conditions.

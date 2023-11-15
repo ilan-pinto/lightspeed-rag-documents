@@ -37,13 +37,13 @@ Bare metal
 
 Google Cloud Platform
 
-IBM Cloud VPC
+IBM Cloud&#174;
 
-IBM Power
+IBM Power&#174;
 
-IBM Z and IBM&#174; LinuxONE
+IBM Z&#174; and IBM&#174; LinuxONE
 
-IBM Z and IBM&#174; LinuxONE with RHEL KVM
+IBM Z&#174; and IBM&#174; LinuxONE with RHEL KVM
 
 Red Hat OpenStack Platform (RHOSP)
 
