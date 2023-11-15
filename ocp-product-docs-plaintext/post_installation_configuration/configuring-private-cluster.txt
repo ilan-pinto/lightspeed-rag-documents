@@ -1,0 +1,57 @@
+Configuring a private cluster
+
+After you install an "Red Hat OpenShift Container Platform" version {product-version} cluster, you can set some of its core components to be private.
+About private clusters
+By default, "Red Hat OpenShift Container Platform" is provisioned using publicly-accessible DNS and endpoints. You can set the DNS, Ingress Controller, and API server to private after you deploy your private cluster.
+
+If the cluster has any public subnets, load balancer services created by administrators might be publicly accessible. To ensure cluster security, verify that these services are explicitly annotated as private.
+
+If you install "Red Hat OpenShift Container Platform" on installer-provisioned infrastructure, the installation program creates records in a pre-existing public zone and, where possible, creates a private zone for the cluster's own DNS resolution. In both the public zone and the private zone, the installation program or cluster creates DNS entries for *.apps, for the Ingress object, and api, for the API server.
+
+The *.apps records in the public and private zone are identical, so when you delete the public zone, the private zone seamlessly provides all DNS resolution for the cluster.
+
+
+Because the default Ingress object is created as public, the load balancer is internet-facing and in the public subnets. You can replace the default Ingress Controller with an internal one.
+
+
+By default, the installation program creates appropriate network load balancers for the API server to use for both internal and external traffic.
+
+On Amazon Web Services (AWS), separate public and private load balancers are created. The load balancers are identical except that an additional port is available on the internal one for use within the cluster. Although the installation program automatically creates or destroys the load balancer based on API server requirements, the cluster does not manage or maintain them. As long as you preserve the cluster's access to the API server, you can manually modify or move the load balancers. For the public load balancer, port 6443 is open and the health check is configured for HTTPS against the /readyz path.
+
+On Google Cloud Platform, a single load balancer is created to manage both internal and external API traffic, so you do not need to modify the load balancer.
+
+On Microsoft Azure, both public and private load balancers are created. However, because of limitations in current implementation, you just retain both load balancers in a private cluster.
+Setting DNS to private
+After you deploy a cluster, you can modify its DNS to use only a private zone.
+
+Review the DNS custom resource for your cluster:
+
+Patch the DNS custom resource to remove the public zone:
+
+Optional: Review the DNS custom resource for your cluster and confirm that the public zone was removed:
+Setting the Ingress Controller to private
+After you deploy a cluster, you can modify its Ingress Controller to use only a private zone.
+
+Modify the default Ingress Controller to use only an internal endpoint:
+Restricting the API server to private
+After you deploy a cluster to Amazon Web Services (AWS) or Microsoft Azure, you can reconfigure the API server to use only the private zone.
+
+Install the OpenShift CLI (oc).
+
+Have access to the web console as a user with admin privileges.
+
+
+In the web portal or console for your cloud provider, take the following actions:
+
+Remove the external load balancers:
+
+
+Configuring the Ingress Controller endpoint publishing scope to Internal
+When a cluster administrator installs a new cluster without specifying that the cluster is private, the default Ingress Controller is created with a scope set to External. Cluster administrators can change an External scoped Ingress Controller to Internal.
+
+You installed the oc CLI.
+
+
+To change an External scoped Ingress Controller to Internal, enter the following command:
+
+To check the status of the Ingress Controller, enter the following command:

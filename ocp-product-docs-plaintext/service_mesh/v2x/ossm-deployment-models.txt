@@ -1,0 +1,25 @@
+Service mesh deployment models
+
+Red Hat OpenShift Service Mesh supports several different deployment models that can be combined in different ways to best suit your business requirements.
+
+In Istio, a tenant is a group of users that share common access and privileges for a set of deployed workloads. You can use tenants to provide a level of isolation between different teams. You can segregate access to different tenants using NetworkPolicies, AuthorizationPolicies, and exportTo annotations on istio.io or service resources.
+Cluster-Wide (Single Tenant) mesh deployment model
+A cluster-wide deployment contains a Service Mesh Control Plane that monitors resources for an entire cluster. Monitoring resources for an entire cluster closely resembles Istio functionality in that the control plane uses a single query across all namespaces to monitor Istio and Kubernetes resources. As a result, cluster-wide deployments decrease the number of requests sent to the API server.
+
+Similar to Istio, a cluster-wide mesh includes namespaces with the istio-injection=enabled namespace label by default. You can change this label by modifying the spec.labelSelectors field of the ServiceMeshMemberRoll resource.
+Multitenant deployment model
+Red Hat OpenShift Service Mesh installs a ServiceMeshControlPlane that is configured for multitenancy by default. Red Hat OpenShift Service Mesh uses a multitenant Operator to manage the Service Mesh control plane lifecycle. Within a mesh, namespaces are used for tenancy.
+
+Red Hat OpenShift Service Mesh uses ServiceMeshControlPlane resources to manage mesh installations, whose scope is limited by default to namespace that contains the resource. You use ServiceMeshMemberRoll and ServiceMeshMember resources to include additional namespaces into the mesh. A namespace can only be included in a single mesh, and multiple meshes can be installed in a single OpenShift cluster.
+
+Typical service mesh deployments use a single Service Mesh control plane to configure communication between services in the mesh. Red Hat OpenShift Service Mesh supports “soft multitenancy”, where there is one control plane and one mesh per tenant, and there can be multiple independent control planes within the cluster. Multitenant deployments specify the projects that can access the Service Mesh and isolate the Service Mesh from other control plane instances.
+
+The cluster administrator gets control and visibility across all the Istio control planes, while the tenant administrator only gets control over their specific Service Mesh, Kiali, and Jaeger instances.
+
+You can grant a team permission to deploy its workloads only to a given namespace or set of namespaces. If granted the mesh-user role by the service mesh administrator, users can create a ServiceMeshMember resource to add namespaces to the ServiceMeshMemberRoll.
+Multimesh or federated deployment model
+Federation is a deployment model that lets you share services and workloads between separate meshes managed in distinct administrative domains.
+
+The Istio multi-cluster model requires a high level of trust between meshes and remote access to all Kubernetes API servers on which the individual meshes reside. Red Hat OpenShift Service Mesh federation takes an opinionated approach to a multi-cluster implementation of Service Mesh that assumes minimal trust between meshes.
+
+A federated mesh is a group of meshes behaving as a single mesh. The services in each mesh can be unique services, for example a mesh adding services by importing them from another mesh, can provide additional workloads for the same services across the meshes, providing high availability, or a combination of both. All meshes that are joined into a federated mesh remain managed individually, and you must explicitly configure which services are exported to and imported from other meshes in the federation. Support functions such as certificate generation, metrics and trace collection remain local in their respective meshes.

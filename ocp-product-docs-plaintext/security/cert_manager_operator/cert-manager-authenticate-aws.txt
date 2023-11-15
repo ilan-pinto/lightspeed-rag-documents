@@ -1,0 +1,27 @@
+Authenticating the cert-manager Operator for Red Hat OpenShift with AWS Security Token Service
+
+You can authenticate the cert-manager Operator for Red Hat OpenShift on the AWS Security Token Service (STS) cluster. You can configure cloud credentials for the cert-manager Operator for Red Hat OpenShift by using the ccoctl binary.
+Configuring cloud credentials for the cert-manager Operator for Red Hat OpenShift for the AWS Security Token Service cluster
+To configure the cloud credentials for the cert-manager Operator for Red Hat OpenShift on the AWS Security Token Service (STS) cluster with the cloud credentials. You must generate the cloud credentials manually, and apply it on the cluster by using the ccoctl binary.
+
+You have extracted and prepared the ccoctl binary.
+
+You have configured an "Red Hat OpenShift Container Platform" cluster with AWS STS by using the Cloud Credential Operator in manual mode.
+
+
+Create a directory to store a CredentialsRequest resource YAML file by running the following command:
+
+Create a CredentialsRequest resource YAML file under the credentials-request directory, such as, sample-credential-request.yaml, by applying the following yaml:
+
+Use the ccoctl tool to process CredentialsRequest objects by running the following command:
+
+Add the eks.amazonaws.com/role-arn="<aws_role_arn>" annotation to the service account by running the following command:
+
+To create a new pod, delete the existing cert-manager controller pod by running the following command:
+
+
+Get the name of the updated cert-manager controller pod by running the following command:
+
+Verify that AWS credentials are updated by running the following command:
+Additional resources
+Configuring the Cloud Credential Operator utility

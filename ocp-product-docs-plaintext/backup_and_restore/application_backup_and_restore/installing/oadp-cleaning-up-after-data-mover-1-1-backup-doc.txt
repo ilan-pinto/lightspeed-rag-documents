@@ -1,0 +1,34 @@
+Cleaning up after a backup using OADP 1.1 Data Mover
+
+For OADP 1.1 Data Mover, you must perform a data cleanup after you perform a backup.
+
+The cleanup consists of deleting the following resources:
+
+Snapshots in a bucket
+
+Cluster resources
+
+Volume snapshot backups (VSBs) after a backup procedure that is either run by a schedule or is run repetitively
+Deleting snapshots in a bucket
+OADP 1.1 Data Mover might leave one or more snapshots in a bucket after a backup. You can either delete all the snapshots or delete individual snapshots.
+
+To delete all snapshots in your bucket, delete the /<protected_namespace> folder that is specified in the Data Protection Application (DPA) .spec.backupLocation.objectStorage.bucket resource.
+
+To delete an individual snapshot:
+Deleting cluster resources
+OADP 1.1 Data Mover might leave cluster resources whether or not it successfully backs up your container storage interface (CSI) volume snapshots to a remote object store.
+
+Deleting cluster resources following a successful backup and restore that used Data Mover
+You can delete any VolumeSnapshotBackup or VolumeSnapshotRestore CRs that remain in your application namespace after a successful backup and restore where you used Data Mover.
+
+Delete cluster resources that remain on the application namespace, the namespace with the application PVCs to backup and restore, after a backup where you use Data Mover:
+
+Delete cluster resources that remain after a restore where you use Data Mover:
+
+If needed, delete any VolumeSnapshotContent resources that remain after a backup and restore where you use Data Mover:
+Deleting cluster resources following a partially successful or a failed backup and restore that used Data Mover
+If your backup and restore operation that uses Data Mover either fails or only partially succeeds, you must clean up any VolumeSnapshotBackup (VSB) or VolumeSnapshotRestore custom resource definitions (CRDs) that exist in the application namespace, and clean up any extra resources created by these controllers.
+
+Clean up cluster resources that remain after a backup operation where you used Data Mover by entering the following commands:
+
+Clean up cluster resources that remain after a restore operation using Data Mover by entering the following commands:

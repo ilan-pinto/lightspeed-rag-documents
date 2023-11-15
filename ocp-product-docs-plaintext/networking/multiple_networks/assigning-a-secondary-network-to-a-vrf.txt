@@ -1,0 +1,35 @@
+Assigning a secondary network to a VRF
+
+Assigning a secondary network to a VRF
+As a cluster administrator, you can configure an additional network for your VRF domain by using the CNI VRF plugin. The virtual network created by this plugin is associated with a physical interface that you specify.
+
+Applications that use VRFs need to bind to a specific device. The common usage is to use the SO_BINDTODEVICE option for a socket. SO_BINDTODEVICE binds the socket to a device that is specified in the passed interface name, for example, eth1. To use SO_BINDTODEVICE, the application must have CAP_NET_RAW capabilities.
+
+Using a VRF through the ip vrf exec command is not supported in "Red Hat OpenShift Container Platform" pods. To use VRF, bind applications directly to the VRF interface.
+Creating an additional network attachment with the CNI VRF plugin
+The Cluster Network Operator (CNO) manages additional network definitions. When you specify an additional network to create, the CNO creates the NetworkAttachmentDefinition custom resource (CR) automatically.
+
+Do not edit the NetworkAttachmentDefinition CRs that the Cluster Network Operator manages. Doing so might disrupt network traffic on your additional network.
+To create an additional network attachment with the CNI VRF plugin, perform the following procedure.
+
+Install the "Red Hat OpenShift Container Platform" CLI (oc).
+
+Log in to the OpenShift cluster as a user with cluster-admin privileges.
+
+
+Create the Network custom resource (CR) for the additional network attachment and insert the rawCNIConfig configuration for the additional network, as in the following example CR. Save the YAML as the file additional-network-attachment.yaml.
+
+Create the Network resource:
+
+Confirm that the CNO created the NetworkAttachmentDefinition CR by running the following command. Replace <namespace> with the namespace that you specified when configuring the network attachment, for example, additional-network-1.
+
+
+To verify that the VRF CNI is correctly configured and the additional network attachment is attached, do the following:
+
+Create a network that uses the VRF CNI.
+
+Assign the network to a pod.
+
+Verify that the pod network attachment is connected to the VRF additional network. Remote shell into the pod and run the following command:
+
+Confirm the VRF interface is master of the secondary interface:

@@ -1,0 +1,141 @@
+cert-manager Operator for Red Hat OpenShift release notes
+
+The cert-manager Operator for Red Hat OpenShift is a cluster-wide service that provides application certificate lifecycle management.
+
+These release notes track the development of cert-manager Operator for Red Hat OpenShift.
+
+For more information, see About the cert-manager Operator for Red Hat OpenShift.
+Release notes for cert-manager Operator for Red Hat OpenShift 1.12.0
+Issued: 2023-10-02
+
+The following advisories are available for the cert-manager Operator for Red Hat OpenShift 1.12.0:
+
+RHEA-2023:5339
+
+RHBA-2023:5412
+
+
+Version 1.12.0 of the cert-manager Operator for Red Hat OpenShift is based on the upstream cert-manager version v1.12.4. For more information, see the cert-manager project release notes for v1.12.4.
+
+Bug fixes
+Previously, you could not configure the CPU and memory requests and limits for the cert-manager components such as cert-manager controller, CA injector, and Webhook. Now, you can configure the CPU and memory requests and limits for the cert-manager components by using the command-line interface (CLI). For more information, see Overriding CPU and memory limits for the cert-manager components. (OCPBUGS-13830)
+
+Previously, if you updated the ClusterIssuer object, the cert-manager Operator for Red Hat OpenShift could not verify and update the change in the cluster issuer. Now, if you modify the ClusterIssuer object, the cert-manager Operator for Red Hat OpenShift verifies the ACME account registration and updates the change. (OCPBUGS-8210)
+
+Previously, the cert-manager Operator for Red Hat OpenShift did not support enabling the  --enable-certificate-owner-ref flag. Now, the cert-manager Operator for Red Hat OpenShift supports enabling the --enable-certificate-owner-ref flag by adding the spec.controllerConfig.overrideArgs field in the cluster object. After enabling the --enable-certificate-owner-ref flag, cert-manager can automatically delete the secret when the Certificate resource is removed from the cluster. For more information on enabling the --enable-certificate-owner-ref flag and deleting the TLS secret automatically, see Deleting a TLS secret automatically upon Certificate removal (CM-98)
+
+Previously, the cert-manager Operator for Red Hat OpenShift could not pull the jetstack-cert-manager-container-v1.12.4-1 image. The cert-manager controller, CA injector, and Webhook pods were stuck in the ImagePullBackOff state. Now, the cert-manager Operator for Red Hat OpenShift pulls the jetstack-cert-manager-container-v1.12.4-1 image to run the cert-manager controller, CA injector, and Webhook pods successfully. (OCPBUGS-19986)
+Release notes for cert-manager Operator for Red Hat OpenShift 1.11.4
+Issued: 2023-07-26
+
+The following advisory is available for the cert-manager Operator for Red Hat OpenShift 1.11.4:
+
+RHEA-2023:4081
+
+
+The golang version is updated to the version 1.19.10 to fix Common Vulnerabilities and Exposures (CVEs). Version 1.11.4 of the cert-manager Operator for Red Hat OpenShift is based on the upstream cert-manager version v1.11.4. For more information, see the cert-manager project release notes for v1.11.4.
+
+Bug fixes
+Previously, the cert-manager Operator for Red Hat OpenShift did not allow you to install older versions of the cert-manager Operator for Red Hat OpenShift. Now, you can install older versions of the cert-manager Operator for Red Hat OpenShift using the web console or the command-line interface (CLI). For more information on how to use the web console to install older versions, see Installing the cert-manager Operator for Red Hat OpenShift. (OCPBUGS-16393)
+Release notes for cert-manager Operator for Red Hat OpenShift 1.11.1
+Issued: 2023-06-21
+
+The following advisory is available for the cert-manager Operator for Red Hat OpenShift 1.11.1:
+
+RHEA-2023:3439
+
+
+Version 1.11.1 of the cert-manager Operator for Red Hat OpenShift is based on the upstream cert-manager version v1.11.1. For more information, see the cert-manager project release notes for v1.11.1.
+
+New features and enhancements
+This is the general availability (GA) release of the cert-manager Operator for Red Hat OpenShift.
+
+Setting log levels for cert-manager and the cert-manager Operator for Red Hat OpenShift
+To troubleshoot issues with cert-manager and the cert-manager Operator for Red Hat OpenShift, you can now configure the log level verbosity by setting a log level for cert-manager and the cert-manager Operator for Red Hat OpenShift. For more information, see Configuring log levels for cert-manager and the cert-manager Operator for Red Hat OpenShift.
+Authenticating the cert-manager Operator for Red Hat OpenShift with AWS
+You can now configure cloud credentials for the cert-manager Operator for Red Hat OpenShift on AWS clusters with Security Token Service (STS) and without STS. For more information, see Authenticating the cert-manager Operator for Red Hat OpenShift on AWS  Security Token Service and Authenticating the cert-manager Operator for Red Hat OpenShift on AWS.
+Authenticating the cert-manager Operator for Red Hat OpenShift with GCP
+You can now configure cloud credentials for the cert-manager Operator for Red Hat OpenShift on GCP clusters with Workload Identity and without Workload Identity. For more information, see Authenticating the cert-manager Operator for Red Hat OpenShift with GCP Workload Identity and Authenticating the cert-manager Operator for Red Hat OpenShift with GCP
+Bug fixes
+Previously, the cm-acme-http-solver pod did not use the latest published Red Hat image registry.redhat.io/cert-manager/jetstack-cert-manager-acmesolver-rhel9. With this release, the cm-acme-http-solver pod uses the latest published Red Hat image registry.redhat.io/cert-manager/jetstack-cert-manager-acmesolver-rhel9. (OCPBUGS-10821)
+
+Previously, the cert-manager Operator for Red Hat OpenShift did not support changing labels for cert-manager pods such as controller, CA injector, and Webhook pods. With this release, you can add labels to cert-manager pods. (OCPBUGS-8466)
+
+Previously, you could not update the log verbosity level in the cert-manager Operator for Red Hat OpenShift. You can now update the log verbosity level by using an environmental variable OPERATOR_LOG_LEVEL in its subscription resource. (OCPBUGS-9994)
+
+Previously, when uninstalling the cert-manager Operator for Red Hat OpenShift, if you select the Delete all operand instances for this operator checkbox in the "Red Hat OpenShift Container Platform" web console, the Operator was not uninstalled properly. The cert-manager Operator for Red Hat OpenShift is now properly uninstalled. (OCPBUGS-9960)
+
+Previously, the cert-manager Operator for Red Hat OpenShift did not support using Google workload identity federation. The cert-manager Operator for Red Hat OpenShift now supports using Google workload identity federation. (OCPBUGS-9998)
+Known issues
+After installing the cert-manager Operator for Red Hat OpenShift, if you navigate to Operators → Installed Operators and select Operator details in the "Red Hat OpenShift Container Platform" web console, you cannot see the cert-manager resources that are created across all namespaces. As a workaround, you can navigate to Home -> API Explorer to see the cert-manager resources. (OCPBUGS-11647)
+
+After uninstalling the cert-manager Operator for Red Hat OpenShift by using the web console, the cert-manager Operator for Red Hat OpenShift does not remove the cert-manager controller, CA injector, and Webhook pods automatically from the cert-manager namespace. As a workaround, you can manually delete the cert-manager controller, CA injector, and Webhook pod deployments present in the cert-manager namespace. (OCPBUGS-13679)
+Release notes for cert-manager Operator for Red Hat OpenShift 1.10.3
+Issued: 2023-08-08
+
+The following advisory is available for the cert-manager Operator for Red Hat OpenShift 1.10.3:
+
+RHSA-2023:4335
+
+
+The version 1.10.3 of the cert-manager Operator for Red Hat OpenShift is based on the cert-manager upstream version v1.10.2. With this release, the version of the cert-manager Operator for Red Hat OpenShift is 1.10.3 but the cert-manager operand version is 1.10.2. For more information, see the cert-manager project release notes for v1.10.2.
+
+CVEs
+CVE-2022-41725
+
+CVE-2022-41724
+
+CVE-2023-24536
+
+CVE-2023-24538
+
+CVE-2023-24537
+
+CVE-2023-24534
+
+CVE-2022-41723
+
+CVE-2023-29400
+
+CVE-2023-24540
+
+CVE-2023-24539
+Release notes for cert-manager Operator for Red Hat OpenShift 1.10.2
+Issued: 2023-03-23
+
+The following advisory is available for the cert-manager Operator for Red Hat OpenShift 1.10.2:
+
+RHEA-2023:1238
+
+
+Version 1.10.2 of the cert-manager Operator for Red Hat OpenShift is based on the upstream cert-manager version v1.10.2. For more information, see the cert-manager project release notes for v1.10.2.
+
+If you used the Technology Preview version of the cert-manager Operator for Red Hat OpenShift, you must uninstall it and remove all related resources for the Technology Preview version before installing this version of the cert-manager Operator for Red Hat OpenShift.
+
+For more information, see Uninstalling the cert-manager Operator for Red Hat OpenShift.
+New features and enhancements
+This is the general availability (GA) release of the cert-manager Operator for Red Hat OpenShift.
+
+The following issuer types are supported:
+
+The following ACME challenge types are supported:
+
+The following DNS-01 providers for ACME issuers are supported:
+
+The cert-manager Operator for Red Hat OpenShift now supports injecting custom CA certificates and propagating cluster-wide egress proxy environment variables.
+
+You can customize the cert-manager Operator for Red Hat OpenShift API fields by overriding environment variables and arguments. For more information, see Customizing cert-manager Operator API fields
+
+You can enable monitoring and metrics collection for the cert-manager Operator for Red Hat OpenShift by using a service monitor to perform the custom metrics scraping. After you have enabled monitoring for the cert-manager Operator for Red Hat OpenShift, you can query its metrics by using the "Red Hat OpenShift Container Platform" web console. For more information, see Enabling monitoring for the cert-manager Operator for Red Hat OpenShift
+Bug fixes
+Previously, the unsupportedConfigOverrides field replaced user-provided arguments instead of appending them. Now, the unsupportedConfigOverrides field properly appends user-provided arguments. (CM-23)
+
+Previously, the cert-manager Operator for Red Hat OpenShift was installed as a cluster Operator. With this release, the cert-manager Operator for Red Hat OpenShift is now properly installed as an OLM Operator. (CM-35)
+Known issues
+Using Route objects is not fully supported. Currently, to use cert-manager Operator for Red Hat OpenShift with Routes, users must create Ingress objects, which are translated to Route objects by the Ingress-to-Route Controller. (CM-16)
+
+The cert-manager Operator for Red Hat OpenShift does not support using Azure Active Directory (Azure AD) pod identities to assign a managed identity to a pod. As a workaround, you can use a service principal to assign a managed identity. (OCPBUGS-8665)
+
+The cert-manager Operator for Red Hat OpenShift does not support using Google workload identity federation. (OCPBUGS-9998)
+
+When uninstalling the cert-manager Operator for Red Hat OpenShift, if you select the Delete all operand instances for this operator checkbox in the "Red Hat OpenShift Container Platform" web console, the Operator is not uninstalled properly. As a workaround, do not select this checkbox when uninstalling the cert-manager Operator for Red Hat OpenShift. (OCPBUGS-9960)

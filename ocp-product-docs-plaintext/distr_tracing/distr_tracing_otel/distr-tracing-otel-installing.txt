@@ -1,0 +1,44 @@
+Installing the distributed tracing data collection
+
+The Red Hat OpenShift distributed tracing data collection Operator is a Technology Preview feature only. Technology Preview features are not supported with Red Hat production service level agreements (SLAs) and might not be functionally complete. Red Hat does not recommend using them in production. These features provide early access to upcoming product features, enabling customers to test functionality and provide feedback during the development process.
+
+For more information about the support scope of Red Hat Technology Preview features, see Technology Preview Features Support Scope.
+Installing the distributed tracing data collection involves the following steps:
+
+Installing the Red Hat OpenShift distributed tracing data collection Operator.
+
+Creating a namespace for an OpenTelemetry Collector instance.
+
+Creating an OpenTelemetryCollector custom resource to deploy the OpenTelemetry Collector instance.
+Installing the distributed tracing data collection from the web console
+You can install the distributed tracing data collection from the Administrator view of the web console.
+
+You are logged in to the web console as a cluster administrator with the cluster-admin role.
+
+For Red Hat OpenShift Dedicated, you must be logged in using an account with the dedicated-admin role.
+
+An active OpenShift CLI (oc) session by a cluster administrator with the cluster-admin role.
+
+
+Install the Red Hat OpenShift distributed tracing data collection Operator:
+
+Create a project of your choice for the OpenTelemetry Collector instance that you will create in the next step by going to Home -> Projects -> Create Project.
+
+Create an OpenTelemetry Collector instance.
+
+
+Verify that the status.phase of the OpenTelemetry Collector pod is Running and the conditions are type: Ready by running the following command:
+
+Get the OpenTelemetry Collector service by running the following command:
+Additional resources
+Creating a cluster admin
+
+OperatorHub.io
+
+Accessing the web console
+
+Installing from OperatorHub using the web console
+
+Creating applications from installed Operators
+
+Getting started with the OpenShift CLI

@@ -1,0 +1,49 @@
+Importing simple content access entitlements with Insights Operator
+
+Insights Operator periodically imports your simple content access entitlements from OpenShift Cluster Manager Hybrid Cloud Console and stores them in the etc-pki-entitlement secret in the openshift-config-managed namespace. Simple content access is a capability in Red Hat subscription tools which simplifies the behavior of the entitlement tooling. This feature makes it easier to consume the content provided by your Red Hat subscriptions without the complexity of configuring subscription tooling.
+
+Insights Operator imports simple content access entitlements every eight hours, but can be configured or disabled using the support secret in the openshift-config namespace.
+
+Simple content access must be enabled in Red Hat Subscription Management for the importing to function.
+See About simple content access in the Red Hat Subscription Central documentation, for more information about simple content access.
+
+See Using Red Hat subscriptions in builds for more information about using simple content access entitlements in "Red Hat OpenShift Container Platform" builds.
+Configuring simple content access import interval
+You can configure how often the Insights Operator imports the simple content access entitlements by using the support secret in the openshift-config namespace. The entitlement import normally occurs every eight hours, but you can shorten this interval if you update your simple content access configuration in Red Hat Subscription Management.
+
+This procedure describes how to update the import interval to one hour.
+
+You are logged in to the "Red Hat OpenShift Container Platform" web console as a user with the cluster-admin role.
+
+
+Navigate to Workloads -> Secrets.
+
+Select the openshift-config project.
+
+Search for the support secret by using the Search by name field. If it does not exist, click Create -> Key/value secret to create it.
+Disabling simple content access import
+You can disable the importing of simple content access entitlements by using the support secret in the openshift-config namespace.
+
+You are logged in to the "Red Hat OpenShift Container Platform" web console as cluster-admin.
+
+
+Navigate to Workloads -> Secrets.
+
+Select the openshift-config project.
+
+Search for the support secret using the Search by name field.
+Enabling a previously disabled simple content access import
+If the importing of simple content access entitlements is disabled, the Insights Operator does not import simple content access entitlements. You can change this behavior.
+
+You are logged in to the "Red Hat OpenShift Container Platform" web console as a user with the cluster-admin role.
+
+
+Navigate to Workloads -> Secrets.
+
+Select the openshift-config project.
+
+Search for the support secret by using the Search by name field.
+
+Click the Options menu , and then click Edit Secret.
+
+For the scaPullDisabled key, set the Value field to false.

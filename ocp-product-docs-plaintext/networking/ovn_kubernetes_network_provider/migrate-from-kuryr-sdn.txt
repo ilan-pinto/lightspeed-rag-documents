@@ -1,0 +1,133 @@
+Migrating from the Kuryr network plugin to the OVN-Kubernetes network plugin
+
+As the administrator of a cluster that runs on Red Hat OpenStack Platform (RHOSP), you can migrate to the OVN-Kubernetes network plugin from the Kuryr SDN network plugin.
+
+To learn more about OVN-Kubernetes, read About the OVN-Kubernetes network plugin.
+Migration to the OVN-Kubernetes network provider
+You can manually migrate a cluster that runs on Red Hat OpenStack Platform (RHOSP) to the OVN-Kubernetes network provider.
+
+Migration to OVN-Kubernetes is a one-way process. During migration, your cluster will be unreachable for a brief time.
+Considerations when migrating to the OVN-Kubernetes network provider
+Kubernetes namespaces are kept by Kuryr in separate RHOSP networking service (Neutron) subnets. Those subnets and the IP addresses that are assigned to individual pods are not preserved during the migration.
+How the migration process works
+The following table summarizes the migration process by relating the steps that you perform with the actions that your cluster and Operators take.
+Migrating to the OVN-Kubernetes network plugin
+As a cluster administrator, you can change the network plugin for your cluster to OVN-Kubernetes.
+
+During the migration, you must reboot every node in your cluster. Your cluster is unavailable and workloads might be interrupted. Perform the migration only if an interruption in service is acceptable.
+You installed the OpenShift CLI (oc).
+
+You have access to the cluster as a user with the cluster-admin role.
+
+You have a recent backup of the etcd database is available.
+
+You can manually reboot each node.
+
+The cluster you plan to migrate is in a known good state, without any errors.
+
+You installed the Python interpreter.
+
+You installed the openstacksdk python package.
+
+You installed the openstack CLI tool.
+
+You have access to the underlying RHOSP cloud.
+
+
+Back up the configuration for the cluster network by running the following command:
+
+To set the CLUSTERID variable, run the following command:
+
+To prepare all the nodes for the migration, set the migration field on the Cluster Network Operator configuration object by running the following command:
+
+Optional: Customize the following settings for OVN-Kubernetes for your network infrastructure requirements:
+
+Check the machine config pool status by entering the following command:
+
+Confirm the status of the new machine configuration on the hosts:
+
+To start the migration, configure the OVN-Kubernetes network plugin by using one of the following commands:
+
+To complete the migration, reboot each node in your cluster. For example, you can use a bash script similar to the following example. The script assumes that you can connect to each host by using ssh and that you have configured sudo to not prompt for a password:
+
+
+Confirm that the migration succeeded, and then remove the migration resources:
+
+If the migration completed and your cluster is in a good state, remove the migration configuration from the CNO configuration object by entering the following command:
+Cleaning up resources after migration
+After migration from the Kuryr network plugin to the OVN-Kubernetes network plugin, you must clean up the resources that Kuryr created previously.
+
+The clean up process relies on a Python virtual environment to ensure that the package versions that you use support tags for Octavia objects. You do not need a virtual environment if you are certain that your environment uses at minimum:
+
+The openstacksdk Python package version 0.54.0
+
+The python-openstackclient Python package version 5.5.0
+
+The python-octaviaclient Python package version 2.3.0
+
+
+If you decide to use these particular versions, be sure to pull python-neutronclient prior to version 9.0.0, as it prevents you from accessing trunks.
+You installed the "Red Hat OpenShift Container Platform" CLI (oc).
+
+You installed a Python interpreter.
+
+You installed the openstacksdk Python package.
+
+You installed the openstack CLI.
+
+You have access to the underlying RHOSP cloud.
+
+You can access the cluster as a user with the cluster-admin role.
+
+
+Create a clean-up Python virtual environment:
+
+In your terminal, set variables to cluster and Kuryr identifiers by running the following commands:
+
+Create a Bash function that removes finalizers from specified resources by running the following command:
+
+To remove Kuryr finalizers from services, enter the following command:
+
+To remove the Kuryr service-subnet-gateway-ip service, enter the following command:
+
+To remove all tagged RHOSP load balancers from Octavia, enter the following command:
+
+To remove Kuryr finalizers from all KuryrLoadBalancer CRs, enter the following command:
+
+To remove the openshift-kuryr namespace, enter the following command:
+
+To remove the Kuryr service subnet from the router, enter the following command:
+
+To remove the Kuryr service network, enter the following command:
+
+To remove Kuryr finalizers from all pods, enter the following command:
+
+To remove Kuryr finalizers from all KuryrPort CRs, enter the following command:
+
+To remove Kuryr finalizers from network policies, enter the following command:
+
+To remove Kuryr finalizers from remaining network policies, enter the following command:
+
+To remove subports that Kuryr created from trunks, enter the following command:
+
+To retrieve all networks and subnets from KuryrNetwork CRs and remove ports, router interfaces and the network itself, enter the following command:
+
+To remove the Kuryr security group, enter the following command:
+
+To remove all tagged subnet pools, enter the following command:
+
+To check that all of the networks based on KuryrNetwork CRs were removed, enter the following command:
+
+To remove security groups that are related to network policy, enter the following command:
+
+To remove finalizers from KuryrNetwork CRs, enter the following command:
+
+To remove the Kuryr router, enter the following command:
+Additional resources
+Configuration parameters for the OVN-Kubernetes network plugin
+
+Backing up etcd
+
+About network policy
+
+To learn more about OVN-Kubernetes capabilities, see:

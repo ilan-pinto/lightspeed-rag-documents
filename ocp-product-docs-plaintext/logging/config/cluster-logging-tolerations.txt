@@ -1,0 +1,125 @@
+Using tolerations to control OpenShift Logging pod placement
+
+You can use taints and tolerations to ensure that logging subsystem pods run on specific nodes and that no other workload can run on those nodes.
+
+Taints and tolerations are simple key:value pair. A taint on a node instructs the node to repel all pods that do not tolerate the taint.
+
+The key is any string, up to 253 characters and the value is any string up to 63 characters. The string must begin with a letter or number, and may contain letters, numbers, hyphens, dots, and underscores.
+
+apiVersion: "logging.openshift.io/v1"
+kind: "ClusterLogging"
+metadata:
+  name: "instance"
+  namespace: openshift-logging
+
+...
+
+spec:
+  managementState: "Managed"
+  logStore:
+    type: "elasticsearch"
+    elasticsearch:
+      nodeCount: 3
+      tolerations: 1
+      - key: "logging"
+        operator: "Exists"
+        effect: "NoExecute"
+        tolerationSeconds: 6000
+      resources:
+        limits:
+          memory: 16Gi
+        requests:
+          cpu: 200m
+          memory: 16Gi
+      storage: {}
+      redundancyPolicy: "ZeroRedundancy"
+  visualization:
+    type: "kibana"
+    kibana:
+      tolerations: 2
+      - key: "logging"
+        operator: "Exists"
+        effect: "NoExecute"
+        tolerationSeconds: 6000
+      resources:
+        limits:
+          memory: 2Gi
+        requests:
+          cpu: 100m
+          memory: 1Gi
+      replicas: 1
+  collection:
+    logs:
+      type: "fluentd"
+      fluentd:
+        tolerations: 3
+        - key: "logging"
+          operator: "Exists"
+          effect: "NoExecute"
+          tolerationSeconds: 6000
+        resources:
+          limits:
+            memory: 2Gi
+          requests:
+            cpu: 100m
+            memory: 1Gi
+This toleration is added to the Elasticsearch pods.
+
+This toleration is added to the Kibana pod.
+
+This toleration is added to the logging collector pods.
+Using tolerations to control the log store pod placement
+You can control which nodes the log store pods runs on and prevent other workloads from using those nodes by using tolerations on the pods.
+
+You apply tolerations to the log store pods through the ClusterLogging custom resource (CR) and apply taints to a node through the node specification. A taint on a node is a key:value pair that instructs the node to repel all pods that do not tolerate the taint. Using a specific key:value pair that is not on other pods ensures only the log store pods can run on that node.
+
+By default, the log store pods have the following toleration:
+
+tolerations:
+- effect: "NoExecute"
+  key: "node.kubernetes.io/disk-pressure"
+  operator: "Exists"
+The Red Hat OpenShift Logging and Elasticsearch Operators must be installed.
+
+
+Use the following command to add a taint to a node where you want to schedule the OpenShift Logging pods:
+
+Edit the logstore section of the ClusterLogging CR to configure a toleration for the Elasticsearch pods:
+
+
+This toleration matches the taint created by the oc adm taint command. A pod with this toleration could be scheduled onto node1.
+Using tolerations to control the log visualizer pod placement
+You can control the node where the log visualizer pod runs and prevent other workloads from using those nodes by using tolerations on the pods.
+
+You apply tolerations to the log visualizer pod through the ClusterLogging custom resource (CR) and apply taints to a node through the node specification. A taint on a node is a key:value pair that instructs the node to repel all pods that do not tolerate the taint. Using a specific key:value pair that is not on other pods ensures only the Kibana pod can run on that node.
+
+The Red Hat OpenShift Logging and Elasticsearch Operators must be installed.
+
+
+Use the following command to add a taint to a node where you want to schedule the log visualizer pod:
+
+Edit the visualization section of the ClusterLogging CR to configure a toleration for the Kibana pod:
+
+
+This toleration matches the taint created by the oc adm taint command. A pod with this toleration would be able to schedule onto node1.
+Using tolerations to control the log collector pod placement
+You can ensure which nodes the logging collector pods run on and prevent other workloads from using those nodes by using tolerations on the pods.
+
+You apply tolerations to logging collector pods through the ClusterLogging custom resource (CR) and apply taints to a node through the node specification. You can use taints and tolerations to ensure the pod does not get evicted for things like memory and CPU issues.
+
+By default, the logging collector pods have the following toleration:
+
+tolerations:
+- key: "node-role.kubernetes.io/master"
+  operator: "Exists"
+  effect: "NoExecute"
+The Red Hat OpenShift Logging and Elasticsearch Operators must be installed.
+
+
+Use the following command to add a taint to a node where you want logging collector pods to schedule logging collector pods:
+
+Edit the collection stanza of the ClusterLogging custom resource (CR) to configure a toleration for the logging collector pods:
+
+
+This toleration matches the taint created by the oc adm taint command. A pod with this toleration would be able to schedule onto node1.
+Additional resources

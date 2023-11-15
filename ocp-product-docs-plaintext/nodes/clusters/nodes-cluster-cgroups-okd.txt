@@ -1,0 +1,24 @@
+Configuring the Linux cgroup version on your nodes
+
+By default, "Red Hat OpenShift Container Platform" uses Linux control group version 2 (cgroup v2) in your cluster. You can switch to Linux control group version 1 (cgroup v1), if needed.
+
+cgroup v2 is the next version of the kernel control group and offers multiple improvements. However, it can have some unwanted effects on your nodes.
+Configuring Linux cgroup
+You can switch to Linux control group version 1 (cgroup v1), if needed, by using a machine config. Enabling cgroup v1 in "Red Hat OpenShift Container Platform" disables the cgroup v2 controllers and hierarchies in your cluster.
+
+Have administrative privilege to a working "Red Hat OpenShift Container Platform" cluster.
+
+
+Create a MachineConfig object file that identifies the kernel argument (for example, worker-cgroup-v1.yaml)
+
+Create the new machine config:
+
+Check to see that the new machine config was added:
+
+Check the nodes:
+
+After a node returns to the Ready state, start a debug session for that node:
+
+Set /host as the root directory within the debug shell:
+
+Check that the sys/fs/cgroup/cgroup2fs file has been moved to the tmpfs file system:

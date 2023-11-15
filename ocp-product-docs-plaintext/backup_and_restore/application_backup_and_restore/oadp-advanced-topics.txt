@@ -1,0 +1,109 @@
+Advanced OADP features and functionalities
+
+This document provides information about advanced features and functionalities of OpenShift API for Data Protection (OADP).
+Working with different Kubernetes API versions on the same cluster
+Listing the Kubernetes API group versions on a cluster
+A source cluster might offer multiple versions of an API, where one of these versions is the preferred API version. For example, a source cluster with an API named Example might be available in the example.com/v1 and example.com/v1beta2 API groups.
+
+If you use Velero to back up and restore such a source cluster, Velero backs up only the version of that resource that uses the preferred version of its Kubernetes API.
+
+To return to the above example, if example.com/v1 is the preferred API, then Velero only backs up the version of a resource that uses example.com/v1. Moreover, the target cluster needs to have example.com/v1 registered in its set of available API resources in order for Velero to restore the resource on the target cluster.
+
+Therefore, you need to generate a list of the Kubernetes API group versions on your target cluster to be sure the preferred API version is registered in its set of available API resources.
+
+Enter the following command:
+
+
+$ oc api-resources
+About Enable API Group Versions
+By default, Velero only backs up resources that use the preferred version of the Kubernetes API. However, Velero also includes a feature, Enable API Group Versions, that overcomes this limitation. When enabled on the source cluster, this feature causes Velero to back up all Kubernetes API group versions that are supported on the cluster, not only the preferred one. After the versions are stored in the backup .tar file, they are available to be restored on the destination cluster.
+
+For example, a source cluster with an API named Example might be available in the example.com/v1 and example.com/v1beta2 API groups, with example.com/v1 being the preferred API.
+
+Without the Enable API Group Versions feature enabled, Velero backs up only the preferred API group version for Example, which is example.com/v1. With the feature enabled, Velero also backs up example.com/v1beta2.
+
+When the Enable API Group Versions feature is enabled on the destination cluster, Velero selects the version to restore on the basis of the order of priority of API group versions.
+
+Enable API Group Versions is still in beta.
+Velero uses the following algorithm to assign priorities to API versions, with 1 as the top priority:
+
+Preferred version of the destination cluster
+
+Preferred version of the source_ cluster
+
+Common non-preferred supported version with the highest Kubernetes version priority
+
+
+Enable API Group Versions Feature
+Using Enable API Group Versions
+You can use Velero's Enable API Group Versions feature to back up all Kubernetes API group versions that are supported on a cluster, not only the preferred one.
+
+Enable API Group Versions is still in beta.
+Configure the EnableAPIGroupVersions feature flag:
+
+
+apiVersion: oadp.openshift.io/vialpha1
+kind: DataProtectionApplication
+...
+spec:
+  configuration:
+    velero:
+      featureFlags:
+      - EnableAPIGroupVersions
+Enable API Group Versions Feature
+Backing up data from one cluster and restoring it to another cluster
+About backing up data from one cluster and restoring it on another cluster
+OpenShift API for Data Protection (OADP) is designed to back up and restore application data in the same "Red Hat OpenShift Container Platform" cluster. Migration Toolkit for Containers (MTC) is designed to migrate containers, including application data, from one "Red Hat OpenShift Container Platform" cluster to another cluster.
+
+You can use OADP to back up application data from one "Red Hat OpenShift Container Platform" cluster and restore it on another cluster. However, doing so is more complicated than using MTC or using OADP to back up and restore on the same cluster.
+
+To successfully use OADP to back up data from one cluster and restore it to another cluster, you must take into account the following factors, in addition to the prerequisites and procedures that apply to using OADP to back up and restore data on the same cluster:
+
+Operators
+
+Use of Velero
+
+UID and GID ranges
+
+
+Operators
+You must exclude Operators from the backup of an application for backup and restore to succeed.
+Use of Velero
+Velero, which OADP is built upon, does not natively support migrating persistent volume snapshots across cloud providers. To migrate volume snapshot data between cloud platforms, you must either enable the Velero Restic file system backup option, which backs up volume contents at the filesystem level, or use the OADP Data Mover for CSI snapshots.
+
+In OADP 1.1 and earlier, the Velero Restic file system backup option is called restic. In OADP 1.2 and later, the Velero Restic file system backup option is called file-system-backup.
+Velero's file system backup feature supports both Kopia and Restic, but currently OADP supports only Restic.
+You must also use Velero's File System Backup to migrate data between AWS regions or between Microsoft Azure regions.
+
+Velero does not support restoring data to a cluster with an earlier Kubernetes version than the source cluster.
+
+It is theoretically possible to migrate workloads to a destination with a later Kubernetes version than the source, but you must consider the compatibility of API groups between clusters for each custom resource. If a Kubernetes version upgrade breaks the compatibility of core or native API groups, you must first update the impacted custom resources.
+UID and GID ranges
+When you back up data from one cluster and restore it to another cluster,  there are potential issues that might arise with UID (User ID) and GID (Group ID) ranges. The following section explains these potential issues and mitigations:
+
+
+Summary of issues
+The UID and GID ranges of the namespace might change on the destination cluster. OADP does not back up and restore OpenShift UID range metadata. If the backed application requires a specific UID, ensure the range is available when restored. For more information about OpenShift's UID and GID ranges, see A Guide to OpenShift and UIDs.
+Detailed description of issues
+When you create a namespace in "Red Hat OpenShift Container Platform" by using the shell command oc create namespace, "Red Hat OpenShift Container Platform" assigns the namespace a unique User ID (UID) range from its available pool of UIDs, a Supplemental Group (GID) range, and unique SELinux MCS labels. This information is stored in the metadata.annotations field of the cluster. This information is part of the Security Context Constraints (SCC) annotations, which comprise the following components:
+Mitigations
+You can use one or more of the following mitigations to resolve the UID and GID range issues:
+
+
+For an in-depth discussion of UID and GID ranges in "Red Hat OpenShift Container Platform" with an emphasis on overcoming issues in backing up data on one cluster and restoring it on another, see A Guide to OpenShift and UIDs.
+Backing up data from one cluster and restoring it to another cluster
+In general, you back up data from one "Red Hat OpenShift Container Platform" cluster and restore it on another "Red Hat OpenShift Container Platform" cluster in the same way that you back up and restore data to the same cluster. However, there are some additional prerequisites and differences in the procedure when backing up data from one "Red Hat OpenShift Container Platform" cluster and restoring it on another.
+
+All relevant prerequisites for backing up and restoring on your platform (for example, AWS, Microsoft Azure, GCP, and so on), especially the prerequisites for the Data Protection Application (DPA), are described in the relevant sections of this guide.
+
+
+Make the following additions to the procedures given for your platform:
+
+
+In OADP 1.2 and later, the Velero Restic option is called file-system-backup.
+Additional resources
+For more information about API group versions, see Working with different Kubernetes API versions on the same cluster.
+
+For more information about OADP Data Mover, see Using Data Mover for CSI snapshots.
+
+For more information about using Restic with OADP, see Backing up applications with Restic.
