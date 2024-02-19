@@ -1,0 +1,136 @@
+Working with projects
+
+A project allows a community of users to organize and manage their content in isolation from other communities.
+
+Projects starting with openshift- and kube- are  default projects. These projects host cluster components that run as pods and other infrastructure components. As such, "Red Hat OpenShift Container Platform" does not allow you to create projects starting with openshift- or kube- using the oc new-project command. Cluster administrators can create these projects using the oc adm new-project command.
+Do not run workloads in or share access to default projects. Default projects are reserved for running core cluster components.
+
+The following default projects are considered highly privileged: default, kube-public, kube-system, openshift, openshift-infra, openshift-node, and other system-created projects that have the openshift.io/run-level label set to 0 or 1. Functionality that relies on admission plugins, such as pod security admission, security context constraints, cluster resource quotas, and image reference resolution, does not work in highly privileged projects.
+Creating a project using the web console
+If allowed by your cluster administrator, you can create a new project.
+
+Projects starting with openshift- and kube- are considered critical by "Red Hat OpenShift Container Platform". As such, "Red Hat OpenShift Container Platform" does not allow you to create Projects starting with openshift- using the web console.
+Navigate to Home -> Projects.
+
+Click Create Project.
+
+Enter your project details.
+
+Click Create.
+Creating a project using the Developer perspective in the web console
+You can use the Developer perspective in the "Red Hat OpenShift Container Platform" web console to create a project in your cluster.
+
+Projects starting with openshift- and kube- are considered critical by "Red Hat OpenShift Container Platform". As such, "Red Hat OpenShift Container Platform" does not allow you to create projects starting with openshift- or kube- using the Developer perspective. Cluster administrators can create these projects using the oc adm new-project command.
+Ensure that you have the appropriate roles and permissions to create projects, applications, and other workloads in "Red Hat OpenShift Container Platform".
+
+
+You can create a project using the Developer perspective, as follows:
+
+Click the Project drop-down menu to see a list of all available projects. Select Create Project.
+
+In the Create Project dialog box, enter a unique name, such as myproject, in the Name field.
+
+Optional: Add the Display Name and Description details for the project.
+
+Click Create.
+
+Use the left navigation panel to navigate to the Project view and see the dashboard for your project.
+
+Optional:
+Creating a project using the CLI
+If allowed by your cluster administrator, you can create a new project.
+
+Projects starting with openshift- and kube- are considered critical by "Red Hat OpenShift Container Platform". As such, "Red Hat OpenShift Container Platform" does not allow you to create Projects starting with openshift- or kube- using the oc new-project command. Cluster administrators can create these Projects using the oc adm new-project command.
+Run:
+
+
+The number of projects you are allowed to create After your limit is reached, you might have to delete an existing project in order to create a new one.
+Viewing a project using the web console
+Navigate to Home -> Projects.
+
+Select a project to view.
+Viewing a project using the CLI
+When viewing projects, you are restricted to seeing only the projects you have access to view based on the authorization policy.
+
+To view a list of projects, run:
+
+You can change from the current project to a different project for CLI
+operations. The specified project is then used in all subsequent operations that
+manipulate project-scoped content:
+Providing access permissions to your project using the Developer perspective
+You can use the Project view in the Developer perspective to grant or revoke access permissions to your project.
+
+To add users to your project and provide Admin, Edit, or View access to them:
+
+In the Developer perspective, navigate to the Project view.
+
+In the Project page, select the Project Access tab.
+
+Click Add Access to add a new row of permissions to the default ones.
+
+Enter the user name, click the Select a role drop-down list, and select an appropriate role.
+
+Click Save to add the new permissions.
+
+
+You can also use:
+
+The Select a role drop-down list, to modify the access permissions of an existing user.
+
+The Remove Access icon, to completely remove the access permissions of an existing user to the project.
+
+
+Advanced role-based access control is managed in the Roles and Roles Binding views in the Administrator perspective.
+Customizing the available cluster roles using the Developer perspective
+The users of a project are assigned to a cluster role based on their access control. You can access these cluster roles by navigating to the Project -> Project access -> Role. By default, these roles are Admin, Edit, and View.
+
+To add or edit the cluster roles for a project, you can customize the YAML code of the cluster.
+
+To customize the different cluster roles of a project:
+
+In the Search view, use the Resources drop-down list to search for Console.
+
+From the available options, select the Console operator.openshift.io/v1.
+
+Select cluster under the Name list.
+
+Navigate to the YAML tab to view and edit the YAML code.
+
+In the YAML code under spec, add or edit the list of availableClusterRoles and save your changes:
+Adding to a project
+Select Developer from the context selector at the top of the web console
+navigation menu.
+
+Click +Add
+
+At the top of the page, select the name of the project that you want to add to.
+
+Click a method for adding to your project, and then follow the workflow.
+
+
+You can also add components to the topology using quick search.
+Checking project status using the web console
+Navigate to Home -> Projects.
+
+Select a project to see its status.
+Checking project status using the CLI
+Run:
+Deleting a project using the web console
+You can delete a project by using the "Red Hat OpenShift Container Platform" web console.
+
+If you do not have permissions to delete the project, the Delete Project option is not available.
+Navigate to Home -> Projects.
+
+Locate the project that you want to delete from the list of projects.
+
+On the far right side of the project listing, select Delete Project from the
+Options menu .
+
+When the Delete Project pane opens, enter the name of the project that
+you want to delete in the field.
+
+Click Delete.
+Deleting a project using the CLI
+When you delete a project, the server updates the project status to Terminating from Active. Then, the server clears all content from a project that is in the Terminating state before finally removing the project. While a project is in Terminating status, you cannot add new content to the project. Projects can be deleted from the CLI or the web console.
+
+Run:

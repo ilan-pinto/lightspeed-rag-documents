@@ -1,0 +1,113 @@
+Evicting pods using the descheduler
+
+While the scheduler is used to determine the most suitable node to host a new pod, the descheduler can be used to evict a running pod so that the pod can be rescheduled onto a more suitable node.
+About the descheduler
+You can use the descheduler to evict pods based on specific strategies so that the pods can be rescheduled onto more appropriate nodes.
+
+You can benefit from descheduling running pods in situations such as the following:
+
+Nodes are underutilized or overutilized.
+
+Pod and node affinity requirements, such as taints or labels, have changed and the original scheduling decisions are no longer appropriate for certain nodes.
+
+Node failure requires pods to be moved.
+
+New nodes are added to clusters.
+
+Pods have been restarted too many times.
+
+
+The descheduler does not schedule replacement of evicted pods. The scheduler automatically performs this task for the evicted pods.
+When the descheduler decides to evict pods from a node, it employs the following general mechanism:
+
+Pods in the openshift-* and kube-system namespaces are never evicted.
+
+Critical pods with priorityClassName set to system-cluster-critical or system-node-critical are never evicted.
+
+Static, mirrored, or stand-alone pods that are not part of a replication controller, replica set, deployment, or job are never evicted because these pods will not be recreated.
+
+Pods associated with daemon sets are never evicted.
+
+Pods with local storage are never evicted.
+
+Best effort pods are evicted before burstable and guaranteed pods.
+
+All types of pods with the descheduler.alpha.kubernetes.io/evict annotation are eligible for eviction. This annotation is used to override checks that prevent eviction, and the user can select which pod is evicted. Users should know how and if the pod will be recreated.
+
+Pods subject to pod disruption budget (PDB) are not evicted if descheduling violates its pod disruption budget (PDB). The pods are evicted by using eviction subresource to handle PDB.
+Descheduler profiles
+The following descheduler profiles are available:
+
+
+AffinityAndTaints
+This profile evicts pods that violate inter-pod anti-affinity, node affinity, and node taints.
+TopologyAndDuplicates
+This profile evicts pods in an effort to evenly spread similar pods, or pods of the same topology domain, among nodes.
+LifecycleAndUtilization
+This profile evicts long-running pods and balances resource usage between nodes.
+SoftTopologyAndDuplicates
+This profile is the same as TopologyAndDuplicates, except that pods with soft topology constraints, such as whenUnsatisfiable: ScheduleAnyway, are also considered for eviction.
+EvictPodsWithLocalStorage
+This profile allows pods with local storage to be eligible for eviction.
+EvictPodsWithPVC
+This profile allows pods with persistent volume claims to be eligible for eviction. If you are using Kubernetes NFS Subdir External Provisioner, you must add an excluded namespace for the namespace where the provisioner is installed.
+Installing the descheduler
+The descheduler is not available by default. To enable the descheduler, you must install the Kube Descheduler Operator from OperatorHub and enable one or more descheduler profiles.
+
+By default, the descheduler runs in predictive mode, which means that it only simulates pod evictions. You must change the mode to automatic for the descheduler to perform the pod evictions.
+
+If you have enabled hosted control planes in your cluster, set a custom priority threshold to lower the chance that pods in the hosted control plane namespaces are evicted. Set the priority threshold class name to hypershift-control-plane, because it has the lowest priority value (100000000) of the hosted control plane priority classes.
+Cluster administrator privileges.
+
+Access to the "Red Hat OpenShift Container Platform" web console.
+
+
+Log in to the "Red Hat OpenShift Container Platform" web console.
+
+Create the required namespace for the Kube Descheduler Operator.
+
+Install the Kube Descheduler Operator.
+
+Create a descheduler instance.
+
+
+You can also configure the profiles and settings for the descheduler later using the OpenShift CLI (oc). If you did not adjust the profiles when creating the descheduler instance from the web console, the AffinityAndTaints profile is enabled by default.
+Configuring descheduler profiles
+You can configure which profiles the descheduler uses to evict pods.
+
+Cluster administrator privileges
+
+
+Edit the KubeDescheduler object:
+
+Specify one or more profiles in the spec.profiles section.
+
+Save the file to apply the changes.
+Configuring the descheduler interval
+You can configure the amount of time between descheduler runs. The default is 3600 seconds (one hour).
+
+Cluster administrator privileges
+
+
+Edit the KubeDescheduler object:
+
+Update the deschedulingIntervalSeconds field to the desired value:
+
+Save the file to apply the changes.
+Uninstalling the descheduler
+You can remove the descheduler from your cluster by removing the descheduler instance and uninstalling the Kube Descheduler Operator. This procedure also cleans up the KubeDescheduler CRD and openshift-kube-descheduler-operator namespace.
+
+Cluster administrator privileges.
+
+Access to the "Red Hat OpenShift Container Platform" web console.
+
+
+Log in to the "Red Hat OpenShift Container Platform" web console.
+
+Delete the descheduler instance.
+
+Uninstall the Kube Descheduler Operator.
+
+Delete the openshift-kube-descheduler-operator namespace.
+
+Delete the KubeDescheduler CRD.

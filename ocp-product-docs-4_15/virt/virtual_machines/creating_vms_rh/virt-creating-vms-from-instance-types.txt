@@ -1,0 +1,26 @@
+Creating virtual machines from instance types
+
+You can create virtual machines (VMs) from instance types by using the "Red Hat OpenShift Container Platform" web console.
+
+Creating a VM from an instance type is a Technology Preview feature only. Technology Preview features are not supported with Red Hat production service level agreements (SLAs) and might not be functionally complete. Red Hat does not recommend using them in production. These features provide early access to upcoming product features, enabling customers to test functionality and provide feedback during the development process.
+
+For more information about the support scope of Red Hat Technology Preview features, see Technology Preview Features Support Scope.
+Creating a VM from an instance type
+You can create a virtual machine (VM) from an instance type by using the "Red Hat OpenShift Container Platform" web console.
+
+In the web console, navigate to Virtualization -> Catalog and click the InstanceTypes tab.
+
+Select a bootable volume.
+
+Click an instance type tile and select the configuration appropriate for your workload.
+
+If you have not already added a public SSH key to your project, click the edit icon beside Authorized SSH key in the VirtualMachine details section.
+
+Select one of the following options:
+
+Optional: Click View YAML & CLI to view the YAML file. Click CLI to view the CLI commands. You can also download or copy either the YAML file contents or the CLI commands.
+
+Click Create VirtualMachine.
+
+
+After the VM is created, you can monitor the status on the VirtualMachine details page.

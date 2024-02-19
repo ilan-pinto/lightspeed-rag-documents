@@ -1,0 +1,121 @@
+FeatureGate [config.openshift.io/v1]
+
+
+Description
+
+Type
+object
+Required
+Specification
+
+.spec
+
+Description
+
+Type
+object
+.status
+
+Description
+
+Type
+object
+API endpoints
+The following API endpoints are available:
+
+/apis/config.openshift.io/v1/featuregates
+
+/apis/config.openshift.io/v1/featuregates/{name}
+
+/apis/config.openshift.io/v1/featuregates/{name}/status
+
+
+/apis/config.openshift.io/v1/featuregates
+
+
+HTTP method
+DELETE
+Description
+delete collection of FeatureGate
+
+
+
+
+
+HTTP method
+GET
+Description
+list objects of kind FeatureGate
+
+
+
+
+
+HTTP method
+POST
+Description
+create a FeatureGate
+/apis/config.openshift.io/v1/featuregates/{name}
+
+
+
+HTTP method
+DELETE
+Description
+delete a FeatureGate
+
+
+
+
+
+
+HTTP method
+GET
+Description
+read the specified FeatureGate
+
+
+
+
+
+HTTP method
+PATCH
+Description
+partially update the specified FeatureGate
+
+
+
+
+
+
+HTTP method
+PUT
+Description
+replace the specified FeatureGate
+/apis/config.openshift.io/v1/featuregates/{name}/status
+
+
+
+HTTP method
+GET
+Description
+read status of the specified FeatureGate
+
+
+
+
+
+HTTP method
+PATCH
+Description
+partially update status of the specified FeatureGate
+
+
+
+
+
+
+HTTP method
+PUT
+Description
+replace status of the specified FeatureGate

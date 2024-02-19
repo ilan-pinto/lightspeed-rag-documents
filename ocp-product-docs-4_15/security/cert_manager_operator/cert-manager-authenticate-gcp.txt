@@ -1,0 +1,29 @@
+Authenticating the cert-manager Operator for Red Hat OpenShift with GCP Workload Identity
+
+You can authenticate the cert-manager Operator for Red Hat OpenShift on the GCP Workload Identity cluster by using the cloud credentials. You can configure the cloud credentials by using the ccoctl binary.
+Configuring cloud credentials for the cert-manager Operator for Red Hat OpenShift with GCP Workload Identity
+Generate the cloud credentials for the cert-manager Operator for Red Hat OpenShift by using the ccoctl binary. Then, apply them to the GCP Workload Identity cluster.
+
+You extracted and prepared the ccoctl binary.
+
+The cert-manager Operator for Red Hat OpenShift 1.11.1 or later is installed.
+
+You have configured an "Red Hat OpenShift Container Platform" cluster with GCP Workload Identity by using the Cloud Credential Operator in a manual mode.
+
+
+Create a directory to store a CredentialsRequest resource YAML file by running the following command:
+
+In the credentials-request directory, create a YAML file that contains the following CredentialsRequest manifest:
+
+Use the ccoctl tool to process CredentialsRequest objects by running the following command:
+
+Apply the secrets generated in the manifests directory of your cluster by running the following command:
+
+Update the subscription object for cert-manager Operator for Red Hat OpenShift by running the following command:
+
+
+Get the name of the redeployed cert-manager controller pod by running the following command:
+
+Verify that the cert-manager controller pod is updated with GCP workload identity credential volumes that are mounted under the path specified in mountPath by running the following command:
+Additional resources
+Configuring the Cloud Credential Operator utility

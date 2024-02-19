@@ -1,0 +1,79 @@
+Preparing to install on vSphere
+
+Prerequisites
+You reviewed details about the "Red Hat OpenShift Container Platform" installation and update processes.
+
+You read the documentation on selecting a cluster installation method and preparing it for users.
+
+If you use a firewall and plan to use Telemetry, you
+configured the firewall to allow the sites required by your cluster.
+
+You reviewed your VMware platform licenses. Red Hat does not place any restrictions on your VMware licenses, but some VMware infrastructure components require licensing.
+Choosing a method to install "Red Hat OpenShift Container Platform" on vSphere
+You can install "Red Hat OpenShift Container Platform" with the Assisted Installer. This method requires no setup for the installer, and is ideal for connected environments like vSphere. Installing with the Assisted Installer also provides integration with vSphere, enabling autoscaling. See Installing an on-premise cluster using the Assisted Installer for additional details.
+
+You can also install "Red Hat OpenShift Container Platform" on vSphere by using installer-provisioned or user-provisioned infrastructure. Installer-provisioned infrastructure is ideal for installing in environments with air-gapped/restricted networks, where the installation program provisions the underlying infrastructure for the cluster. You can also install "Red Hat OpenShift Container Platform" on infrastructure that you provide. If you do not use infrastructure that the installation program provisions, you must manage and maintain the cluster resources yourself.
+
+See the Installation process for more information about installer-provisioned and user-provisioned installation processes.
+
+The steps for performing a user-provisioned infrastructure installation are provided as an example only. Installing a cluster with infrastructure you provide requires knowledge of the vSphere platform and the installation process of "Red Hat OpenShift Container Platform". Use the user-provisioned infrastructure installation instructions as a guide; you are free to create the required resources through other methods.
+Installer-provisioned infrastructure installation of "Red Hat OpenShift Container Platform" on vSphere
+Installer-provisioned infrastructure allows the installation program to preconfigure and automate the provisioning of resources required by "Red Hat OpenShift Container Platform".
+
+Installing a cluster on vSphere: You can install "Red Hat OpenShift Container Platform" on vSphere by using installer-provisioned infrastructure installation with no customization.
+
+Installing a cluster on vSphere with customizations: You can install "Red Hat OpenShift Container Platform" on vSphere by using installer-provisioned infrastructure installation with the default customization options.
+
+Installing a cluster on vSphere with network customizations: You can install "Red Hat OpenShift Container Platform" on installer-provisioned vSphere infrastructure, with network customizations. You can customize your "Red Hat OpenShift Container Platform" network configuration during installation, so that your cluster can coexist with your existing IP address allocations and adhere to your network requirements.
+
+Installing a cluster on vSphere in a restricted network: You can install a cluster on VMware vSphere infrastructure in a restricted network by creating an internal mirror of the installation release content.
+You can use this method to deploy "Red Hat OpenShift Container Platform" on an internal network that is not visible to the internet.
+User-provisioned infrastructure installation of "Red Hat OpenShift Container Platform" on vSphere
+User-provisioned infrastructure requires the user to provision all resources required by "Red Hat OpenShift Container Platform".
+
+Installing a cluster on vSphere with user-provisioned infrastructure: You can install "Red Hat OpenShift Container Platform" on VMware vSphere infrastructure that you provision.
+
+Installing a cluster on vSphere with network customizations with user-provisioned infrastructure: You can install "Red Hat OpenShift Container Platform" on VMware vSphere infrastructure that you provision with customized network configuration options.
+
+Installing a cluster on vSphere in a restricted network with user-provisioned infrastructure: "Red Hat OpenShift Container Platform" can be installed on VMware vSphere infrastructure that you provision in a restricted network.
+VMware vSphere infrastructure requirements
+You must install the "Red Hat OpenShift Container Platform" cluster on a VMware vSphere version 7.0 Update 2 or later instance that meets the requirements for the components that you use.
+
+"Red Hat OpenShift Container Platform" version "4.14" supports VMware vSphere version 8.0.
+You can host the VMware vSphere infrastructure on-premise or on a VMware Cloud Verified provider that meets the requirements outlined in the following tables:
+
+
+You must ensure that the time on your ESXi hosts is synchronized before you install "Red Hat OpenShift Container Platform". See Edit Time Configuration for a Host in the VMware documentation.
+
+To ensure the best performance conditions for your cluster workloads that operate on Oracle&#174; Cloud Infrastructure and on the Oracle&#174; Cloud VMware Solution (OCVS) service, ensure volume performance units (VPUs) for your block volume are sized for your workloads.
+
+The following list provides some guidance in selecting the VPUs needed for specific performance needs:
+
+Test or proof of concept environment: 100 GB, and 20 to 30 VPUs.
+
+Base-production environment: 500 GB, and 60 VPUs.
+
+Heavy-use production environment: More than 500 GB, and 100 or more VPUs.
+
+
+Consider allocating additional VPUs to give enough capacity for updates and scaling activities. See Block Volume Performance Levels in the Oracle documentation.
+VMware vSphere CSI Driver Operator requirements
+To install the vSphere CSI Driver Operator, the following requirements must be met:
+
+VMware vSphere version 7.0 Update 2 or later
+
+vCenter 7.0 Update 2 or later
+
+Virtual machines of hardware version 15 or later
+
+No third-party vSphere CSI driver already installed in the cluster
+
+
+If a third-party vSphere CSI driver is present in the cluster, "Red Hat OpenShift Container Platform" does not overwrite it. The presence of a third-party vSphere CSI driver prevents "Red Hat OpenShift Container Platform" from updating to "Red Hat OpenShift Container Platform" 4.13 or later.
+
+The VMware vSphere CSI Driver Operator is supported only on clusters deployed with platform: vsphere in the installation manifest.
+To remove a third-party vSphere CSI driver, see Removing a third-party vSphere CSI Driver.
+Configuring the vSphere connection settings
+Updating the vSphere connection settings following an installation: For installations on vSphere using the Assisted Installer, you must manually update the vSphere connection settings to complete the installation. For installer-provisioned or user-provisioned infrastructure installations on vSphere, you can optionally validate or modify the vSphere connection settings at any time.
+Uninstalling an installer-provisioned infrastructure installation of "Red Hat OpenShift Container Platform" on vSphere
+Uninstalling a cluster on vSphere that uses installer-provisioned infrastructure: You can remove a cluster that you deployed on VMware vSphere infrastructure that used installer-provisioned infrastructure.

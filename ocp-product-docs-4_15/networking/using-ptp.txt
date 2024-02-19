@@ -1,0 +1,630 @@
+Using PTP hardware
+
+You can configure linuxptp services and use PTP-capable hardware in "Red Hat OpenShift Container Platform" cluster nodes.
+About PTP hardware
+You can use the "Red Hat OpenShift Container Platform" console or OpenShift CLI (oc) to install PTP by deploying the PTP Operator. The PTP Operator creates and manages the linuxptp services and provides the following features:
+
+Discovery of the PTP-capable devices in the cluster.
+
+Management of the configuration of linuxptp services.
+
+Notification of PTP clock events that negatively affect the performance and reliability of your application with the PTP Operator cloud-event-proxy sidecar.
+
+
+The PTP Operator works with PTP-capable devices on clusters provisioned only on bare-metal infrastructure.
+About PTP
+Precision Time Protocol (PTP) is used to synchronize clocks in a network. When used in conjunction with hardware support, PTP is capable of sub-microsecond accuracy, and is more accurate than Network Time Protocol (NTP).
+
+Elements of a PTP domain
+PTP is used to synchronize multiple nodes connected in a network, with clocks for each node. The clocks synchronized by PTP are organized in a source-destination hierarchy. The hierarchy is created and updated automatically by the best master clock (BMC) algorithm, which runs on every clock. Destination clocks are synchronized to source clocks, and destination clocks can themselves be the source for other downstream clocks. The three primary types of PTP clocks are described below.
+
+
+Grandmaster clock
+The grandmaster clock provides standard time information to other clocks across the network and ensures accurate and stable synchronisation. It writes time stamps and responds to time requests from other clocks. Grandmaster clocks synchronize to a Global Navigation Satellite System (GNSS) time source. The Grandmaster clock is the authoritative source of time in the network and is responsible for providing time synchronization to all other devices.
+Ordinary clock
+The ordinary clock has a single port connection that can play the role of source or destination clock, depending on its position in the network. The ordinary clock can read and write time stamps.
+Boundary clock
+The boundary clock has ports in two or more communication paths and can be a source and a destination to other destination clocks at the same time. The boundary clock works as a destination clock upstream. The destination clock receives the timing message, adjusts for delay, and then creates a new source time signal to pass down the network. The boundary clock produces a new timing packet that is still correctly synced with the source clock and can reduce the number of connected devices reporting directly to the source clock.
+Advantages of PTP over NTP
+One of the main advantages that PTP has over NTP is the hardware support present in various network interface controllers (NIC) and network switches. The specialized hardware allows PTP to account for delays in message transfer and improves the accuracy of time synchronization. To achieve the best possible accuracy, it is recommended that all networking components between PTP clocks are PTP hardware enabled.
+
+Hardware-based PTP provides optimal accuracy, since the NIC can time stamp the PTP packets at the exact moment they are sent and received. Compare this to software-based PTP, which requires additional processing of the PTP packets by the operating system.
+
+Before enabling PTP, ensure that NTP is disabled for the required nodes. You can disable the chrony time service (chronyd) using a MachineConfig custom resource. For more information, see Disabling chrony time service.
+Using PTP with dual NIC hardware
+"Red Hat OpenShift Container Platform" supports single and dual NIC hardware for precision PTP timing in the cluster.
+
+For 5G telco networks that deliver mid-band spectrum coverage, each virtual distributed unit (vDU) requires connections to 6 radio units (RUs). To make these connections, each vDU host requires 2 NICs configured as boundary clocks.
+
+Dual NIC hardware allows you to connect each NIC to the same upstream leader clock with separate ptp4l instances for each NIC feeding the downstream clocks.
+Overview of linuxptp in "Red Hat OpenShift Container Platform" nodes
+"Red Hat OpenShift Container Platform" uses PTP and linuxptp for high precision system timing in bare-metal infrastructure. The linuxptp package includes the ts2phc, pmc, ptp4l, and phc2sys programs for system clock synchronization.
+
+
+ts2phc
+ts2phc synchronizes the PTP hardware clock (PHC) across PTP devices with a high degree of precision.
+ts2phc is used in grandmaster clock configurations.
+It receives the precision timing signal a high precision clock source such as Global Navigation Satellite System (GNSS).
+GNSS provides an accurate and reliable source of synchronized time for use in large distributed networks.
+GNSS clocks typically provide time information with a precision of a few nanoseconds.
+pmc
+pmc implements a PTP management client (pmc) according to IEEE standard 1588.1588.
+pmc provides basic management access for the ptp4l system daemon.
+pmc reads from standard input and sends the output over the selected transport, printing any replies it receives.
+ptp4l
+ptp4l implements the PTP boundary clock and ordinary clock and runs as a system daemon.
+ptp4l does the following:
+phc2sys
+phc2sys synchronizes the system clock to the PHC on the network interface controller (NIC).
+The phc2sys system daemon continuously monitors the PHC for timing information.
+When it detects a timing error, the PHC corrects the system clock.
+Installing the PTP Operator using the CLI
+As a cluster administrator, you can install the Operator by using the CLI.
+
+A cluster installed on bare-metal hardware with nodes that have hardware that supports PTP.
+
+Install the OpenShift CLI (oc).
+
+Log in as a user with cluster-admin privileges.
+
+
+Create a namespace for the PTP Operator.
+
+Create an Operator group for the PTP Operator.
+
+Subscribe to the PTP Operator.
+
+To verify that the Operator is installed, enter the following command:
+Installing the PTP Operator using the web console
+As a cluster administrator, you can install the PTP Operator using the web console.
+
+You have to create the namespace and Operator group as mentioned in the previous section.
+Install the PTP Operator using the "Red Hat OpenShift Container Platform" web console:
+
+Optional: Verify that the PTP Operator installed successfully:
+Configuring PTP devices
+The PTP Operator adds the NodePtpDevice.ptp.openshift.io custom resource definition (CRD) to "Red Hat OpenShift Container Platform".
+
+When installed, the PTP Operator searches your cluster for PTP-capable network devices on each node. It creates and updates a NodePtpDevice custom resource (CR) object for each node that provides a compatible PTP-capable network device.
+
+Discovering PTP capable network devices in your cluster
+To return a complete list of PTP capable network devices in your cluster, run the following command:
+Configuring linuxptp services as a grandmaster clock
+You can configure the linuxptp services (ptp4l, phc2sys, ts2phc) as grandmaster clock by creating a PtpConfig custom resource (CR) that configures the host NIC.
+
+The ts2phc utility allows you to synchronize the system clock with the PTP grandmaster clock so that the node can stream precision clock signal to downstream PTP ordinary clocks and boundary clocks.
+
+Use the following example PtpConfig CR as the basis to configure linuxptp services as the grandmaster clock for your particular hardware and environment. This example CR does not configure PTP fast events. To configure PTP fast events, set appropriate values for ptp4lOpts, ptp4lConf, and ptpClockThreshold. ptpClockThreshold is used only when events are enabled. See "Configuring the PTP fast event notifications publisher" for more information.
+Install an Intel Westport Channel network interface in the bare-metal cluster host.
+
+Install the OpenShift CLI (oc).
+
+Log in as a user with cluster-admin privileges.
+
+Install the PTP Operator.
+
+
+Create the PtpConfig resource. For example:
+
+
+Check that the PtpConfig profile is applied to the node.
+
+
+Configuring the PTP fast event notifications publisher
+
+
+Grandmaster clock PtpConfig configuration reference
+The following reference information describes the configuration options for the PtpConfig custom resource (CR) that configures the linuxptp services (ptp4l, phc2sys, ts2phc) as grandmaster clock.
+Configuring linuxptp services as an ordinary clock
+You can configure linuxptp services (ptp4l, phc2sys) as ordinary clock by creating a PtpConfig custom resource (CR) object.
+
+Use the following example PtpConfig CR as the basis to configure linuxptp services as an ordinary clock for your particular hardware and environment. This example CR does not configure PTP fast events. To configure PTP fast events, set appropriate values for ptp4lOpts, ptp4lConf, and ptpClockThreshold. ptpClockThreshold is required only when events are enabled. See "Configuring the PTP fast event notifications publisher" for more information.
+Install the OpenShift CLI (oc).
+
+Log in as a user with cluster-admin privileges.
+
+Install the PTP Operator.
+
+
+Create the following PtpConfig CR, and then save the YAML in the ordinary-clock-ptp-config.yaml file.
+
+Create the PtpConfig CR by running the following command:
+
+
+Check that the PtpConfig profile is applied to the node.
+
+
+For more information about FIFO priority scheduling on PTP hardware, see Configuring FIFO priority scheduling for PTP hardware.
+
+For more information about configuring PTP fast events, see Configuring the PTP fast event notifications publisher.
+Configuring linuxptp services as a boundary clock
+You can configure the linuxptp services (ptp4l, phc2sys) as boundary clock by creating a PtpConfig custom resource (CR) object.
+
+Use the following example PtpConfig CR as the basis to configure linuxptp services as the boundary clock for your particular hardware and environment. This example CR does not configure PTP fast events. To configure PTP fast events, set appropriate values for ptp4lOpts, ptp4lConf, and ptpClockThreshold. ptpClockThreshold is used only when events are enabled. See "Configuring the PTP fast event notifications publisher" for more information.
+Install the OpenShift CLI (oc).
+
+Log in as a user with cluster-admin privileges.
+
+Install the PTP Operator.
+
+
+Create the following PtpConfig CR, and then save the YAML in the boundary-clock-ptp-config.yaml file.
+
+Create the CR by running the following command:
+
+
+Check that the PtpConfig profile is applied to the node.
+
+
+For more information about FIFO priority scheduling on PTP hardware, see Configuring FIFO priority scheduling for PTP hardware.
+
+For more information about configuring PTP fast events, see Configuring the PTP fast event notifications publisher.
+Configuring linuxptp services as boundary clocks for dual NIC hardware
+Precision Time Protocol (PTP) hardware with dual NIC configured as boundary clocks is a Technology Preview feature only. Technology Preview features are not supported with Red Hat production service level agreements (SLAs) and might not be functionally complete. Red Hat does not recommend using them in production. These features provide early access to upcoming product features, enabling customers to test functionality and provide feedback during the development process.
+
+For more information about the support scope of Red Hat Technology Preview features, see Technology Preview Features Support Scope.
+You can configure the linuxptp services (ptp4l, phc2sys) as boundary clocks for dual NIC hardware by creating a PtpConfig custom resource (CR) object for each NIC.
+
+Dual NIC hardware allows you to connect each NIC to the same upstream leader clock with separate ptp4l instances for each NIC feeding the downstream clocks.
+
+Install the OpenShift CLI (oc).
+
+Log in as a user with cluster-admin privileges.
+
+Install the PTP Operator.
+
+
+Create two separate PtpConfig CRs, one for each NIC, using the reference CR in "Configuring linuxptp services as a boundary clock" as the basis for each CR. For example:
+
+Create the dual NIC PtpConfig CRs by running the following commands:
+
+
+Check that the PTP Operator has applied the PtpConfig CRs for both NICs. Examine the logs for the linuxptp daemon corresponding to the node that has the dual NIC hardware installed. For example, run the following command:
+Intel Columbiaville E800 series NIC as PTP ordinary clock reference
+The following table describes the changes that you must make to the reference PTP configuration in order to use Intel Columbiaville E800 series NICs as ordinary clocks. Make the changes in a PtpConfig custom resource (CR) that you apply to the cluster.
+
+
+For phc2sysOpts, -m prints messages to stdout. The linuxptp-daemon DaemonSet parses the logs and generates Prometheus metrics.
+For a complete example CR that configures linuxptp services as an ordinary clock with PTP fast events, see Configuring linuxptp services as ordinary clock.
+Configuring FIFO priority scheduling for PTP hardware
+In telco or other deployment configurations that require low latency performance, PTP daemon threads run in a constrained CPU footprint alongside the rest of the infrastructure components. By default, PTP threads run with the SCHED_OTHER policy. Under high load, these threads might not get the scheduling latency they require for error-free operation.
+
+To mitigate against potential scheduling latency errors, you can configure the PTP Operator linuxptp services to allow threads to run with a SCHED_FIFO policy. If SCHED_FIFO is set for a PtpConfig CR, then ptp4l and phc2sys will run in the parent container under chrt with a priority set by the ptpSchedulingPriority field of the PtpConfig CR.
+
+Setting ptpSchedulingPolicy is optional, and is only required if you are experiencing latency errors.
+Edit the PtpConfig CR profile:
+
+Change the ptpSchedulingPolicy and ptpSchedulingPriority fields:
+
+Save and exit to apply the changes to the PtpConfig CR.
+
+
+Get the name of the linuxptp-daemon pod and corresponding node where the PtpConfig CR has been applied:
+
+Check that the ptp4l process is running with the updated chrt FIFO priority:
+Configuring log filtering for linuxptp services
+The linuxptp daemon generates logs that you can use for debugging purposes. In telco or other deployment configurations that feature a limited storage capacity, these logs can add to the storage demand.
+
+To reduce the number log messages, you can configure the PtpConfig custom resource (CR) to exclude log messages that report the master offset value. The master offset log message reports the difference between the current node's clock and the master clock in nanoseconds.
+
+Install the OpenShift CLI (oc).
+
+Log in as a user with cluster-admin privileges.
+
+Install the PTP Operator.
+
+
+Edit the PtpConfig CR:
+
+In spec.profile, add the ptpSettings.logReduce specification and set the value to true:
+
+Save and exit to apply the changes to the PtpConfig CR.
+
+
+Get the name of the linuxptp-daemon pod and corresponding node where the PtpConfig CR has been applied:
+
+Verify that master offset messages are excluded from the logs by running the following command:
+Troubleshooting common PTP Operator issues
+Troubleshoot common problems with the PTP Operator by performing the following steps.
+
+Install the "Red Hat OpenShift Container Platform" CLI (oc).
+
+Log in as a user with cluster-admin privileges.
+
+Install the PTP Operator on a bare-metal cluster with hosts that support PTP.
+
+
+Check the Operator and operands are successfully deployed in the cluster for the configured nodes.
+
+Check that supported hardware is found in the cluster.
+
+Check the available PTP network interfaces for a node:
+
+Check that the PTP interface is successfully synchronized to the primary clock by accessing the linuxptp-daemon pod for the corresponding node.
+
+
+Collecting Precision Time Protocol (PTP) Operator data
+You can use the oc adm must-gather CLI command to collect information about your cluster, including features and objects associated with Precision Time Protocol (PTP) Operator.
+
+You have access to the cluster as a user with the cluster-admin role.
+
+You have installed the OpenShift CLI (oc).
+
+You have installed the PTP Operator.
+
+
+To collect PTP Operator data with must-gather, you must specify the PTP Operator must-gather image.
+PTP hardware fast event notifications framework
+Cloud native applications such as virtual RAN (vRAN) require access to notifications about hardware timing events that are critical to the functioning of the overall network. PTP clock synchronization errors can negatively affect the performance and reliability of your low-latency application, for example, a vRAN application running in a distributed unit (DU).
+
+About PTP and clock synchronization error events
+Loss of PTP synchronization is a critical error for a RAN network. If synchronization is lost on a node, the radio might be shut down and the network Over the Air (OTA) traffic might be shifted to another node in the wireless network. Fast event notifications mitigate against workload errors by allowing cluster nodes to communicate PTP clock sync status to the vRAN application running in the DU.
+
+Event notifications are available to vRAN applications running on the same DU node. A publish-subscribe REST API passes events notifications to the messaging bus. Publish-subscribe messaging, or pub-sub messaging, is an asynchronous service-to-service communication architecture where any message published to a topic is immediately received by all of the subscribers to the topic.
+
+The PTP Operator generates fast event notifications for every PTP-capable network interface. You can access the events by using a cloud-event-proxy sidecar container over an HTTP or Advanced Message Queuing Protocol (AMQP) message bus.
+
+PTP fast event notifications are available for network interfaces configured to use PTP ordinary clocks or PTP boundary clocks.
+Use HTTP transport instead of AMQP for PTP and bare-metal events where possible. AMQ Interconnect is EOL from 30 June 2024. Extended life cycle support (ELS) for AMQ Interconnect ends 29 November 2029. For more information see, Red Hat AMQ Interconnect support status.
+About the PTP fast event notifications framework
+Use the Precision Time Protocol (PTP) fast event notifications framework to subscribe cluster applications to PTP events that the bare-metal cluster node generates.
+
+The fast events notifications framework uses a REST API for communication. The REST API is based on the O-RAN O-Cloud Notification API Specification for Event Consumers 3.0 that is available from O-RAN ALLIANCE Specifications.
+The framework consists of a publisher, subscriber, and an AMQ or HTTP messaging protocol to handle communications between the publisher and subscriber applications. Applications run the cloud-event-proxy container in a sidecar pattern to subscribe to PTP events. The cloud-event-proxy sidecar container can access the same resources as the primary application container without using any of the resources of the primary application and with no significant latency.
+
+Use HTTP transport instead of AMQP for PTP and bare-metal events where possible. AMQ Interconnect is EOL from 30 June 2024. Extended life cycle support (ELS) for AMQ Interconnect ends 29 November 2029. For more information see, Red Hat AMQ Interconnect support status.
+
+
+ Event is generated on the cluster host
+linuxptp-daemon in the PTP Operator-managed pod runs as a Kubernetes DaemonSet and manages the various linuxptp processes (ptp4l, phc2sys, and optionally for grandmaster clocks, ts2phc).
+The linuxptp-daemon passes the event to the UNIX domain socket.
+ Event is passed to the cloud-event-proxy sidecar
+The PTP plugin reads the event from the UNIX domain socket and passes it to the cloud-event-proxy sidecar in the PTP Operator-managed pod.
+cloud-event-proxy delivers the event from the Kubernetes infrastructure to Cloud-Native Network Functions (CNFs) with low latency.
+ Event is persisted
+The cloud-event-proxy sidecar in the PTP Operator-managed pod processes the event and publishes the cloud-native event by using a REST API.
+ Message is transported
+The message transporter transports the event to the cloud-event-proxy sidecar in the application pod over HTTP or AMQP 1.0 QPID.
+ Event is available from the REST API
+The cloud-event-proxy sidecar in the Application pod processes the event and makes it available by using the REST API.
+ Consumer application requests a subscription and receives the subscribed event
+The consumer application sends an API request to the cloud-event-proxy sidecar in the application pod to create a PTP events subscription.
+The cloud-event-proxy sidecar creates an AMQ or HTTP messaging listener protocol for the resource specified in the subscription.
+
+
+The cloud-event-proxy sidecar in the application pod receives the event from the PTP Operator-managed pod, unwraps the cloud events object to retrieve the data, and posts the event to the consumer application. The consumer application listens to the address specified in the resource qualifier and receives and processes the PTP event.
+Configuring the PTP fast event notifications publisher
+To start using PTP fast event notifications for a network interface in your cluster, you must enable the fast event publisher in the PTP Operator PtpOperatorConfig custom resource (CR) and configure ptpClockThreshold values in a PtpConfig CR that you create.
+
+You have installed the "Red Hat OpenShift Container Platform" CLI (oc).
+
+You have logged in as a user with cluster-admin privileges.
+
+You have installed the PTP Operator.
+
+
+Modify the default PTP Operator config to enable PTP fast events.
+
+Create a PtpConfig custom resource (CR) for the PTP enabled interface, and set the required values for ptpClockThreshold and ptp4lOpts.
+The following YAML illustrates the required values that you must set in the PtpConfig CR:
+
+
+For a complete example CR that configures linuxptp services as an ordinary clock with PTP fast events, see Configuring linuxptp services as ordinary clock.
+Migrating consumer applications to use HTTP transport for PTP or bare-metal events
+If you have previously deployed PTP or bare-metal events consumer applications, you need to update the applications to use HTTP message transport.
+
+You have installed the OpenShift CLI (oc).
+
+You have logged in as a user with cluster-admin privileges.
+
+You have updated the PTP Operator or Bare Metal Event Relay to version 4.13+ which uses HTTP transport by default.
+
+
+Update your events consumer application to use HTTP transport.
+Set the http-event-publishers variable for the cloud event sidecar deployment.
+
+Deploy the consumer-events-subscription-service service alongside the events consumer application.
+For example:
+Installing the AMQ messaging bus
+To pass PTP fast event notifications between publisher and subscriber on a node, you can install and configure an AMQ messaging bus to run locally on the node. To use AMQ messaging, you must install the AMQ Interconnect Operator.
+
+Use HTTP transport instead of AMQP for PTP and bare-metal events where possible. AMQ Interconnect is EOL from 30 June 2024. Extended life cycle support (ELS) for AMQ Interconnect ends 29 November 2029. For more information see, Red Hat AMQ Interconnect support status.
+Install the "Red Hat OpenShift Container Platform" CLI (oc).
+
+Log in as a user with cluster-admin privileges.
+
+
+Install the AMQ Interconnect Operator to its own amq-interconnect namespace. See Adding the Red Hat Integration - AMQ Interconnect Operator.
+
+
+Check that the AMQ Interconnect Operator is available and the required pods are running:
+
+Check that the required linuxptp-daemon PTP event producer pods are running in the openshift-ptp namespace.
+Subscribing DU applications to PTP events REST API reference
+Use the PTP event notifications REST API to subscribe a distributed unit (DU) application to the PTP events that are generated on the parent node.
+
+Subscribe applications to PTP events by using the resource address /cluster/node/<node_name>/ptp, where <node_name> is the cluster node running the DU application.
+
+Deploy your cloud-event-consumer DU application container and cloud-event-proxy sidecar container in a separate DU application pod. The cloud-event-consumer DU application subscribes to the cloud-event-proxy container in the application pod.
+
+Use the following API endpoints to subscribe the cloud-event-consumer DU application to PTP events posted by the cloud-event-proxy container at http://localhost:8089/api/ocloudNotifications/v1/ in the DU application pod:
+
+/api/ocloudNotifications/v1/subscriptions
+
+/api/ocloudNotifications/v1/subscriptions/<subscription_id>
+
+/api/ocloudNotifications/v1/health
+
+api/ocloudNotifications/v1/publishers
+
+/api/ocloudnotifications/v1/<resource_address>/CurrentState
+
+
+9089 is the default port for the cloud-event-consumer container deployed in the application pod. You can configure a different port for your DU application as required.
+api/ocloudNotifications/v1/subscriptions
+
+GET api/ocloudNotifications/v1/subscriptions
+
+
+Returns a list of subscriptions. If subscriptions exist, a 200 OK status code is returned along with the list of subscriptions.
+
+[
+ {
+  "id": "75b1ad8f-c807-4c23-acf5-56f4b7ee3826",
+  "endpointUri": "http://localhost:9089/event",
+  "uriLocation": "http://localhost:8089/api/ocloudNotifications/v1/subscriptions/75b1ad8f-c807-4c23-acf5-56f4b7ee3826",
+  "resource": "/cluster/node/compute-1.example.com/ptp"
+ }
+]
+
+POST api/ocloudNotifications/v1/subscriptions
+
+
+Creates a new subscription. If a subscription is successfully created, or if it already exists, a 201 Created status code is returned.
+
+
+{
+  "uriLocation": "http://localhost:8089/api/ocloudNotifications/v1/subscriptions",
+  "resource": "/cluster/node/compute-1.example.com/ptp"
+}
+api/ocloudNotifications/v1/subscriptions/<subscription_id>
+
+GET api/ocloudNotifications/v1/subscriptions/<subscription_id>
+
+
+Returns details for the subscription with ID <subscription_id>
+
+
+{
+  "id":"48210fb3-45be-4ce0-aa9b-41a0e58730ab",
+  "endpointUri": "http://localhost:9089/event",
+  "uriLocation":"http://localhost:8089/api/ocloudNotifications/v1/subscriptions/48210fb3-45be-4ce0-aa9b-41a0e58730ab",
+  "resource":"/cluster/node/compute-1.example.com/ptp"
+}
+api/ocloudNotifications/v1/subscriptions/status/<subscription_id>
+
+PUT api/ocloudNotifications/v1/subscriptions/status/<subscription_id>
+
+
+Creates a new status ping request for subscription with ID <subscription_id>. If a subscription is present, the status request is successful and a 202 Accepted status code is returned.
+
+
+{"status":"ping sent"}
+api/ocloudNotifications/v1/health/
+
+GET api/ocloudNotifications/v1/health/
+
+
+Returns the health status for the ocloudNotifications REST API.
+
+OK
+api/ocloudNotifications/v1/publishers
+
+GET api/ocloudNotifications/v1/publishers
+
+
+Returns an array of os-clock-sync-state, ptp-clock-class-change, and lock-state details for the cluster node. The system generates notifications when the relevant equipment state changes.
+
+os-clock-sync-state notifications describe the host operating system clock synchronization state. Can be in LOCKED or FREERUN state.
+
+ptp-clock-class-change notifications describe the current state of the PTP clock class.
+
+lock-state notifications describe the current status of the PTP equipment lock state. Can be in LOCKED, HOLDOVER or FREERUN state.
+
+
+[
+  {
+    "id": "0fa415ae-a3cf-4299-876a-589438bacf75",
+    "endpointUri": "http://localhost:9085/api/ocloudNotifications/v1/dummy",
+    "uriLocation": "http://localhost:9085/api/ocloudNotifications/v1/publishers/0fa415ae-a3cf-4299-876a-589438bacf75",
+    "resource": "/cluster/node/compute-1.example.com/sync/sync-status/os-clock-sync-state"
+  },
+  {
+    "id": "28cd82df-8436-4f50-bbd9-7a9742828a71",
+    "endpointUri": "http://localhost:9085/api/ocloudNotifications/v1/dummy",
+    "uriLocation": "http://localhost:9085/api/ocloudNotifications/v1/publishers/28cd82df-8436-4f50-bbd9-7a9742828a71",
+    "resource": "/cluster/node/compute-1.example.com/sync/ptp-status/ptp-clock-class-change"
+  },
+  {
+    "id": "44aa480d-7347-48b0-a5b0-e0af01fa9677",
+    "endpointUri": "http://localhost:9085/api/ocloudNotifications/v1/dummy",
+    "uriLocation": "http://localhost:9085/api/ocloudNotifications/v1/publishers/44aa480d-7347-48b0-a5b0-e0af01fa9677",
+    "resource": "/cluster/node/compute-1.example.com/sync/ptp-status/lock-state"
+  }
+]
+You can find os-clock-sync-state, ptp-clock-class-change and lock-state events in the logs for the cloud-event-proxy container. For example:
+
+$ oc logs -f linuxptp-daemon-cvgr6 -n openshift-ptp -c cloud-event-proxy
+{
+   "id":"c8a784d1-5f4a-4c16-9a81-a3b4313affe5",
+   "type":"event.sync.sync-status.os-clock-sync-state-change",
+   "source":"/cluster/compute-1.example.com/ptp/CLOCK_REALTIME",
+   "dataContentType":"application/json",
+   "time":"2022-05-06T15:31:23.906277159Z",
+   "data":{
+      "version":"v1",
+      "values":[
+         {
+            "resource":"/sync/sync-status/os-clock-sync-state",
+            "dataType":"notification",
+            "valueType":"enumeration",
+            "value":"LOCKED"
+         },
+         {
+            "resource":"/sync/sync-status/os-clock-sync-state",
+            "dataType":"metric",
+            "valueType":"decimal64.3",
+            "value":"-53"
+         }
+      ]
+   }
+}
+{
+   "id":"69eddb52-1650-4e56-b325-86d44688d02b",
+   "type":"event.sync.ptp-status.ptp-clock-class-change",
+   "source":"/cluster/compute-1.example.com/ptp/ens2fx/master",
+   "dataContentType":"application/json",
+   "time":"2022-05-06T15:31:23.147100033Z",
+   "data":{
+      "version":"v1",
+      "values":[
+         {
+            "resource":"/sync/ptp-status/ptp-clock-class-change",
+            "dataType":"metric",
+            "valueType":"decimal64.3",
+            "value":"135"
+         }
+      ]
+   }
+}
+{
+   "id":"305ec18b-1472-47b3-aadd-8f37933249a9",
+   "type":"event.sync.ptp-status.ptp-state-change",
+   "source":"/cluster/compute-1.example.com/ptp/ens2fx/master",
+   "dataContentType":"application/json",
+   "time":"2022-05-06T15:31:23.467684081Z",
+   "data":{
+      "version":"v1",
+      "values":[
+         {
+            "resource":"/sync/ptp-status/lock-state",
+            "dataType":"notification",
+            "valueType":"enumeration",
+            "value":"LOCKED"
+         },
+         {
+            "resource":"/sync/ptp-status/lock-state",
+            "dataType":"metric",
+            "valueType":"decimal64.3",
+            "value":"62"
+         }
+      ]
+   }
+}
+/api/ocloudnotifications/v1/<resource_address>/CurrentState
+
+GET api/ocloudNotifications/v1/cluster/node/<node_name>/sync/ptp-status/lock-state/CurrentState
+
+GET api/ocloudNotifications/v1/cluster/node/<node_name>/sync/sync-status/os-clock-sync-state/CurrentState
+
+GET api/ocloudNotifications/v1/cluster/node/<node_name>/sync/ptp-status/ptp-clock-class-change/CurrentState
+
+
+Configure the CurrentState API endpoint to return the current state of the os-clock-sync-state, ptp-clock-class-change, or lock-state events for the cluster node.
+
+os-clock-sync-state notifications describe the host operating system clock synchronization state. Can be in LOCKED or FREERUN state.
+
+ptp-clock-class-change notifications describe the current state of the PTP clock class.
+
+lock-state notifications describe the current status of the PTP equipment lock state. Can be in LOCKED, HOLDOVER or FREERUN state.
+
+
+
+{
+  "id": "c1ac3aa5-1195-4786-84f8-da0ea4462921",
+  "type": "event.sync.ptp-status.ptp-state-change",
+  "source": "/cluster/node/compute-1.example.com/sync/ptp-status/lock-state",
+  "dataContentType": "application/json",
+  "time": "2023-01-10T02:41:57.094981478Z",
+  "data": {
+    "version": "v1",
+    "values": [
+      {
+        "resource": "/cluster/node/compute-1.example.com/ens5fx/master",
+        "dataType": "notification",
+        "valueType": "enumeration",
+        "value": "LOCKED"
+      },
+      {
+        "resource": "/cluster/node/compute-1.example.com/ens5fx/master",
+        "dataType": "metric",
+        "valueType": "decimal64.3",
+        "value": "29"
+      }
+    ]
+  }
+}
+{
+  "specversion": "0.3",
+  "id": "4f51fe99-feaa-4e66-9112-66c5c9b9afcb",
+  "source": "/cluster/node/compute-1.example.com/sync/sync-status/os-clock-sync-state",
+  "type": "event.sync.sync-status.os-clock-sync-state-change",
+  "subject": "/cluster/node/compute-1.example.com/sync/sync-status/os-clock-sync-state",
+  "datacontenttype": "application/json",
+  "time": "2022-11-29T17:44:22.202Z",
+  "data": {
+    "version": "v1",
+    "values": [
+      {
+        "resource": "/cluster/node/compute-1.example.com/CLOCK_REALTIME",
+        "dataType": "notification",
+        "valueType": "enumeration",
+        "value": "LOCKED"
+      },
+      {
+        "resource": "/cluster/node/compute-1.example.com/CLOCK_REALTIME",
+        "dataType": "metric",
+        "valueType": "decimal64.3",
+        "value": "27"
+      }
+    ]
+  }
+}
+{
+  "id": "064c9e67-5ad4-4afb-98ff-189c6aa9c205",
+  "type": "event.sync.ptp-status.ptp-clock-class-change",
+  "source": "/cluster/node/compute-1.example.com/sync/ptp-status/ptp-clock-class-change",
+  "dataContentType": "application/json",
+  "time": "2023-01-10T02:41:56.785673989Z",
+  "data": {
+    "version": "v1",
+    "values": [
+      {
+        "resource": "/cluster/node/compute-1.example.com/ens5fx/master",
+        "dataType": "metric",
+        "valueType": "decimal64.3",
+        "value": "165"
+      }
+    ]
+  }
+}
+Monitoring PTP fast event metrics
+You can monitor PTP fast events metrics from cluster nodes where the linuxptp-daemon is running. You can also monitor PTP fast event metrics in the "Red Hat OpenShift Container Platform" web console by using the preconfigured and self-updating Prometheus monitoring stack.
+
+Install the "Red Hat OpenShift Container Platform" CLI oc.
+
+Log in as a user with cluster-admin privileges.
+
+Install and configure the PTP Operator on a node with PTP-capable hardware.
+
+
+Check for exposed PTP metrics on any node where the linuxptp-daemon is running. For example, run the following command:
+
+To view the PTP event in the "Red Hat OpenShift Container Platform" web console, copy the name of the PTP metric you want to query, for example, openshift_ptp_offset_ns.
+
+In the "Red Hat OpenShift Container Platform" web console, click Observe -> Metrics.
+
+Paste the PTP metric name into the Expression field, and click Run queries.
+
+
+Managing metrics

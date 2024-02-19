@@ -1,0 +1,19 @@
+Using the "Red Hat OpenShift Container Platform" dashboard to get cluster information
+
+Access the "Red Hat OpenShift Container Platform" dashboard, which captures high-level information about the cluster, by navigating to Home -> Dashboards -> Overview from the "Red Hat OpenShift Container Platform" web console.
+
+The "Red Hat OpenShift Container Platform" dashboard provides various cluster information, captured in individual dashboard cards.
+About the "Red Hat OpenShift Container Platform" dashboards page
+The "Red Hat OpenShift Container Platform" dashboard consists of the following cards:
+
+Details provides a brief overview of informational cluster details.
+
+Cluster Inventory details number of resources and associated statuses. It is helpful when intervention is required to resolve problems, including information about:
+
+Cluster Capacity charts help administrators understand when additional resources are required in the cluster. The charts contain an inner ring that displays current consumption, while an outer ring displays thresholds configured for the resource, including information about:
+
+Cluster Utilization shows the capacity of various resources over a specified period of time, to help administrators understand the scale and frequency of high resource consumption.
+
+Events lists messages related to recent activity in the cluster, such as pod creation or virtual machine migration to another host.
+
+Top Consumers helps administrators understand how cluster resources are consumed. Click on a resource to jump to a detailed page listing pods and nodes that consume the largest amount of the specified cluster resource (CPU, memory, or storage).

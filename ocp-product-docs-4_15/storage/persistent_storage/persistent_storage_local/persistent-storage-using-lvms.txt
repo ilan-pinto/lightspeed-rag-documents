@@ -1,0 +1,505 @@
+Persistent storage using logical volume manager storage
+
+Logical volume manager storage (LVM Storage) uses the TopoLVM CSI driver to dynamically provision local storage on single-node OpenShift clusters.
+
+LVM Storage creates thin-provisioned volumes using Logical Volume Manager and provides dynamic provisioning of block storage on a limited resources single-node OpenShift cluster.
+Deploying LVM Storage on single-node OpenShift clusters
+You can deploy LVM Storage on a single-node OpenShift bare-metal or user-provisioned infrastructure cluster and configure it to dynamically provision storage for your workloads.
+
+LVM Storage creates a volume group using all the available unused disks and creates a single thin pool with a size of 90% of the volume group. The remaining 10% of the volume group is left free to enable data recovery by expanding the thin pool when required. You might need to manually perform such recovery.
+
+You can use persistent volume claims (PVCs) and volume snapshots provisioned by LVM Storage to request storage and create volume snapshots.
+
+LVM Storage configures a default overprovisioning limit of 10 to take advantage of the thin-provisioning feature. The total size of the volumes and volume snapshots that can be created on the single-node OpenShift clusters is 10 times the size of the thin pool.
+
+You can deploy LVM Storage on single-node OpenShift clusters using one of the following:
+
+Red Hat Advanced Cluster Management (RHACM)
+
+"Red Hat OpenShift Container Platform" Web Console
+
+
+Requirements
+Before you begin deploying LVM Storage on single-node OpenShift clusters, ensure that the following requirements are met:
+
+You have installed Red Hat Advanced Cluster Management (RHACM) on an "Red Hat OpenShift Container Platform" cluster.
+
+Every managed single-node OpenShift cluster has dedicated disks that are used to provision storage.
+
+
+Before you deploy LVM Storage on single-node OpenShift clusters, be aware of the following limitations:
+
+You can only create a single instance of the LVMCluster custom resource (CR) on an "Red Hat OpenShift Container Platform" cluster.
+
+When a device becomes part of the LVMCluster CR, it cannot be removed.
+Limitations
+For deploying single-node OpenShift, LVM Storage has the following limitations:
+
+The total storage size is limited by the size of the underlying Logical Volume Manager (LVM) thin pool and the overprovisioning factor.
+
+The size of the logical volume depends on the size of the Physical Extent (PE) and the Logical Extent (LE).
+
+
+
+Theoretical size.
+
+Tested size.
+Red Hat Advanced Cluster Management for Kubernetes: Installing while connected online
+Installing LVM Storage with the CLI
+As a cluster administrator, you can install Logical volume manager storage (LVM Storage) by using the CLI.
+
+You have installed the OpenShift CLI (oc).
+
+You have logged in as a user with cluster-admin privileges.
+
+
+Create a namespace for the LVM Storage Operator.
+
+Create an Operator group for the LVM Storage Operator.
+
+Subscribe to the LVM Storage Operator.
+
+Create the LVMCluster resource:
+
+To verify that the Operator is installed, enter the following command:
+Installing LVM Storage with the web console
+You can install Logical volume manager storage (LVM Storage) by using the Red Hat "Red Hat OpenShift Container Platform" OperatorHub.
+
+You have access to the single-node OpenShift cluster.
+
+You are using an account with the cluster-admin and Operator installation permissions.
+
+
+Log in to the "Red Hat OpenShift Container Platform" Web Console.
+
+Click Operators -> OperatorHub.
+
+Scroll or type LVM Storage into the Filter by keyword box to find LVM Storage.
+
+Click Install.
+
+Set the following options on the Install Operator page:
+
+Click Install.
+
+
+Verify that LVM Storage shows a green tick, indicating successful installation.
+Uninstalling LVM Storage installed using the OpenShift Web Console
+You can unstall LVM Storage using the Red Hat OpenShift Container Platform Web Console.
+
+You deleted all the applications on the clusters that are using the storage provisioned by LVM Storage.
+
+You deleted the persistent volume claims (PVCs) and persistent volumes (PVs) provisioned using LVM Storage.
+
+You deleted all volume snapshots provisioned by LVM Storage.
+
+You verified that no logical volume resources exist by using the oc get logicalvolume command.
+
+You have access to the single-node OpenShift cluster using an account with cluster-admin permissions.
+
+
+From the Operators → Installed Operators page, scroll to LVM Storage or type LVM Storage into the Filter by name to find and click on it.
+
+Click on the LVMCluster tab.
+
+On the right-hand side of the LVMCluster page, select Delete LVMCluster from the Actions drop-down menu.
+
+Click on the Details tab.
+
+On the right-hand side of the Operator Details page, select Uninstall Operator from the Actions drop-down menu.
+
+Select Remove. LVM Storage stops running and is completely removed.
+Installing LVM Storage in a disconnected environment
+You can install LVM Storage on "Red Hat OpenShift Container Platform" "4.14" in a disconnected environment. All sections referenced in this procedure are linked in Additional resources.
+
+You read the About disconnected installation mirroring section.
+
+You have access to the "Red Hat OpenShift Container Platform" image repository.
+
+You created a mirror registry.
+
+
+Follow the steps in the Creating the image set configuration procedure. To create an ImageSetConfiguration resource for LVM Storage, you can use the following example YAML file:
+
+Follow the procedure in the Mirroring an image set to a mirror registry section.
+
+Follow the procedure in the Configuring image registry repository mirroring section.
+
+
+About disconnected installation mirroring
+
+Creating a mirror registry with mirror registry for Red Hat OpenShift
+
+Mirroring the OpenShift Container Platform image repository
+
+Creating the image set configuration
+
+Mirroring an image set to a mirror registry
+
+Configuring image registry repository mirroring
+Installing LVM Storage using RHACM
+LVM Storage is deployed on single-node OpenShift clusters using Red Hat Advanced Cluster Management (RHACM). You create a Policy object on RHACM that deploys and configures the Operator when it is applied to managed clusters which match the selector specified in the PlacementRule resource. The policy is also applied to clusters that are imported later and satisfy the placement rule.
+
+Access to the RHACM cluster using an account with cluster-admin and Operator installation permissions.
+
+Dedicated disks on each single-node OpenShift cluster to be used by LVM Storage.
+
+The single-node OpenShift cluster needs to be managed by RHACM, either imported or created.
+
+
+Log in to the RHACM CLI using your "Red Hat OpenShift Container Platform" credentials.
+
+Create a namespace in which you will create policies.
+
+To create a policy, save the following YAML to a file with a name such as policy-lvms-operator.yaml:
+
+Create the policy in the namespace by running the following command:
+
+
+Red Hat Advanced Cluster Management for Kubernetes: Installing while connected online
+
+LVM Storage reference YAML file
+Uninstalling LVM Storage installed using RHACM
+To uninstall LVM Storage that you installed using RHACM, you need to delete the RHACM policy that you created for deploying and configuring the Operator.
+
+When you delete the RHACM policy, the resources that the policy has created are not removed. You need to create additional policies to remove the resources.
+
+As the created resources are not removed when you delete the policy, you need to perform the following steps:
+
+Remove all the Persistent volume claims (PVCs) and volume snapshots provisioned by LVM Storage.
+
+Remove the LVMCluster resources to clean up Logical Volume Manager resources created on the disks.
+
+Create an additional policy to uninstall the Operator.
+
+
+Ensure that the following are deleted before deleting the policy:
+
+Ensure you have access to the RHACM cluster using an account with a cluster-admin role.
+
+
+In the OpenShift CLI (oc), delete the RHACM policy that you created for deploying and configuring LVM Storage on the hub cluster by using the following command:
+
+To create a policy for removing the LVMCluster resource, save the following YAML to a file with a name such as lvms-remove-policy.yaml.
+This enables the Operator to clean up all Logical Volume Manager resources that it created on the cluster.
+
+Set the value of the PlacementRule.spec.clusterSelector field to select the clusters from which to uninstall LVM Storage.
+
+Create the policy by running the following command:
+
+To create a policy to check if the LVMCluster CR has been removed, save the following YAML to a file with a name such as check-lvms-remove-policy.yaml:
+
+Create the policy by running the following command:
+
+Check the policy status by running the following command:
+
+After both the policies are compliant, save the following YAML to a file with a name such as lvms-uninstall-policy.yaml to create a policy to uninstall LVM Storage.
+
+Create the policy by running the following command:
+
+
+LVM Storage reference YAML file
+Creating a Logical Volume Manager cluster on a single-node OpenShift worker node
+You can configure a single-node OpenShift worker node as a Logical Volume Manager cluster. On the control-plane single-node OpenShift node, LVM Storage detects and uses the additional worker nodes when the new nodes become active in the cluster.
+
+When you create a Logical Volume Manager cluster, StorageClass and LVMVolumeGroup resources work together to provide dynamic provisioning of storage. StorageClass CRs define the properties of the storage that you can dynamically provision. LVMVolumeGroup is a specific type of persistent volume (PV) that is backed by an LVM Volume Group. LVMVolumeGroup CRs provide the back-end storage for the persistent volumes that you create.
+Perform the following procedure to create a Logical Volume Manager cluster on a single-node OpenShift worker node.
+
+You also can perform the same task by using the "Red Hat OpenShift Container Platform" web console.
+You have installed the OpenShift CLI (oc).
+
+You have logged in as a user with cluster-admin privileges.
+
+You installed LVM Storage in a single-node OpenShift cluster and have installed a worker node for use in the single-node OpenShift cluster.
+
+
+Create the LVMCluster custom resource (CR).
+
+
+Verify that the LVMCluster resource has created the StorageClass, LVMVolumeGroup, and LVMVolumeGroupNodeStatus CRs.
+
+LVMVolumeGroup and LVMVolumeGroupNodeStatus are managed by LVM Storage. Do not edit these CRs directly.
+Check that the LVMCluster CR is in a ready state by running the following command:
+
+Check that the storage class is created:
+
+Check that the volume snapshot class is created:
+
+Check that the LVMVolumeGroup resource is created:
+
+Check that the LVMVolumeGroupNodeStatus resource is created:
+
+
+Adding worker nodes to single-node OpenShift clusters
+
+LVM Storage reference YAML file
+Adding a storage class
+You can add a storage class to an "Red Hat OpenShift Container Platform" cluster. A storage class describes a class of storage in the cluster and how the cluster dynamically provisions the persistent volumes (PVs) when the user specifies the storage class. A storage class describes the type of device classes, the quality-of-service level, the filesystem type, and other details.
+
+Create a YAML file:
+
+Apply the YAML file by using the oc command:
+
+Verify that the cluster created the storage class by using the following command:
+Provisioning storage using LVM Storage
+You can provision persistent volume claims (PVCs) using the storage class that is created during the Operator installation. You can provision block and file PVCs, however, the storage is allocated only when a pod that uses the PVC is created.
+
+LVM Storage provisions PVCs in units of 1 GiB. The requested storage is rounded up to the nearest GiB.
+Identify the StorageClass that is created when LVM Storage is deployed.
+
+To create a PVC where the application requires storage, save the following YAML to a file with a name such as pvc.yaml.
+
+Create the PVC by running the following command:
+Monitoring LVM Storage
+When you use RHACM to install LVM Storage, you must configure RHACM Observability to monitor all the single-node OpenShift clusters from one place.
+
+Metrics
+You can monitor LVM Storage by viewing the metrics exported by the Operator on the RHACM dashboards and the alerts that are triggered.
+
+Add the following topolvm metrics to the allow list:
+
+
+Metrics are updated every 10 minutes or when there is a change in the thin pool, such as a new logical volume creation.
+Alerts
+When the thin pool and volume group are filled up, further operations fail and might lead to data loss. LVM Storage sends the following alerts about the usage of the thin pool and volume group when utilization crosses a certain value:
+
+
+
+
+Observability
+
+Adding custom metrics
+Scaling storage of single-node OpenShift clusters
+The "Red Hat OpenShift Container Platform" supports additional worker nodes for single-node OpenShift clusters on bare-metal user-provisioned infrastructure. LVM Storage detects and uses the new additional worker nodes when the nodes show up.
+
+Adding worker nodes to single-node OpenShift clusters
+
+
+Scaling up storage by adding capacity to your single-node OpenShift cluster
+To scale the storage capacity of your configured worker nodes on a single-node OpenShift cluster, you can increase the capacity by adding disks.
+
+You have additional unused disks on each single-node OpenShift cluster to be used by LVM Storage.
+
+
+Log in to "Red Hat OpenShift Container Platform" console of the single-node OpenShift cluster.
+
+From the Operators -> Installed Operators page, click on the LVM Storage Operator in the openshift-storage namespace.
+
+Click on the LVMCluster tab to list the LVMCluster CR created on the cluster.
+
+Select Edit LVMCluster from the Actions drop-down menu.
+
+Click on the YAML tab.
+
+Edit the LVMCluster CR YAML to add the new device path in the deviceSelector section:
+
+
+LVM Storage reference YAML file
+Scaling up storage by adding capacity to your single-node OpenShift cluster using RHACM
+You can scale the storage capacity of your configured worker nodes on a single-node OpenShift cluster using RHACM.
+
+You have access to the RHACM cluster using an account with cluster-admin privileges.
+
+You have additional unused devices on each single-node OpenShift cluster that LVM Storage can use.
+
+
+Log in to the RHACM CLI using your "Red Hat OpenShift Container Platform" credentials.
+
+Find the device that you want to add. The device to be added needs to match with the device name and path of the existing devices.
+
+To add capacity to the single-node OpenShift cluster, edit the deviceSelector section of the existing policy YAML, for example, policy-lvms-operator.yaml.
+
+Edit the policy by running the following command:
+
+
+Red Hat Advanced Cluster Management for Kubernetes: Installing while connected online
+
+LVM Storage reference YAML file
+Expanding PVCs
+To leverage the new storage after adding additional capacity, you can expand existing persistent volume claims (PVCs) with LVM Storage.
+
+Dynamic provisioning is used.
+
+The controlling StorageClass object has allowVolumeExpansion set to true.
+
+
+Modify the .spec.resources.requests.storage field in the desired PVC resource to the new size by running the following command:
+
+Watch the status.conditions field of the PVC to see if the resize has completed. "Red Hat OpenShift Container Platform" adds the Resizing condition to the PVC during expansion, which is removed after the expansion completes.
+
+
+Scaling up storage by adding capacity to your single-node OpenShift cluster
+
+Scaling up storage by adding capacity to your single-node OpenShift cluster using RHACM
+
+Enabling volume expansion support
+Upgrading LVM Storage on single-node OpenShift clusters
+You can upgrade the Logical volume manager storage (LVM Storage) Operator to ensure compatibility with your single-node OpenShift version.
+
+You have upgraded your single-node OpenShift cluster.
+
+You have installed a previous version of the LVM Storage Operator.
+
+You have installed the OpenShift CLI (oc).
+
+You have logged in as a user with cluster-admin privileges.
+
+
+Update the Subscription resource for the LVM Storage Operator by running the following command:
+
+View the upgrade events to check that the installation is complete by running the following command:
+
+
+Verify the version of the LVM Storage Operator by running the following command:
+Volume snapshots for single-node OpenShift
+You can take volume snapshots of persistent volumes (PVs) that are provisioned by LVM Storage. You can also create volume snapshots of the cloned volumes. Volume snapshots help you to do the following:
+
+Back up your application data.
+
+Revert to a state at which the volume snapshot was taken.
+
+
+OADP features
+
+
+Creating volume snapshots in single-node OpenShift
+You can create volume snapshots based on the available capacity of the thin pool and the overprovisioning limits. LVM Storage creates a VolumeSnapshotClass with the lvms-<deviceclass-name> name.
+
+You ensured that the persistent volume claim (PVC) is in Bound state. This is required for a consistent snapshot.
+
+You stopped all the I/O to the PVC before taking the snapshot.
+
+
+Log in to the single-node OpenShift for which you need to run the oc command.
+
+Save the following YAML to a file with a name such as lvms-vol-snapshot.yaml.
+
+Create the snapshot by running the following command in the same namespace as the PVC:
+
+
+A read-only copy of the PVC is created as a volume snapshot.
+Restoring volume snapshots in single-node OpenShift
+When you restore a volume snapshot, a new persistent volume claim (PVC) is created. The restored PVC is independent of the volume snapshot and the source PVC.
+
+The storage class must be the same as that of the source PVC.
+
+The size of the requested PVC must be the same as that of the source volume of the snapshot.
+
+
+Identify the storage class name of the source PVC and volume snapshot name.
+
+Save the following YAML to a file with a name such as lvms-vol-restore.yaml to restore the snapshot.
+
+Create the policy by running the following command in the same namespace as the snapshot:
+Deleting volume snapshots in single-node OpenShift
+You can delete volume snapshots resources and persistent volume claims (PVCs).
+
+Delete the volume snapshot resource by running the following command:
+
+To delete the restored volume snapshot, delete the PVC that was created to restore the volume snapshot by running the following command:
+Volume cloning for single-node OpenShift
+A clone is a duplicate of an existing storage volume that can be used like any standard volume.
+
+Creating volume clones in single-node OpenShift
+You create a clone of a volume to make a point-in-time copy of the data. A persistent volume claim (PVC) cannot be cloned with a different size.
+
+The cloned PVC has write access.
+You ensured that the PVC is in Bound state. This is required for a consistent snapshot.
+
+You ensured that the StorageClass is the same as that of the source PVC.
+
+
+Identify the storage class of the source PVC.
+
+To create a volume clone, save the following YAML to a file with a name such as lvms-vol-clone.yaml:
+
+Create the policy in the same namespace as the source PVC by running the following command:
+Deleting cloned volumes in single-node OpenShift
+You can delete cloned volumes.
+
+To delete the cloned volume, delete the cloned PVC by running the following command:
+Downloading log files and diagnostic information using must-gather
+When LVM Storage is unable to automatically resolve a problem, use the must-gather tool to collect the log files and diagnostic information so that you or the Red Hat Support can review the problem and determine a solution.
+
+Run the must-gather command from the client connected to LVM Storage cluster by running the following command:
+
+
+About the must-gather tool
+LVM Storage reference YAML file
+The sample LVMCluster custom resource (CR) describes all the fields in the YAML file.
+
+apiVersion: lvm.topolvm.io/v1alpha1
+kind: LVMCluster
+metadata:
+  name: my-lvmcluster
+spec:
+  tolerations:
+  - effect: NoSchedule
+    key: xyz
+    operator: Equal
+    value: "true"
+  storage:
+    deviceClasses:    1
+    - name: vg1    2
+      default: true
+      nodeSelector: 3
+        nodeSelectorTerms: 4
+        - matchExpressions:
+          - key: mykey
+            operator: In
+            values:
+            - ssd
+      deviceSelector: 5
+        paths:
+        - /dev/disk/by-path/pci-0000:87:00.0-nvme-1
+        - /dev/disk/by-path/pci-0000:88:00.0-nvme-1
+        optionalPaths:
+        - /dev/disk/by-path/pci-0000:89:00.0-nvme-1
+        - /dev/disk/by-path/pci-0000:90:00.0-nvme-1
+      thinPoolConfig: 6
+        name: thin-pool-1 7
+        sizePercent: 90 8
+        overprovisionRatio: 10 9
+status:
+    deviceClassStatuses: 10
+    - name: vg1
+      nodeStatus: 11
+      - devices: 12
+        - /dev/nvme0n1
+        - /dev/nvme1n1
+        - /dev/nvme2n1
+        node: my-node.example.com 13
+        status: Ready 14
+    ready: true 15
+    state: Ready 16
+The LVM volume groups to be created on the cluster. Currently, only a single deviceClass is supported.
+
+The name of the LVM volume group to be created on the nodes.
+
+The nodes on which to create the LVM volume group. If the field is empty, all nodes are considered.
+
+A list of node selector requirements.
+
+A list of device paths which is used to create the LVM volume group. If this field is empty, all unused disks on the node will be used.
+
+The LVM thin pool configuration.
+
+The name of the thin pool to be created in the LVM volume group.
+
+The percentage of remaining space in the LVM volume group that should be used for creating the thin pool.
+
+The factor by which additional storage can be provisioned compared to the available storage in the thin pool.
+
+The status of the deviceClass.
+
+The status of the LVM volume group on each node.
+
+The list of devices used to create the LVM volume group.
+
+The node on which the deviceClass was created.
+
+The status of the LVM volume group on the node.
+
+This field is deprecated.
+
+The status of the LVMCluster.

@@ -1,0 +1,870 @@
+Installing a cluster on AWS with worker nodes on AWS Local Zones
+
+You can quickly install an "Red Hat OpenShift Container Platform" cluster in Amazon Web Services (AWS) Local Zones by setting the zone names in the edge compute pool of the install-config.yaml file, or install a cluster in an existing VPC that lists Local Zone subnets.
+
+AWS Local Zones are a type of infrastructure that place Cloud Resources close to metropolitan regions. For more information, see the AWS Local Zones Documentation.
+
+The steps for performing an installer-provisioned infrastructure installation are provided for example purposes only. Installing a cluster in an existing VPC requires that you have knowledge of the cloud provider and the installation process of "Red Hat OpenShift Container Platform". You can use a CloudFormation template to assist you with completing these steps or to help model your own cluster installation. Instead of using the CloudFormation template to create resources, you can decide to use other methods for generating these resources.
+Prerequisites
+You reviewed details about the "Red Hat OpenShift Container Platform" installation and update processes.
+
+You read the documentation on selecting a cluster installation method and preparing it for users.
+
+You configured an AWS account to host the cluster.
+
+You noted the region and supported AWS Local Zones locations to create the network resources in.
+
+You read the Features for each AWS Local Zones location.
+
+You downloaded the AWS CLI and installed it on your computer. See Install the AWS CLI Using the Bundled Installer (Linux, macOS, or UNIX) in the AWS documentation.
+
+If you use a firewall, you configured it to allow the sites that your cluster requires access to.
+
+Add permission for the user who creates the cluster to modify the Local Zone group with ec2:ModifyAvailabilityZoneGroup. For example:
+Cluster limitations in AWS Local Zones
+Some limitations exist when you attempt to deploy a cluster with a default installation configuration in Amazon Web Services (AWS) Local Zones.
+
+The following list details limitations when deploying a cluster in AWS Local Zones:
+
+The Maximum Transmission Unit (MTU) between an Amazon EC2 instance in a Local Zone and an Amazon EC2 instance in the Region is 1300. This causes the cluster-wide network MTU to change according to the network plugin that is used on the deployment.
+
+Network resources such as Network Load Balancer (NLB), Classic Load Balancer, and Network Address Translation (NAT) Gateways are not globally supported in AWS Local Zones.
+
+For an "Red Hat OpenShift Container Platform" cluster on AWS, the AWS Elastic Block Storage (EBS) gp3 type volume is the default for node volumes and the default for the storage class. This volume type is not globally available on Local Zone locations. By default, the nodes running in Local Zones are deployed with the gp2 EBS volume. The gp2-csi StorageClass must be set when creating workloads on Local Zone nodes.
+If you want the installation program to automatically create Local Zone subnets for your "Red Hat OpenShift Container Platform" cluster, specific configuration limitations apply with this method.
+
+The following configuration limitation applies when you set the installation program to automatically create subnets for your "Red Hat OpenShift Container Platform" cluster:
+
+The private subnets for an AWS Local Zone associate with the route table of the parent zone, so that each private subnet can route egress traffic to the internet. If this route table does not exist during cluster installation, the private subnet associates with the first available private route table in the Virtual Private Cloud (VPC). This approach is valid only for AWS Local Zones subnets in an "Red Hat OpenShift Container Platform" cluster.
+Storage classes
+
+Ingress Controller sharding
+Internet access for "Red Hat OpenShift Container Platform"
+In "Red Hat OpenShift Container Platform" "4.14", you require access to the internet to install your cluster.
+
+You must have internet access to:
+
+Access OpenShift Cluster Manager Hybrid Cloud Console to download the installation program and perform subscription management. If the cluster has internet access and you do not disable Telemetry, that service automatically entitles your cluster.
+
+Access Quay.io to obtain the packages that are required to install your cluster.
+
+Obtain the packages that are required to perform cluster updates.
+Obtaining an AWS Marketplace image
+If you are deploying an "Red Hat OpenShift Container Platform" cluster using an AWS Marketplace image, you must first subscribe through AWS. Subscribing to the offer provides you with the AMI ID that the installation program uses to deploy worker nodes.
+
+You have an AWS account to purchase the offer. This account does not have to be the same account that is used to install the cluster.
+
+
+Complete the "Red Hat OpenShift Container Platform" subscription from the AWS Marketplace.
+
+Record the AMI ID for your specific region. As part of the installation process, you must update the install-config.yaml file with this value before deploying the cluster.
+
+
+apiVersion: v1
+baseDomain: example.com
+compute:
+- hyperthreading: Enabled
+  name: worker
+  platform:
+    aws:
+      amiID: ami-06c4d345f7c207239 1
+      type: m5.4xlarge
+  replicas: 3
+metadata:
+  name: test-cluster
+platform:
+  aws:
+    region: us-east-2 2
+sshKey: ssh-ed25519 AAAA...
+pullSecret: '{"auths": ...}'
+The AMI ID from your AWS Marketplace subscription.
+
+Your AMI ID is associated with a specific AWS region. When creating the installation configuration file, ensure that you select the same AWS region that you specified when configuring your subscription.
+Installing the OpenShift CLI by downloading the binary
+You can install the OpenShift CLI (oc) to interact with "Red Hat OpenShift Container Platform" from a command-line interface. You can install oc on Linux, Windows, or macOS.
+
+If you installed an earlier version of oc, you cannot use it to complete all of the commands in "Red Hat OpenShift Container Platform" "4.14". Download and install the new version of oc.
+
+You can install the OpenShift CLI (oc) binary on Linux by using the following procedure.
+
+Navigate to the "Red Hat OpenShift Container Platform" downloads page on the Red Hat Customer Portal.
+
+Select the architecture from the Product Variant drop-down list.
+
+Select the appropriate version from the Version drop-down list.
+
+Click Download Now next to the OpenShift v"4.14" Linux Client entry and save the file.
+
+Unpack the archive:
+
+Place the oc binary in a directory that is on your PATH.
+
+
+After you install the OpenShift CLI, it is available using the oc command:
+
+
+
+You can install the OpenShift CLI (oc) binary on Windows by using the following procedure.
+
+Navigate to the "Red Hat OpenShift Container Platform" downloads page on the Red Hat Customer Portal.
+
+Select the appropriate version from the Version drop-down list.
+
+Click Download Now next to the OpenShift v"4.14" Windows Client entry and save the file.
+
+Unzip the archive with a ZIP program.
+
+Move the oc binary to a directory that is on your PATH.
+
+
+After you install the OpenShift CLI, it is available using the oc command:
+
+
+
+You can install the OpenShift CLI (oc) binary on macOS by using the following procedure.
+
+Navigate to the "Red Hat OpenShift Container Platform" downloads page on the Red Hat Customer Portal.
+
+Select the appropriate version from the Version drop-down list.
+
+Click Download Now next to the OpenShift v"4.14" macOS Client entry and save the file.
+
+Unpack and unzip the archive.
+
+Move the oc binary to a directory on your PATH.
+
+
+After you install the OpenShift CLI, it is available using the oc command:
+Preparing for the installation
+Before you extend nodes to local zones, you must prepare certain resources for the cluster installation environment.
+
+Obtaining the installation program
+Before you install "Red Hat OpenShift Container Platform", download the installation file on  the host you are using for installation.
+
+You have a computer that runs Linux or macOS, with 500 MB of local disk space.
+
+
+Access the Infrastructure Provider page on the OpenShift Cluster Manager site. If you have a Red Hat account, log in with your credentials. If you do not, create an account.
+
+Select your infrastructure provider.
+
+Navigate to the page for your installation type, download the installation program that corresponds with your host operating system and architecture, and place the file in the directory where you will store the installation configuration files.
+
+Extract the installation program. For example, on a computer that uses a Linux
+operating system, run the following command:
+
+Download your installation pull secret from the Red Hat OpenShift Cluster Manager. This pull secret allows you to authenticate with the services that are provided by the included authorities, including Quay.io, which serves the container images for "Red Hat OpenShift Container Platform" components.
+Generating a key pair for cluster node SSH access
+During an "Red Hat OpenShift Container Platform" installation, you can provide an SSH public key to the installation program. The key is passed to the Red Hat Enterprise Linux CoreOS (RHCOS) nodes through their Ignition config files and is used to authenticate SSH access to the nodes. The key is added to the ~/.ssh/authorized_keys list for the core user on each node, which enables password-less authentication.
+
+After the key is passed to the nodes, you can use the key pair to SSH in to the RHCOS nodes as the user core. To access the nodes through SSH, the private key identity must be managed by SSH for your local user.
+
+If you want to SSH in to your cluster nodes to perform installation debugging or disaster recovery, you must provide the SSH public key during the installation process. The ./openshift-install gather command also requires the SSH public key to be in place on the cluster nodes.
+
+Do not skip this procedure in production environments, where disaster recovery and debugging is required.
+You must use a local key, not one that you configured with platform-specific approaches such as AWS key pairs.
+If you do not have an existing SSH key pair on your local machine to use for authentication onto your cluster nodes, create one. For example, on a computer that uses a Linux operating system, run the following command:
+
+View the public SSH key:
+
+Add the SSH private key identity to the SSH agent for your local user, if it has not already been added. SSH agent management of the key is required for password-less SSH authentication onto your cluster nodes, or if you want to use the ./openshift-install gather command.
+
+Add your SSH private key to the ssh-agent:
+
+
+When you install "Red Hat OpenShift Container Platform", provide the SSH public key to the installation program.
+Creating the installation files for AWS
+To install "Red Hat OpenShift Container Platform" on Amazon Web Services (AWS) using user-provisioned infrastructure, you must generate the files that the installation program needs to deploy your cluster and modify them so that the cluster creates only the machines that it will use. You generate and customize the install-config.yaml file, Kubernetes manifests, and Ignition config files. You also have the option to first set up a separate var partition during the preparation phases of installation.
+Minimum resource requirements for cluster installation
+Each cluster machine must meet the following minimum requirements:
+
+
+One vCPU is equivalent to one physical core when simultaneous multithreading (SMT), or hyperthreading, is not enabled. When enabled, use the following formula to calculate the corresponding ratio: (threads per core × cores) × sockets = vCPUs.
+
+"Red Hat OpenShift Container Platform" and Kubernetes are sensitive to disk performance, and faster storage is recommended, particularly for etcd on the control plane nodes which require a 10 ms p99 fsync duration. Note that on many cloud platforms, storage size and IOPS scale together, so you might need to over-allocate storage volume to obtain sufficient performance.
+
+As with all user-provisioned installations, if you choose to use RHEL compute machines in your cluster, you take responsibility for all operating system life cycle management and maintenance, including performing system updates, applying patches, and completing all other required tasks. Use of RHEL 7 compute machines is deprecated and has been removed in "Red Hat OpenShift Container Platform" 4.10 and later.
+If an instance type for your platform meets the minimum requirements for cluster machines, it is supported to use in "Red Hat OpenShift Container Platform".
+Tested instance types for AWS
+The following Amazon Web Services (AWS) instance types have been tested with "Red Hat OpenShift Container Platform" for use with AWS Local Zones.
+
+Use the machine types included in the following charts for your AWS instances. If you use an instance type that is not listed in the chart, ensure that the instance size you use matches the minimum resource requirements that are listed in "Minimum resource requirements for cluster installation".
+c5.*
+
+c5d.*
+
+m6i.*
+
+m5.*
+
+r5.*
+
+t3.*
+See AWS Local Zones features in the AWS documentation for more information about AWS Local Zones and the supported instances types and services.
+Creating the installation configuration file
+Generate and customize the installation configuration file that the installation program needs to deploy your cluster.
+
+You obtained the "Red Hat OpenShift Container Platform" installation program
+and the pull secret for your cluster.
+
+You checked that you are deploying your cluster to a region with an accompanying Red Hat Enterprise Linux CoreOS (RHCOS) AMI published by Red Hat. If you are deploying to a region that requires a custom AMI, such as an AWS GovCloud region, you must create the install-config.yaml file manually.
+
+
+Create the install-config.yaml file.
+
+Optional: Back up the install-config.yaml file.
+Edge compute pools and AWS Local Zones
+Edge worker nodes are tainted worker nodes that run in AWS Local Zones locations.
+
+When deploying a cluster that uses Local Zones, consider the following points:
+
+Amazon EC2 instances in the Local Zones are more expensive than Amazon EC2 instances in the Availability Zones.
+
+Latency between applications and end users is lower in Local Zones, and latency might vary by location. A latency impact exists for some workloads if, for example, ingress traffic is mixed between Local Zones and Availability Zones.
+
+
+Generally, the maximum transmission unit (MTU) between an Amazon EC2 instance in a Local Zone and an Amazon EC2 instance in the Region is 1300. For more information, see How Local Zones work in the AWS documentation. The cluster network MTU must be always less than the EC2 MTU to account for the overhead. The specific overhead is determined by the network plugin, for example:
+
+OVN-Kubernetes: 100 bytes
+
+OpenShift SDN: 50 bytes
+
+
+The network plugin can provide additional features, like IPsec, that also must be decreased the MTU. For additional information, see the documentation.
+"Red Hat OpenShift Container Platform" 4.12 introduced a new compute pool, edge, that is designed for use in remote zones. The edge compute pool configuration is common between AWS Local Zones locations. Because of the type and size limitations of resources like EC2 and EBS on Local Zone resources, the default instance type can vary from the traditional worker pool.
+
+The default Elastic Block Store (EBS) for Local Zone locations is gp2, which differs from the regular worker pool. The instance type used for each Local Zone on edge compute pool also might differ from worker pools, depending on the instance offerings on the zone.
+
+The edge compute pool creates new labels that developers can use to deploy applications onto AWS Local Zones nodes. The new labels are:
+
+node-role.kubernetes.io/edge=''
+
+machine.openshift.io/zone-type=local-zone
+
+machine.openshift.io/zone-group=$ZONE_GROUP_NAME
+
+
+By default, the machine sets for the edge compute pool defines the taint of NoSchedule to prevent regular workloads from spreading on Local Zone instances. Users can only run user workloads if they define tolerations in the pod specification.
+
+The following examples show install-config.yaml files that use the edge machine pool.
+
+apiVersion: v1
+baseDomain: devcluster.openshift.com
+metadata:
+  name: ipi-localzone
+compute:
+- name: edge
+  platform:
+    aws:
+      type: m5.4xlarge
+platform:
+  aws:
+    region: us-west-2
+pullSecret: '{"auths": ...}'
+sshKey: ssh-ed25519 AAAA...
+Instance types differ between locations. To verify availability in the Local Zone in which the cluster runs, see the AWS documentation.
+
+apiVersion: v1
+baseDomain: devcluster.openshift.com
+metadata:
+  name: ipi-localzone
+compute:
+- name: edge
+  platform:
+    aws:
+      rootVolume:
+        type: gp3
+        size: 120
+platform:
+  aws:
+    region: us-west-2
+pullSecret: '{"auths": ...}'
+sshKey: ssh-ed25519 AAAA...
+EBS types differ between locations. Check the AWS documentation to verify availability in the Local Zone in which the cluster runs.
+
+apiVersion: v1
+baseDomain: devcluster.openshift.com
+metadata:
+  name: ipi-localzone
+compute:
+- name: edge
+  platform:
+    aws:
+      additionalSecurityGroupIDs:
+        - sg-1 1
+        - sg-2
+platform:
+  aws:
+    region: us-west-2
+pullSecret: '{"auths": ...}'
+sshKey: ssh-ed25519 AAAA...
+Specify the name of the security group as it appears in the Amazon EC2 console, including the sg prefix.
+
+
+Changing the MTU for the cluster network
+
+Enabling IPsec encryption
+
+Understanding taints and tolerations
+Opting in to AWS Local Zones
+If you plan to create the subnets in AWS Local Zones, you must opt in to each zone group separately.
+
+You have installed the AWS CLI.
+
+You have determined an AWS Region for where you want to deploy your "Red Hat OpenShift Container Platform" cluster.
+
+You have attached a permissive IAM policy to a user or role account that opts in to the zone group. Consider the following configuration as an example IAM policy:
+
+
+List the zones that are available in your AWS Region by running the following command:
+
+Opt in to the zone group on your AWS account by running the following command:
+Cluster installation options for an AWS Local Zones environment
+To install an "Red Hat OpenShift Container Platform" cluster in an AWS Local Zones environment on AWS infrastructure, choose one of the following installation options:
+
+Installing a cluster to quickly extend workers to edge compute pools, where the installation program automatically creates resources for the "Red Hat OpenShift Container Platform" cluster.
+
+Installing a cluster on AWS into an existing VPC, where you must add Local Zone subnets to the install-config.yaml file.
+
+
+Choose one of the following options to install an "Red Hat OpenShift Container Platform" cluster in an AWS Local Zones environment:
+
+Installing a cluster quickly in AWS Local Zones
+
+Installing a cluster in an existing VPC with defined Local Zone subnets
+Install a cluster quickly in AWS Local Zones
+For "Red Hat OpenShift Container Platform" "4.14", you can quickly install a cluster on Amazon Web Services (AWS) to extend compute nodes to Local Zone locations. By using this installation route, the installation program automatically creates network resources and Local Zone subnets for each Local Zone that you defined in your configuration file. To customize the installation, you must modify parameters in the install-config.yaml file before you deploy the cluster.
+
+Modifying an installation configuration file to use AWS Local Zones
+Modify an install-config.yaml file to include AWS Local Zones.
+
+You have configured an AWS account.
+
+You added your AWS keys and region to your local AWS profile by running aws configure.
+
+You have read the configuration limitations that apply when you specify the installation program to automatically create subnets for your "Red Hat OpenShift Container Platform" cluster. See the section named "Cluster limitations in AWS Local Zones".
+
+You opted in to the Local Zone group for each zone.
+
+You created an install-config.yaml file by using the procedure "Creating the installation configuration file".
+
+
+Modify the install-config.yaml file by specifying Local Zone names in the platform.aws.zones property of the edge compute pool. For example:
+
+Deploy your cluster.
+
+
+Creating the installation configuration file
+
+Cluster limitations in AWS Local Zones
+
+
+Deploying the cluster
+Installing a cluster in an existing VPC that has Local Zone subnets
+You can install a cluster into an existing Amazon Virtual Private Cloud (VPC) on Amazon Web Services (AWS). The installation program provisions the rest of the required infrastructure, which you can further customize. To customize the installation, modify parameters in the install-config.yaml file before you install the cluster.
+
+Installing a cluster on AWS into an existing VPC requires extending workers to the edge of the Cloud Infrastructure by using AWS Local Zones.
+
+Local Zone subnets extend regular workers' nodes to edge networks. Each edge worker nodes runs a user workload. After you create an Amazon Web Service (AWS) Local Zone environment, and you deploy your cluster, you can use edge worker nodes to create user workloads in Local Zone subnets.
+
+You can use a provided CloudFormation template to create the VPC and public subnets. Additionally, you can modify a template to customize your infrastructure or use the information that they contain to create AWS objects according to your company's policies.
+
+If you want to create private subnets, you must either modify the provided CloudFormation template or create your own template.
+Creating a VPC in AWS
+You can create a Virtual Private Cloud (VPC), and subnets for each Local Zone location, in Amazon Web Services (AWS) for your "Red Hat OpenShift Container Platform" cluster to extend worker nodes to the edge locations. You can further customize the VPC to meet your requirements, including VPN, route tables, and add new Local Zone subnets that are not included at initial deployment.
+
+You can use the provided CloudFormation template and a custom parameter file to create a stack of AWS resources that represent the VPC.
+
+If you do not use the provided CloudFormation template to create your AWS infrastructure, you must review the provided information and manually create the infrastructure. If your cluster does not initialize correctly, you might have to contact Red Hat support with your installation logs.
+You configured an AWS account.
+
+You added your AWS keys and region to your local AWS profile by running aws configure.
+
+You opted in to the AWS Local Zones on your AWS account.
+
+
+Create a JSON file that contains the parameter values that the template
+requires:
+
+Copy the template from the CloudFormation template for the VPC
+section of this topic and save it as a YAML file on your computer. This template
+describes the VPC that your cluster requires.
+
+Launch the CloudFormation template to create a stack of AWS resources that represent the VPC by running the following command:
+
+Confirm that the template components exist by running the following command:
+Creating a subnet in AWS Local Zones
+You must create a subnet in AWS Local Zones before you configure a worker machineset for your "Red Hat OpenShift Container Platform" cluster.
+
+You must repeat the following process for each Local Zone you want to deploy worker nodes to.
+
+You can use the provided CloudFormation template and a custom parameter file to create a stack of AWS resources that represent the subnet.
+
+If you do not use the provided CloudFormation template to create your AWS infrastructure, you must review the provided information and manually create the infrastructure. If your cluster does not initialize correctly, you might have to contact Red Hat support with your installation logs.
+You configured an AWS account.
+
+You added your AWS keys and region to your local AWS profile by running aws configure.
+
+You opted in to the Local Zone group.
+
+
+Create a JSON file that contains the parameter values that the template
+requires:
+
+Copy the template from the CloudFormation template for the subnet
+section of this topic and save it as a YAML file on your computer. This template
+describes the VPC that your cluster requires.
+
+Launch the CloudFormation template to create a stack of AWS resources that represent the VPC by running the following command:
+
+Confirm that the template components exist by running the following command:
+CloudFormation template for the VPC
+You can use the following CloudFormation template to deploy the VPC that you need for your "Red Hat OpenShift Container Platform" cluster.
+
+AWSTemplateFormatVersion: 2010-09-09
+Description: Template for Best Practice VPC with 1-3 AZs
+
+Parameters:
+  VpcCidr:
+    AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-4]))$
+    ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-24.
+    Default: 10.0.0.0/16
+    Description: CIDR block for VPC.
+    Type: String
+  AvailabilityZoneCount:
+    ConstraintDescription: "The number of availability zones. (Min: 1, Max: 3)"
+    MinValue: 1
+    MaxValue: 3
+    Default: 1
+    Description: "How many AZs to create VPC subnets for. (Min: 1, Max: 3)"
+    Type: Number
+  SubnetBits:
+    ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/19-27.
+    MinValue: 5
+    MaxValue: 13
+    Default: 12
+    Description: "Size of each subnet to create within the availability zones. (Min: 5 = /27, Max: 13 = /19)"
+    Type: Number
+
+Metadata:
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+    - Label:
+        default: "Network Configuration"
+      Parameters:
+      - VpcCidr
+      - SubnetBits
+    - Label:
+        default: "Availability Zones"
+      Parameters:
+      - AvailabilityZoneCount
+    ParameterLabels:
+      AvailabilityZoneCount:
+        default: "Availability Zone Count"
+      VpcCidr:
+        default: "VPC CIDR"
+      SubnetBits:
+        default: "Bits Per Subnet"
+
+Conditions:
+  DoAz3: !Equals [3, !Ref AvailabilityZoneCount]
+  DoAz2: !Or [!Equals [2, !Ref AvailabilityZoneCount], Condition: DoAz3]
+
+Resources:
+  VPC:
+    Type: "AWS::EC2::VPC"
+    Properties:
+      EnableDnsSupport: "true"
+      EnableDnsHostnames: "true"
+      CidrBlock: !Ref VpcCidr
+  PublicSubnet:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      VpcId: !Ref VPC
+      CidrBlock: !Select [0, !Cidr [!Ref VpcCidr, 6, !Ref SubnetBits]]
+      AvailabilityZone: !Select
+      - 0
+      - Fn::GetAZs: !Ref "AWS::Region"
+  PublicSubnet2:
+    Type: "AWS::EC2::Subnet"
+    Condition: DoAz2
+    Properties:
+      VpcId: !Ref VPC
+      CidrBlock: !Select [1, !Cidr [!Ref VpcCidr, 6, !Ref SubnetBits]]
+      AvailabilityZone: !Select
+      - 1
+      - Fn::GetAZs: !Ref "AWS::Region"
+  PublicSubnet3:
+    Type: "AWS::EC2::Subnet"
+    Condition: DoAz3
+    Properties:
+      VpcId: !Ref VPC
+      CidrBlock: !Select [2, !Cidr [!Ref VpcCidr, 6, !Ref SubnetBits]]
+      AvailabilityZone: !Select
+      - 2
+      - Fn::GetAZs: !Ref "AWS::Region"
+  InternetGateway:
+    Type: "AWS::EC2::InternetGateway"
+  GatewayToInternet:
+    Type: "AWS::EC2::VPCGatewayAttachment"
+    Properties:
+      VpcId: !Ref VPC
+      InternetGatewayId: !Ref InternetGateway
+  PublicRouteTable:
+    Type: "AWS::EC2::RouteTable"
+    Properties:
+      VpcId: !Ref VPC
+  PublicRoute:
+    Type: "AWS::EC2::Route"
+    DependsOn: GatewayToInternet
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref InternetGateway
+  PublicSubnetRouteTableAssociation:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      SubnetId: !Ref PublicSubnet
+      RouteTableId: !Ref PublicRouteTable
+  PublicSubnetRouteTableAssociation2:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Condition: DoAz2
+    Properties:
+      SubnetId: !Ref PublicSubnet2
+      RouteTableId: !Ref PublicRouteTable
+  PublicSubnetRouteTableAssociation3:
+    Condition: DoAz3
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      SubnetId: !Ref PublicSubnet3
+      RouteTableId: !Ref PublicRouteTable
+  PrivateSubnet:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      VpcId: !Ref VPC
+      CidrBlock: !Select [3, !Cidr [!Ref VpcCidr, 6, !Ref SubnetBits]]
+      AvailabilityZone: !Select
+      - 0
+      - Fn::GetAZs: !Ref "AWS::Region"
+  PrivateRouteTable:
+    Type: "AWS::EC2::RouteTable"
+    Properties:
+      VpcId: !Ref VPC
+  PrivateSubnetRouteTableAssociation:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      SubnetId: !Ref PrivateSubnet
+      RouteTableId: !Ref PrivateRouteTable
+  NAT:
+    DependsOn:
+    - GatewayToInternet
+    Type: "AWS::EC2::NatGateway"
+    Properties:
+      AllocationId:
+        "Fn::GetAtt":
+        - EIP
+        - AllocationId
+      SubnetId: !Ref PublicSubnet
+  EIP:
+    Type: "AWS::EC2::EIP"
+    Properties:
+      Domain: vpc
+  Route:
+    Type: "AWS::EC2::Route"
+    Properties:
+      RouteTableId:
+        Ref: PrivateRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      NatGatewayId:
+        Ref: NAT
+  PrivateSubnet2:
+    Type: "AWS::EC2::Subnet"
+    Condition: DoAz2
+    Properties:
+      VpcId: !Ref VPC
+      CidrBlock: !Select [4, !Cidr [!Ref VpcCidr, 6, !Ref SubnetBits]]
+      AvailabilityZone: !Select
+      - 1
+      - Fn::GetAZs: !Ref "AWS::Region"
+  PrivateRouteTable2:
+    Type: "AWS::EC2::RouteTable"
+    Condition: DoAz2
+    Properties:
+      VpcId: !Ref VPC
+  PrivateSubnetRouteTableAssociation2:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Condition: DoAz2
+    Properties:
+      SubnetId: !Ref PrivateSubnet2
+      RouteTableId: !Ref PrivateRouteTable2
+  NAT2:
+    DependsOn:
+    - GatewayToInternet
+    Type: "AWS::EC2::NatGateway"
+    Condition: DoAz2
+    Properties:
+      AllocationId:
+        "Fn::GetAtt":
+        - EIP2
+        - AllocationId
+      SubnetId: !Ref PublicSubnet2
+  EIP2:
+    Type: "AWS::EC2::EIP"
+    Condition: DoAz2
+    Properties:
+      Domain: vpc
+  Route2:
+    Type: "AWS::EC2::Route"
+    Condition: DoAz2
+    Properties:
+      RouteTableId:
+        Ref: PrivateRouteTable2
+      DestinationCidrBlock: 0.0.0.0/0
+      NatGatewayId:
+        Ref: NAT2
+  PrivateSubnet3:
+    Type: "AWS::EC2::Subnet"
+    Condition: DoAz3
+    Properties:
+      VpcId: !Ref VPC
+      CidrBlock: !Select [5, !Cidr [!Ref VpcCidr, 6, !Ref SubnetBits]]
+      AvailabilityZone: !Select
+      - 2
+      - Fn::GetAZs: !Ref "AWS::Region"
+  PrivateRouteTable3:
+    Type: "AWS::EC2::RouteTable"
+    Condition: DoAz3
+    Properties:
+      VpcId: !Ref VPC
+  PrivateSubnetRouteTableAssociation3:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Condition: DoAz3
+    Properties:
+      SubnetId: !Ref PrivateSubnet3
+      RouteTableId: !Ref PrivateRouteTable3
+  NAT3:
+    DependsOn:
+    - GatewayToInternet
+    Type: "AWS::EC2::NatGateway"
+    Condition: DoAz3
+    Properties:
+      AllocationId:
+        "Fn::GetAtt":
+        - EIP3
+        - AllocationId
+      SubnetId: !Ref PublicSubnet3
+  EIP3:
+    Type: "AWS::EC2::EIP"
+    Condition: DoAz3
+    Properties:
+      Domain: vpc
+  Route3:
+    Type: "AWS::EC2::Route"
+    Condition: DoAz3
+    Properties:
+      RouteTableId:
+        Ref: PrivateRouteTable3
+      DestinationCidrBlock: 0.0.0.0/0
+      NatGatewayId:
+        Ref: NAT3
+  S3Endpoint:
+    Type: AWS::EC2::VPCEndpoint
+    Properties:
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+        - Effect: Allow
+          Principal: '*'
+          Action:
+          - '*'
+          Resource:
+          - '*'
+      RouteTableIds:
+      - !Ref PublicRouteTable
+      - !Ref PrivateRouteTable
+      - !If [DoAz2, !Ref PrivateRouteTable2, !Ref "AWS::NoValue"]
+      - !If [DoAz3, !Ref PrivateRouteTable3, !Ref "AWS::NoValue"]
+      ServiceName: !Join
+      - ''
+      - - com.amazonaws.
+        - !Ref 'AWS::Region'
+        - .s3
+      VpcId: !Ref VPC
+
+Outputs:
+  VpcId:
+    Description: ID of the new VPC.
+    Value: !Ref VPC
+  PublicSubnetIds:
+    Description: Subnet IDs of the public subnets.
+    Value:
+      !Join [
+        ",",
+        [!Ref PublicSubnet, !If [DoAz2, !Ref PublicSubnet2, !Ref "AWS::NoValue"], !If [DoAz3, !Ref PublicSubnet3, !Ref "AWS::NoValue"]]
+      ]
+  PrivateSubnetIds:
+    Description: Subnet IDs of the private subnets.
+    Value:
+      !Join [
+        ",",
+        [!Ref PrivateSubnet, !If [DoAz2, !Ref PrivateSubnet2, !Ref "AWS::NoValue"], !If [DoAz3, !Ref PrivateSubnet3, !Ref "AWS::NoValue"]]
+      ]
+  PublicRouteTableId:
+    Description: Public Route table ID
+    Value: !Ref PublicRouteTable
+AWS security groups
+By default, the installation program creates and attaches security groups to control plane and compute machines. The rules associated with the default security groups cannot be modified.
+
+However, you can apply additional existing AWS security groups, which are associated with your existing VPC, to control plane and compute machines. Applying custom security groups can help you meet the security needs of your organization, in such cases where you need to control the incoming or outgoing traffic of these machines.
+
+As part of the installation process, you apply custom security groups by modifying the install-config.yaml file before deploying the cluster.
+
+For more information, see "Edge compute pools and AWS Local Zones".
+CloudFormation template for the subnet that uses AWS Local Zones
+You can use the following CloudFormation template to deploy the subnet that you need for your "Red Hat OpenShift Container Platform" cluster that uses AWS Local Zones.
+
+# CloudFormation template used to create Local Zone subnets and dependencies
+AWSTemplateFormatVersion: 2010-09-09
+Description: Template for create Public Local Zone subnets
+
+Parameters:
+  VpcId:
+    Description: VPC Id
+    Type: String
+  ZoneName:
+    Description: Local Zone Name (Example us-east-1-nyc-1a)
+    Type: String
+  SubnetName:
+    Description: Local Zone Name (Example cluster-public-us-east-1-nyc-1a)
+    Type: String
+  PublicRouteTableId:
+    Description: Public Route Table ID to associate the Local Zone subnet
+    Type: String
+  PublicSubnetCidr:
+    AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-4]))$
+    ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-24.
+    Default: 10.0.128.0/20
+    Description: CIDR block for Public Subnet
+    Type: String
+
+Resources:
+  PublicSubnet:
+    Type: "AWS::EC2::Subnet"
+    Properties:
+      VpcId: !Ref VpcId
+      CidrBlock: !Ref PublicSubnetCidr
+      AvailabilityZone: !Ref ZoneName
+      Tags:
+      - Key: Name
+        Value: !Ref SubnetName
+      - Key: kubernetes.io/cluster/unmanaged
+        Value: "true"
+
+  PublicSubnetRouteTableAssociation:
+    Type: "AWS::EC2::SubnetRouteTableAssociation"
+    Properties:
+      SubnetId: !Ref PublicSubnet
+      RouteTableId: !Ref PublicRouteTableId
+
+Outputs:
+  PublicSubnetIds:
+    Description: Subnet IDs of the public subnets.
+    Value:
+      !Join ["", [!Ref PublicSubnet]]
+You can view details about the CloudFormation stacks that you create by navigating to the AWS CloudFormation console.
+Modifying an installation configuration file to use AWS Local Zones subnets
+Modify an install-config.yaml file to include AWS Local Zones subnets.
+
+You created subnets by using the procedure "Creating a subnet in AWS Local Zones".
+
+You created an install-config.yaml file by using the procedure "Creating the installation configuration file".
+
+
+Modify the install-config.yaml configuration file by specifying Local Zone subnets in the platform.aws.subnets property, as demonstrated in the following example:
+
+
+See Configuration and credential file settings in the AWS documentation for more information about AWS profile and credential configuration.
+Deploying the cluster
+You can install "Red Hat OpenShift Container Platform" on a compatible cloud platform.
+
+You can run the create cluster command of the installation program only once, during initial installation.
+You have configured an account with the cloud platform that hosts your cluster.
+
+You have the "Red Hat OpenShift Container Platform" installation program and the pull secret for your cluster.
+
+You have verified that the cloud provider account on your host has the correct permissions to deploy the cluster. An account with incorrect permissions causes the installation process to fail with an error message that displays the missing permissions.
+
+
+Change to the directory that contains the installation program and initialize the cluster deployment:
+
+Optional: Remove or disable the AdministratorAccess policy from the IAM
+account that you used to install the cluster.
+
+
+When the cluster deployment completes successfully:
+
+The terminal displays directions for accessing your cluster, including a link to the web console and credentials for the kubeadmin user.
+
+Credential information also outputs to <installation_directory>/.openshift_install.log.
+
+
+Do not delete the installation program or the files that the installation program creates. Both are required to delete the cluster.
+...
+INFO Install complete!
+INFO To access the cluster as the system:admin user when using 'oc', run 'export KUBECONFIG=/home/myuser/install_dir/auth/kubeconfig'
+INFO Access the OpenShift web-console here: https://console-openshift-console.apps.mycluster.example.com
+INFO Login to the console with user: "kubeadmin", and password: "password"
+INFO Time elapsed: 36m22s
+The Ignition config files that the installation program generates contain certificates that expire after 24 hours, which are then renewed at that time. If the cluster is shut down before renewing the certificates and the cluster is later restarted after the 24 hours have elapsed, the cluster automatically recovers the expired certificates. The exception is that you must manually approve the pending node-bootstrapper certificate signing requests (CSRs) to recover kubelet certificates. See the documentation for Recovering from expired control plane certificates for more information.
+
+It is recommended that you use Ignition config files within 12 hours after they are generated because the 24-hour certificate rotates from 16 to 22 hours after the cluster is installed. By using the Ignition config files within 12 hours, you can avoid installation failure if the certificate update runs during installation.
+Creating user workloads in AWS Local Zones
+Logging in to the cluster by using the CLI
+You can log in to your cluster as a default system user by exporting the cluster kubeconfig file. The kubeconfig file contains information about the cluster that is used by the CLI to connect a client to the correct cluster and API server. The file is specific to a cluster and is created during "Red Hat OpenShift Container Platform" installation.
+
+You deployed an "Red Hat OpenShift Container Platform" cluster.
+
+You installed the oc CLI.
+
+
+Export the kubeadmin credentials:
+
+Verify you can run oc commands successfully using the exported configuration:
+Logging in to the cluster by using the web console
+The kubeadmin user exists by default after an "Red Hat OpenShift Container Platform" installation. You can log in to your cluster as the kubeadmin user by using the "Red Hat OpenShift Container Platform" web console.
+
+You have access to the installation host.
+
+You completed a cluster installation and all cluster Operators are available.
+
+
+Obtain the password for the kubeadmin user from the kubeadmin-password file on the installation host:
+
+List the "Red Hat OpenShift Container Platform" web console route:
+
+Navigate to the route detailed in the output of the preceding command in a web browser and log in as the kubeadmin user.
+
+
+See Accessing the web console for more details about accessing and understanding the "Red Hat OpenShift Container Platform" web console.
+Verifying nodes that were created with edge compute pool
+After you install a cluster that uses AWS Local Zones, check the status of the machine that was created by the machine set manifests created at install time.
+
+To check the machine sets created from the subnet you added to the install-config.yaml file, run the following command:
+
+To check the machines that were created from the machine sets, run the following command:
+
+To check nodes with edge roles, run the following command:
+Telemetry access for "Red Hat OpenShift Container Platform"
+In "Red Hat OpenShift Container Platform" "4.14", the Telemetry service, which runs by default to provide metrics about cluster health and the success of updates, requires internet access. If your cluster is connected to the internet, Telemetry runs automatically, and your cluster is registered to OpenShift Cluster Manager Hybrid Cloud Console.
+
+After you confirm that your OpenShift Cluster Manager Hybrid Cloud Console inventory is correct, either maintained automatically by Telemetry or manually by using OpenShift Cluster Manager, use subscription watch to track your "Red Hat OpenShift Container Platform" subscriptions at the account or multi-cluster level.
+
+See About remote health monitoring for more information about the Telemetry service.
+Next steps
+Creating user workloads in AWS Local Zones.
+
+Validating an installation.
+
+Customize your cluster.
+
+If necessary, you can opt out of remote health reporting.

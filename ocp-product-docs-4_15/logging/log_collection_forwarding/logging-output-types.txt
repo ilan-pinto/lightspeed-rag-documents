@@ -1,0 +1,53 @@
+Log output types
+
+Log outputs specified in the ClusterLogForwarder CR can be any of the following types:
+
+
+default
+The on-cluster, Red Hat managed log store. You are not required to configure the default output.
+loki
+Loki, a horizontally scalable, highly available, multi-tenant log aggregation system.
+kafka
+A Kafka broker. The kafka output can use a TCP or TLS connection.
+elasticsearch
+An external Elasticsearch instance. The elasticsearch output can use a TLS connection.
+fluentdForward
+An external log aggregation solution that supports Fluentd. This option uses the Fluentd forward protocols. The fluentForward output can use a TCP or TLS connection and supports shared-key authentication by providing a shared_key field in a secret. Shared-key authentication can be used with or without TLS.
+syslog
+An external log aggregation solution that supports the syslog RFC3164 or RFC5424 protocols. The syslog output can use a UDP, TCP, or TLS connection.
+cloudwatch
+Amazon CloudWatch, a monitoring and log storage service hosted by Amazon Web Services (AWS).
+Supported log data output types in OpenShift Logging 5.7
+Red Hat OpenShift Logging 5.7 provides the following output types and protocols for sending log data to target log collectors.
+
+Red Hat tests each of the combinations shown in the following table. However, you should be able to send log data to a wider range of target log collectors that ingest these protocols.
+Supported log data output types in OpenShift Logging 5.6
+Red Hat OpenShift Logging 5.6 provides the following output types and protocols for sending log data to target log collectors.
+
+Red Hat tests each of the combinations shown in the following table. However, you should be able to send log data to a wider range target log collectors that ingest these protocols.
+
+
+Fluentd doesn't support Elasticsearch 8 as of 5.6.2. Vector doesn't support fluentd/logstash/rsyslog before 5.7.0.
+Supported log data output types in OpenShift Logging 5.5
+Red Hat OpenShift Logging 5.5 provides the following output types and protocols for sending log data to target log collectors.
+
+Red Hat tests each of the combinations shown in the following table. However, you should be able to send log data to a wider range target log collectors that ingest these protocols.
+Supported log data output types in OpenShift Logging 5.4
+Red Hat OpenShift Logging 5.4 provides the following output types and protocols for sending log data to target log collectors.
+
+Red Hat tests each of the combinations shown in the following table. However, you should be able to send log data to a wider range target log collectors that ingest these protocols.
+Supported log data output types in OpenShift Logging 5.3
+Red Hat OpenShift Logging 5.3 provides the following output types and protocols for sending log data to target log collectors.
+
+Red Hat tests each of the combinations shown in the following table. However, you should be able to send log data to a wider range target log collectors that ingest these protocols.
+Supported log data output types in OpenShift Logging 5.2
+Red Hat OpenShift Logging 5.2 provides the following output types and protocols for sending log data to target log collectors.
+
+Red Hat tests each of the combinations shown in the following table. However, you should be able to send log data to a wider range target log collectors that ingest these protocols.
+Supported log data output types in OpenShift Logging 5.1
+Red Hat OpenShift Logging 5.1 provides the following output types and protocols for sending log data to target log collectors.
+
+Red Hat tests each of the combinations shown in the following table. However, you should be able to send log data to a wider range target log collectors that ingest these protocols.
+
+
+Previously, the syslog output supported only RFC-3164. The current syslog output adds support for RFC-5424.

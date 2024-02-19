@@ -1,0 +1,167 @@
+Installing an Operator from a catalog in OLM 1.0 (Technology Preview)
+
+Cluster administrators can add catalogs, or curated collections of Operators and Kubernetes extensions, to their clusters. Operator authors publish their products to these catalogs. When you add a catalog to your cluster, you have access to the versions, patches, and over-the-air updates of the Operators and extensions that are published to the catalog.
+
+In the current Technology Preview release of Operator Lifecycle Manager (OLM) 1.0, you manage catalogs and Operators declaratively from the CLI using custom resources (CRs).
+
+OLM 1.0 is a Technology Preview feature only. Technology Preview features are not supported with Red Hat production service level agreements (SLAs) and might not be functionally complete. Red Hat does not recommend using them in production. These features provide early access to upcoming product features, enabling customers to test functionality and provide feedback during the development process.
+
+For more information about the support scope of Red Hat Technology Preview features, see Technology Preview Features Support Scope.
+Prerequisites
+Access to an "Red Hat OpenShift Container Platform" cluster using an account with cluster-admin permissions
+
+The TechPreviewNoUpgrades feature set enabled on the cluster
+
+The OpenShift CLI (oc) installed on your workstation
+
+
+Enabling features using feature gates
+About catalogs in OLM 1.0
+You can discover installable content by querying a catalog for Kubernetes extensions, such as Operators and controllers, by using the catalogd component. Catalogd is a Kubernetes extension that unpacks catalog content for on-cluster clients and is part of the Operator Lifecycle Manager (OLM) 1.0 suite of microservices. Currently, catalogd unpacks catalog content that is packaged and distributed as container images.
+
+File-based catalogs
+
+
+Red Hat-provided Operator catalogs in OLM 1.0
+Operator Lifecycle Manager (OLM) 1.0 does not include Red Hat-provided Operator catalogs by default. If you want to add a Red Hat-provided catalog to your cluster, create a custom resource (CR) for the catalog and apply it to the cluster. The following custom resource (CR) examples show how to create a catalog resources for OLM 1.0.
+
+apiVersion: catalogd.operatorframework.io/v1alpha1
+kind: Catalog
+metadata:
+  name: redhat-operators
+spec:
+  source:
+    type: image
+    image:
+      ref: registry.redhat.io/redhat/redhat-operator-index:v"4.14"
+apiVersion: catalogd.operatorframework.io/v1alpha1
+kind: Catalog
+metadata:
+  name: certified-operators
+spec:
+  source:
+    type: image
+    image:
+      ref: registry.redhat.io/redhat/certified-operator-index:v"4.14"
+apiVersion: catalogd.operatorframework.io/v1alpha1
+kind: Catalog
+metadata:
+  name: community-operators
+spec:
+  source:
+    type: image
+    image:
+      ref: registry.redhat.io/redhat/community-operator-index:v"4.14"
+The following command adds a catalog to your cluster:
+
+$ oc apply -f <catalog_name>.yaml 1
+Specifies the catalog CR, such as redhat-operators.yaml.
+
+
+Adding a catalog to a cluster
+
+About Red Hat-provided Operator catalogs
+
+
+The following procedures use the Red Hat Operators catalog and the Quay Operator as examples.
+About target versions in OLM 1.0
+In Operator Lifecycle Manager (OLM) 1.0, cluster administrators set the target version of an Operator declaratively in the Operator's custom resource (CR).
+
+If you specify a channel in the Operator's CR, OLM 1.0 installs the latest release from the specified channel. When updates are published to the specified channel, OLM 1.0 automatically updates to the latest release from the channel.
+
+apiVersion: operators.operatorframework.io/v1alpha1
+kind: Operator
+metadata:
+  name: quay-example
+spec:
+  packageName: quay-operator
+  channel: stable-3.8 1
+Installs the latest release published to the specified channel. Updates to the channel are automatically installed.
+
+
+If you specify the Operator's target version in the CR, OLM 1.0 installs the specified version. When the target version is specified in the Operator's CR, OLM 1.0 does not change the target version when updates are published to the catalog.
+
+If you want to update the version of the Operator that is installed on the cluster, you must manually update the Operator's CR. Specifying a Operator's target version pins the Operator's version to the specified release.
+
+apiVersion: operators.operatorframework.io/v1alpha1
+kind: Operator
+metadata:
+  name: quay-example
+spec:
+  packageName: quay-operator
+  version: 3.8.12 1
+Specifies the target version. If you want to update the version of the Operator that is installed on the cluster, you must manually update this field the Operator's CR to the desired target version.
+
+
+If you want to change the installed version of an Operator, edit the Operator's CR to the desired target version.
+
+In previous versions of OLM, Operator authors could define upgrade edges to prevent you from updating to unsupported versions. In its current state of development, OLM 1.0 does not enforce upgrade edge definitions. You can specify any version of an Operator, and OLM 1.0 attempts to apply the update.
+You can inspect an Operator's catalog contents, including available versions and channels, by running the following command:
+
+$ oc get package <catalog_name>-<package_name> -o yaml
+After you create or update a CR, create or configure the Operator by running the following command:
+
+$ oc apply -f <extension_name>.yaml
+If you specify a target version or channel that does not exist, you can run the following command to check the status of your Operator:
+Adding a catalog to a cluster
+To add a catalog to a cluster, create a catalog custom resource (CR) and apply it to the cluster.
+
+Create a catalog custom resource (CR), similar to the following example:
+
+Add the catalog to your cluster by running the following command:
+
+
+Run the following commands to verify the status of your catalog:
+Finding Operators to install from a catalog
+After you add a catalog to your cluster, you can query the catalog to find Operators and extensions to install.
+
+You have added a catalog to your cluster.
+
+
+Get a list of the Operators and extensions in the catalog by running the following command:
+
+Inspect the contents of an Operator or extension's custom resource (CR) by running the following command:
+Installing an Operator
+You can install an Operator from a catalog by creating an Operator custom resource (CR) and applying it to the cluster.
+
+You have added a catalog to your cluster.
+
+You have inspected the details of an Operator to find what version you want to install.
+
+
+Create an Operator CR, similar to the following example:
+
+Apply the Operator CR to the cluster by running the following command:
+
+
+View the Operator's CR in the YAML format by running the following command:
+
+Get information about your Operator's controller manager pod by running the following command:
+Updating an Operator
+You can update your Operator by manually editing your Operator's custom resource (CR) and applying the changes.
+
+You have a catalog installed.
+
+You have an Operator installed.
+
+
+Inspect your Operator's package contents to find which channels and versions are available for updating by running the following command:
+
+Edit your Operator's CR to update the version to 3.9.1, as shown in the following example:
+
+Apply the update to the cluster by running the following command:
+
+
+Verify that the channel and version updates have been applied by running the following command:
+Deleting an Operator
+You can delete an Operator and its custom resource definitions (CRDs) by deleting the Operator's custom resource (CR).
+
+You have a catalog installed.
+
+You have an Operator installed.
+
+
+Delete an Operator and its CRDs by running the following command:
+
+
+Run the following commands to verify that your Operator and its resources were deleted:

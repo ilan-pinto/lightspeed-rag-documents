@@ -1,0 +1,55 @@
+Postinstallation configuration overview
+
+After installing "Red Hat OpenShift Container Platform", a cluster administrator can configure and customize the following components:
+
+Machine
+
+Bare metal
+
+Cluster
+
+Node
+
+Network
+
+Storage
+
+Users
+
+Alerts and notifications
+Configuration tasks to perform after installation
+Cluster administrators can perform the following postinstallation configuration tasks:
+
+Configure operating system features:
+Machine Config Operator (MCO) manages MachineConfig objects. By using MCO, you can perform the following tasks on an "Red Hat OpenShift Container Platform" cluster:
+
+Configure bare metal nodes: The Bare Metal Operator (BMO) implements a Kubernetes API for managing bare metal hosts. It maintains an inventory of available bare metal hosts as instances of the BareMetalHost Custom Resource Definition (CRD). The Bare Metal Operator can:
+
+Configure cluster features:
+As a cluster administrator, you can modify the configuration resources of the major features of an "Red Hat OpenShift Container Platform" cluster. These features include:
+
+Configure cluster components to be private:
+By default, the installation program provisions "Red Hat OpenShift Container Platform" by using a publicly accessible DNS and endpoints. If you want your cluster to be accessible only from within an internal network, configure the following components to be private:
+
+Perform node operations:
+By default, "Red Hat OpenShift Container Platform" uses Red Hat Enterprise Linux CoreOS (RHCOS) compute machines.
+As a cluster administrator, you can perform the following operations with the machines in your "Red Hat OpenShift Container Platform" cluster:
+
+Configure network:
+After installing "Red Hat OpenShift Container Platform", you can configure the following:
+
+Configure storage:
+By default, containers operate using ephemeral storage or transient local storage. The ephemeral storage has a lifetime limitation. TO store the data for a long time, you must configure persistent storage.
+You can configure storage by using one of the following methods:
+
+Configure users:
+OAuth access tokens allow users to authenticate themselves to the API. As a cluster administrator, you can configure OAuth to perform the following tasks:
+
+Specify an identity provider
+
+Use role-based access control to define and supply permissions to users
+
+Install an Operator from OperatorHub
+
+Manage alerts and notifications:
+By default, firing alerts are displayed on the Alerting UI of the web console. You can also configure "Red Hat OpenShift Container Platform" to send alert notifications to external systems.

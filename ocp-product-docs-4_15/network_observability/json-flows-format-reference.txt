@@ -1,0 +1,463 @@
+Network flows format reference
+
+These are the specifications for network flows format, used both internally and when exporting flows to Kafka.
+Network Flows format reference
+This is the specification of the network flows format, used both internally and when exporting flows to Kafka.
+
+The document is organized in two main categories: Labels and regular Fields. This distinction only matters when querying Loki. This is because Labels, unlike Fields, must be used in stream selectors.
+
+If you are reading this specification as a reference for the Kafka export feature, you must treat all Labels and Fields as regular fields and ignore any distinctions between them that are specific to Loki.
+
+Labels
+
+SrcK8S_Namespace
+
+
+
+Source namespace
+
+
+
+DstK8S_Namespace
+
+
+
+Destination namespace
+
+
+
+SrcK8S_OwnerName
+
+
+
+Source owner, such as Deployment, StatefulSet, etc.
+
+
+
+DstK8S_OwnerName
+
+
+
+Destination owner, such as Deployment, StatefulSet, etc.
+
+
+
+FlowDirection
+
+
+
+Flow direction from the node observation point
+
+
+
+_RecordType
+
+
+
+Type of record: 'flowLog' for regular flow logs, or 'allConnections', 'newConnection', 'heartbeat', 'endConnection' for conversation tracking
+Fields
+
+SrcAddr
+
+
+
+Source IP address (ipv4 or ipv6)
+
+
+
+DstAddr
+
+
+
+Destination IP address (ipv4 or ipv6)
+
+
+
+SrcMac
+
+
+
+Source MAC address
+
+
+
+DstMac
+
+
+
+Destination MAC address
+
+
+
+SrcK8S_Name
+
+
+
+Name of the source matched Kubernetes object, such as Pod name, Service name, etc.
+
+
+
+DstK8S_Name
+
+
+
+Name of the destination matched Kubernetes object, such as Pod name, Service name, etc.
+
+
+
+SrcK8S_Type
+
+
+
+Kind of the source matched Kubernetes object, such as Pod, Service, etc.
+
+
+
+DstK8S_Type
+
+
+
+Kind of the destination matched Kubernetes object, such as Pod name, Service name, etc.
+
+
+
+SrcPort
+
+
+
+Source port
+
+
+
+DstPort
+
+
+
+Destination port
+
+
+
+SrcK8S_OwnerType
+
+
+
+Kind of the source Kubernetes owner, such as Deployment, StatefulSet, etc.
+
+
+
+DstK8S_OwnerType
+
+
+
+Kind of the destination Kubernetes owner, such as Deployment, StatefulSet, etc.
+
+
+
+SrcK8S_HostIP
+
+
+
+Source node IP
+
+
+
+DstK8S_HostIP
+
+
+
+Destination node IP
+
+
+
+SrcK8S_HostName
+
+
+
+Source node name
+
+
+
+DstK8S_HostName
+
+
+
+Destination node name
+
+
+
+Proto
+
+
+
+L4 protocol
+
+
+
+Interface
+
+
+
+Network interface
+
+
+
+IfDirection
+
+
+
+Flow direction from the network interface observation point
+
+
+
+Flags
+
+
+
+TCP flags
+
+
+
+Packets
+
+
+
+Number of packets
+
+
+
+Packets_AB
+
+
+
+In conversation tracking, A to B packets counter per conversation
+
+
+
+Packets_BA
+
+
+
+In conversation tracking, B to A packets counter per conversation
+
+
+
+Bytes
+
+
+
+Number of bytes
+
+
+
+Bytes_AB
+
+
+
+In conversation tracking, A to B bytes counter per conversation
+
+
+
+Bytes_BA
+
+
+
+In conversation tracking, B to A bytes counter per conversation
+
+
+
+IcmpType
+
+
+
+ICMP type
+
+
+
+IcmpCode
+
+
+
+ICMP code
+
+
+
+PktDropLatestState
+
+
+
+Pkt TCP state for drops
+
+
+
+PktDropLatestDropCause
+
+
+
+Pkt cause for drops
+
+
+
+PktDropLatestFlags
+
+
+
+Pkt TCP flags for drops
+
+
+
+PktDropPackets
+
+
+
+Number of packets dropped by the kernel
+
+
+
+PktDropPackets_AB
+
+
+
+In conversation tracking, A to B packets dropped counter per conversation
+
+
+
+PktDropPackets_BA
+
+
+
+In conversation tracking, B to A packets dropped counter per conversation
+
+
+
+PktDropBytes
+
+
+
+Number of bytes dropped by the kernel
+
+
+
+PktDropBytes_AB
+
+
+
+In conversation tracking, A to B bytes dropped counter per conversation
+
+
+
+PktDropBytes_BA
+
+
+
+In conversation tracking, B to A bytes dropped counter per conversation
+
+
+
+DnsId
+
+
+
+DNS record id
+
+
+
+DnsFlags
+
+
+
+DNS flags for DNS record
+
+
+
+DnsFlagsResponseCode
+
+
+
+Parsed DNS header RCODEs name
+
+
+
+DnsLatencyMs
+
+
+
+Calculated time between response and request, in milliseconds
+
+
+
+TimeFlowStartMs
+
+
+
+Start timestamp of this flow, in milliseconds
+
+
+
+TimeFlowEndMs
+
+
+
+End timestamp of this flow, in milliseconds
+
+
+
+TimeReceived
+
+
+
+Timestamp when this flow was received and processed by the flow collector, in seconds
+
+
+
+TimeFlowRttNs
+
+
+
+Flow Round Trip Time (RTT) in nanoseconds
+
+
+
+_HashId
+
+
+
+In conversation tracking, the conversation identifier
+
+
+
+_IsFirst
+
+
+
+In conversation tracking, a flag identifying the first flow
+
+
+
+numFlowLogs
+
+
+
+In conversation tracking, a counter of flow logs per conversation
+Enumeration: FlowDirection
+
+Ingress
+
+
+
+Incoming traffic, from the node observation point
+
+
+
+Egress
+
+
+
+Outgoing traffic, from the node observation point
+
+
+
+Inner
+
+
+
+Inner traffic, with the same source and destination node

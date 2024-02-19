@@ -1,0 +1,70 @@
+Troubleshooting hosted control planes
+
+If you encounter issues with hosted control planes, see the following information to guide you through troubleshooting.
+
+Hosted control planes is a Technology Preview feature only. Technology Preview features are not supported with Red Hat production service level agreements (SLAs) and might not be functionally complete. Red Hat does not recommend using them in production. These features provide early access to upcoming product features, enabling customers to test functionality and provide feedback during the development process.
+
+For more information about the support scope of Red Hat Technology Preview features, see Technology Preview Features Support Scope.
+Gathering information to troubleshoot hosted control planes
+When you need to troubleshoot an issue with hosted control plane clusters, you can gather information by running the hypershift dump cluster command. The command generates output for the management cluster and the hosted cluster.
+
+The output for the management cluster contains the following content:
+
+Cluster-scoped resources: These resources are node definitions of the management cluster.
+
+The hypershift-dump compressed file: This file is useful if you need to share the content with other people.
+
+Namespaced resources: These resources include all of the objects from the relevant namespaces, such as config maps, services, events, and logs.
+
+Network logs: These logs include the OVN northbound and southbound databases and the status for each one.
+
+Hosted clusters: This level of output involves all of the resources inside of the hosted cluster.
+
+
+The output for the hosted cluster contains the following content:
+
+Cluster-scoped resources: These resources include all of the cluster-wide objects, such as nodes and CRDs.
+
+Namespaced resources: These resources include all of the objects from the relevant namespaces, such as config maps, services, events, and logs.
+
+
+Although the output does not contain any secret objects from the cluster, it can contain references to the names of secrets.
+
+You must have cluster-admin access to the management cluster.
+
+You need the name value for the HostedCluster resource and the namespace where the CR is deployed.
+
+You must have the hcp command line interface installed. For more information, see Installing the hosted control planes command line interface.
+
+You must have the OpenShift CLI (oc) installed.
+
+You must ensure that the kubeconfig file is loaded and is pointing to the management cluster.
+
+
+To gather output for troubleshooting, enter the following commands:
+
+To configure the command-line interface so that it impersonates all of the queries against the management cluster by using a username or service account, enter the hypershift dump cluster command with the --as flag.
+Checking why worker nodes did not join the hosted cluster
+If your control plane API endpoint is available, but worker nodes did not join the hosted cluster on AWS, you can debug worker node issues. To troubleshoot why worker nodes did not join the hosted cluster on AWS, you can check the following information.
+
+Hosted control planes on AWS is a Technology Preview feature only. Technology Preview features are not supported with Red Hat production service level agreements (SLAs) and might not be functionally complete. Red Hat does not recommend using them in production. These features provide early access to upcoming product features, enabling customers to test functionality and provide feedback during the development process.
+
+For more information about the support scope of Red Hat Technology Preview features, see Technology Preview Features Support Scope.
+You have configured the hosting cluster on AWS.
+
+Your control plane API endpoint is available.
+
+
+Address any error messages in the status of the HostedCluster and NodePool resources:
+
+Check if your worker machines are created by running the following commands, replacing values as necessary:
+
+If worker machines do not exist, check if the machinedeployment and machineset resources are created by running the following commands:
+
+If the machinedeployment and machineset resources do not exist, check logs of the HyperShift Operator by running the following command:
+
+If worker machines exist but are not provisioned in the hosted cluster, check the log of the cluster API provider by running the following command:
+
+If worker machines exist and are provisioned in the cluster, ensure that machines are initialized through Ignition successfully by checking the system console logs. Check the system console logs of every machine by using the console-logs utility by running the following command:
+
+If worker machines are provisioned and initialized through Ignition successfully, you can extract and access the journal logs of every worker machine by creating a bastion machine. A bastion machine allows you to access worker machines by using SSH.

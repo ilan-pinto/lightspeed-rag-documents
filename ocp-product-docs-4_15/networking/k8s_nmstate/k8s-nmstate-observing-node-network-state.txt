@@ -1,0 +1,43 @@
+Observing node network state
+
+Node network state is the network configuration for all nodes in the cluster.
+About nmstate
+OpenShift Container Platform uses nmstate to report on and configure the state of the node network. This makes it possible to modify network policy configuration, such as by creating a Linux bridge on all nodes, by applying a single configuration manifest to the cluster.
+
+Node networking is monitored and updated by the following objects:
+
+
+NodeNetworkState
+Reports the state of the network on that node.
+NodeNetworkConfigurationPolicy
+Describes the requested network configuration on nodes. You update the node network configuration, including adding and removing interfaces, by applying a NodeNetworkConfigurationPolicy manifest to the cluster.
+NodeNetworkConfigurationEnactment
+Reports the network policies enacted upon each node.
+
+
+OpenShift Container Platform supports the use of the following nmstate interface types:
+
+Linux Bridge
+
+VLAN
+
+Bond
+
+Ethernet
+
+
+If your "Red Hat OpenShift Container Platform" cluster uses OVN-Kubernetes as the network plugin, you cannot attach a Linux bridge or bonding to the default interface of a host because of a change in the host network topology of OVN-Kubernetes. As a workaround, use a secondary network interface connected to your host or switch to the OpenShift SDN network plugin.
+Viewing the network state of a node by using the CLI
+A NodeNetworkState object exists on every node in the cluster. This object is periodically updated and captures the state of the network for that node.
+
+List all the NodeNetworkState objects in the cluster:
+
+Inspect a NodeNetworkState object to view the network on that node. The output in this example has been redacted for clarity:
+Viewing the network state of a node from the web console
+As an administrator, you can use the "Red Hat OpenShift Container Platform" web console to observe NodeNetworkState resources and network interfaces, and access network details.
+
+Navigate to Networking → NodeNetworkState.
+
+To access the detailed information about NodeNetworkState resource, click the NodeNetworkState resource name listed in the Name column .
+
+to expand and view the Network Details section for the NodeNetworkState resource, click the > icon . Alternatively, you can click on each interface type under the Network interface column to view the network details.

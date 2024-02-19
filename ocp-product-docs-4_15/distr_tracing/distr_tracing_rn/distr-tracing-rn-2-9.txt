@@ -1,0 +1,110 @@
+Release notes for Red Hat OpenShift distributed tracing platform 2.9
+
+Distributed tracing overview
+As a service owner, you can use distributed tracing to instrument your services to gather insights into your service architecture. You can use the Red Hat OpenShift distributed tracing platform for monitoring, network profiling, and troubleshooting the interaction between components in modern, cloud-native, microservices-based applications.
+
+With the distributed tracing platform, you can perform the following functions:
+
+Monitor distributed transactions
+
+Optimize performance and latency
+
+Perform root cause analysis
+
+
+The distributed tracing platform consists of three components:
+
+Red Hat OpenShift distributed tracing platform (Jaeger), which is based on the open source Jaeger project.
+
+Red Hat OpenShift distributed tracing platform (Tempo), which is based on the open source Grafana Tempo project.
+
+Red Hat OpenShift distributed tracing data collection, which is based on the open source OpenTelemetry project.
+
+
+Jaeger does not use FIPS validated cryptographic modules.
+Component versions in the Red Hat OpenShift distributed tracing platform 2.9
+
+Red Hat OpenShift distributed tracing platform (Jaeger)
+New features and enhancements
+None.
+Bug fixes
+Before this update, connection was refused due to a missing gRPC port on the jaeger-query deployment. This issue resulted in transport: Error while dialing: dial tcp :16685: connect: connection refused error message. With this update, the Jaeger Query gRPC port (16685) is successfully exposed on the Jaeger Query service. (TRACING-3322)
+
+Before this update, the wrong port was exposed for jaeger-production-query, resulting in refused connection. With this update, the issue is fixed by exposing the Jaeger Query gRPC port (16685) on the Jaeger Query deployment. (TRACING-2968)
+
+Before this update, when deploying Service Mesh on single-node OpenShift clusters in disconnected environments, the Jaeger pod frequently went into the Pending state. With this update, the issue is fixed. (TRACING-3312)
+
+Before this update, the Jaeger Operator pod restarted with the default memory value due to the reason: OOMKilled error message. With this update, this issue is fixed by removing the resource limits. (TRACING-3173)
+Known issues
+Apache Spark is not supported.
+
+The streaming deployment via AMQ/Kafka is unsupported on IBM Z and IBM Power Systems.
+Red Hat OpenShift distributed tracing platform (Tempo)
+The Red Hat OpenShift distributed tracing platform (Tempo) is a Technology Preview feature only. Technology Preview features are not supported with Red Hat production service level agreements (SLAs) and might not be functionally complete. Red Hat does not recommend using them in production. These features provide early access to upcoming product features, enabling customers to test functionality and provide feedback during the development process.
+
+For more information about the support scope of Red Hat Technology Preview features, see Technology Preview Features Support Scope.
+New features and enhancements
+This release introduces the following enhancements for the distributed tracing platform (Tempo):
+
+Support the operator maturity Level IV, Deep Insights, which enables upgrading, monitoring, and alerting of TempoStack instances and the Tempo Operator.
+
+Add Ingress and Route configuration for the Gateway.
+
+Support the managed and unmanaged states in the TempoStack custom resource.
+
+Expose the following additional ingestion protocols in the Distributor service: Jaeger Thrift binary, Jaeger Thrift compact, Jaeger gRPC, and Zipkin. When the Gateway is enabled, only the OpenTelemetry protocol (OTLP) gRPC is enabled.
+
+Expose the Jaeger Query gRPC endpoint on the Query Frontend service.
+
+Support multitenancy without Gateway authentication and authorization.
+Bug fixes
+Before this update, the Tempo Operator was not compatible with disconnected environments. With this update, the Tempo Operator supports disconnected environments. (TRACING-3145)
+
+Before this update, the Tempo Operator with TLS failed to start on "Red Hat OpenShift Container Platform". With this update, the mTLS communication is enabled between Tempo components, the Operand starts successfully, and the Jaeger UI is accessible. (TRACING-3091)
+
+Before this update, the resource limits from the Tempo Operator caused error messages such as reason: OOMKilled. With this update, the resource limits for the Tempo Operator are removed to avoid such errors. (TRACING-3204)
+Known issues
+Currently, the custom TLS CA option is not implemented for connecting to object storage. (TRACING-3462)
+
+Currently, when used with the Tempo Operator, the Jaeger UI only displays services that have sent traces in the last 15 minutes. For services that did not send traces in the last 15 minutes, traces are still stored but not displayed in the Jaeger UI. (TRACING-3139)
+
+Currently, the distributed tracing platform (Tempo) fails on the IBM Z (s390x) architecture. (TRACING-3545)
+
+Currently, the Tempo query frontend service must not use internal mTLS when Gateway is not deployed. This issue does not affect the Jaeger Query API. The workaround is to disable mTLS. (TRACING-3510)
+
+Missing images for running the Tempo Operator in restricted environments. The Red Hat OpenShift distributed tracing platform (Tempo) CSV is missing references to the operand images. (TRACING-3523)
+Red Hat OpenShift distributed tracing data collection
+The Red Hat OpenShift distributed tracing data collection is a Technology Preview feature only. Technology Preview features are not supported with Red Hat production service level agreements (SLAs) and might not be functionally complete. Red Hat does not recommend using them in production. These features provide early access to upcoming product features, enabling customers to test functionality and provide feedback during the development process.
+
+For more information about the support scope of Red Hat Technology Preview features, see Technology Preview Features Support Scope.
+New features and enhancements
+This release introduces the following enhancements for the distributed tracing data collection:
+
+Support OTLP metrics ingestion. The metrics can be forwarded and stored in the user-workload-monitoring via the Prometheus exporter.
+
+Support the operator maturity Level IV, Deep Insights, which enables upgrading and monitoring of OpenTelemetry Collector instances and the Red Hat OpenShift distributed tracing data collection Operator.
+
+Report traces and metrics from remote clusters using OTLP or HTTP and HTTPS.
+
+Collect "Red Hat OpenShift Container Platform" resource attributes via the resourcedetection processor.
+
+Support the managed and unmanaged states in the OpenTelemetryCollector custom resouce.
+Bug fixes
+None.
+Known issues
+Currently, you must manually set operator maturity to Level IV, Deep Insights. (TRACING-3431)
+Getting support
+If you experience difficulty with a procedure described in this documentation, or with "Red Hat OpenShift Container Platform" in general, visit the Red Hat Customer Portal. From the Customer Portal, you can:
+
+Search or browse through the Red Hat Knowledgebase of articles and solutions relating to Red Hat products.
+
+Submit a support case to Red Hat Support.
+
+Access other product documentation.
+
+
+To identify issues with your cluster, you can use Insights in OpenShift Cluster Manager Hybrid Cloud Console. Insights provides details about issues and, if available, information on how to solve a problem.
+
+If you have a suggestion for improving this documentation or have found an error, submit a Jira issue for the most relevant documentation component. Please provide specific details, such as the section name and "Red Hat OpenShift Container Platform" version.
+Making open source more inclusive
+Red Hat is committed to replacing problematic language in our code, documentation, and web properties. We are beginning with these four terms: master, slave, blacklist, and whitelist. Because of the enormity of this endeavor, these changes will be implemented gradually over several upcoming releases. For more details, see our CTO Chris Wright's message.

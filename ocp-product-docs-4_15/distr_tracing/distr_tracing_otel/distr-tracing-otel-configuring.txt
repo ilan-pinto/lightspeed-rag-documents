@@ -1,0 +1,408 @@
+Configuring and deploying the distributed tracing data collection
+
+The Red Hat OpenShift distributed tracing data collection Operator uses a custom resource definition (CRD) file that defines the architecture and configuration settings to be used when creating and deploying the distributed tracing data collection resources. You can install the default configuration or modify the file.
+OpenTelemetry Collector configuration options
+The OpenTelemetry Collector consists of three components that access telemetry data:
+
+
+Receivers
+A receiver, which can be push or pull based, is how data gets into the Collector. Generally, a receiver accepts data in a specified format, translates it into the internal format, and passes it to processors and exporters defined in the applicable pipelines. By default, no receivers are configured. One or more receivers must be configured. Receivers may support one or more data sources.
+Processors
+Optional. Processors run through the data between it is received and exported. By default, no processors are enabled. Processors must be enabled for every data source. Not all processors support all data sources. Depending on the data source, multiple processors might be enabled. Note that the order of processors matters.
+Exporters
+An exporter, which can be push or pull based, is how you send data to one or more back ends or destinations. By default, no exporters are configured. One or more exporters must be configured. Exporters can support one or more data sources. Exporters might be used with their default settings, but many exporters require configuration to specify at least the destination and security settings.
+
+
+You can define multiple instances of components in a custom resource YAML file. When configured, these components must be enabled through pipelines defined in the spec.config.service section of the YAML file. As a best practice, only enable the components that you need.
+
+apiVersion: opentelemetry.io/v1alpha1
+kind: OpenTelemetryCollector
+metadata:
+  name: cluster-collector
+  namespace: tracing-system
+spec:
+  mode: deployment
+  ports:
+  - name: promexporter
+    port: 8889
+    protocol: TCP
+  config: |
+    receivers:
+      otlp:
+        protocols:
+          grpc:
+          http:
+    processors:
+    exporters:
+      jaeger:
+        endpoint: jaeger-production-collector-headless.tracing-system.svc:14250
+        tls:
+          ca_file: "/var/run/secrets/kubernetes.io/serviceaccount/service-ca.crt"
+      prometheus:
+        endpoint: 0.0.0.0:8889
+        resource_to_telemetry_conversion:
+          enabled: true # by default resource attributes are dropped
+    service: 1
+      pipelines:
+        traces:
+          receivers: [otlp]
+          processors: []
+          exporters: [jaeger]
+        metrics:
+          receivers: [otlp]
+          processors: []
+          exporters: [prometheus]
+If a component is configured but not defined in the service section, the component is not enabled.
+
+
+
+OpenTelemetry Collector components
+Receivers
+OTLP Receiver
+The OTLP receiver ingests data using the OpenTelemetry protocol (OTLP).
+
+Support level: Technology Preview
+
+Supported signals: traces, metrics
+
+
+  config: |
+    receivers:
+      otlp:
+        protocols:
+          grpc:
+            endpoint: 0.0.0.0:4317 1
+            tls: 2
+              ca_file: ca.pem
+              cert_file: cert.pem
+              key_file: key.pem
+              client_ca_file: client.pem 3
+              reload_interval: 1h 4
+          http:
+            endpoint: 0.0.0.0:4318 5
+            tls: 6
+
+    service:
+      pipelines:
+        traces:
+          receivers: [otlp]
+        metrics:
+          receivers: [otlp]
+The OTLP gRPC endpoint. If omitted, the default 0.0.0.0:4317 is used.
+
+The server-side TLS configuration. Defines paths to TLS certificates. If omitted, TLS is disabled.
+
+The path to the TLS certificate at which the server verifies a client certificate. This sets the value of ClientCAs and ClientAuth to RequireAndVerifyClientCert in the TLSConfig. For more information, see the Config of the Golang TLS package.
+
+Specifies the time interval at which the certificate is reloaded. If the value is not set, the certificate is never reloaded.  reload_interval accepts a string containing valid units of time such as ns, us (or µs), ms, s, m, h.
+
+The OTLP HTTP endpoint. The default value is 0.0.0.0:4318.
+
+The server-side TLS configuration. For more information, see grpc protocol configuration section.
+Jaeger Receiver
+The Jaeger receiver ingests data in Jaeger formats.
+
+Support level: Technology Preview
+
+Supported signals: traces
+
+
+  config: |
+    receivers:
+      jaeger:
+        protocols:
+          grpc:
+            endpoint: 0.0.0.0:14250 1
+          thrift_http:
+            endpoint: 0.0.0.0:14268 2
+          thrift_compact:
+            endpoint: 0.0.0.0:6831 3
+          thrift_binary:
+            endpoint: 0.0.0.0:6832 4
+          tls: 5
+
+    service:
+      pipelines:
+        traces:
+          receivers: [jaeger]
+The Jaeger gRPC endpoint. If omitted, the default 0.0.0.0:14250 is used.
+
+The Jaeger Thrift HTTP endpoint. If omitted, the default 0.0.0.0:14268 is used.
+
+The Jaeger Thrift Compact endpoint. If omitted, the default 0.0.0.0:6831 is used.
+
+The Jaeger Thrift Binary endpoint. If omitted, the default 0.0.0.0:6832 is used.
+
+The TLS server side configuration. See the OTLP receiver configuration section for more details.
+Zipkin Receiver
+The Zipkin receiver ingests data in the Zipkin v1 and v2 formats.
+
+Support level: Technology Preview
+
+Supported signals: traces
+
+
+  config: |
+    receivers:
+      zipkin:
+        endpoint: 0.0.0.0:9411 1
+        tls: 2
+
+    service:
+      pipelines:
+        traces:
+          receivers: [zipkin]
+The Zipkin HTTP endpoint. If omitted, the default 0.0.0.0:9411 is used.
+
+The TLS server side configuration. See the OTLP receiver configuration section for more details.
+Processors
+Batch processor
+The batch processor batches the data to reduce the number of outgoing connections needed to transfer the telemetry information.
+
+Support level: Technology Preview
+
+Supported signals: traces, metrics
+
+
+  config: |
+    processor:
+      batch:
+        timeout: 5s
+        send_batch_max_size: 10000
+    service:
+      pipelines:
+        traces:
+          processors: [batch]
+        metrics:
+          processors: [batch]
+Memory Limiter processor
+The Memory Limiter processor periodically checks the Collector's memory usage and pauses data processing when the soft memory limit is reached. The preceding component, which is typically a receiver, is expected to retry sending the same data and may apply a backpressure to the incoming data. When memory usage exceeds the hard limit, the Memory Limiter processor forces garbage collection to run.
+
+Support level: General Availability
+
+Supported signals: traces, metrics, logs
+
+
+  config: |
+    processor:
+      memory_limiter:
+        check_interval: 1s
+        limit_mib: 4000
+        spike_limit_mib: 800
+    service:
+      pipelines:
+        traces:
+          processors: [batch]
+        metrics:
+          processors: [batch]
+Resource Detection processor
+The Resource Detection processor is designed to identify host resource details in alignment with OpenTelemetry's resource semantic standards. Using this detected information, it can add or replace the resource values in telemetry data.
+
+Support level: Technology Preview
+
+Supported signals: traces, metrics
+
+
+kind: ClusterRole
+metadata:
+  name: otel-collector
+rules:
+- apiGroups: ["config.openshift.io"]
+  resources: ["infrastructures", "infrastructures/status"]
+  verbs: ["get", "watch", "list"]
+  config: |
+    processor:
+      resourcedetection:
+        detectors: [openshift]
+        override: true
+    service:
+      pipelines:
+        traces:
+          processors: [resourcedetection]
+        metrics:
+          processors: [resourcedetection]
+Exporters
+OTLP exporter
+The OTLP gRPC exporter exports data using the OpenTelemetry protocol (OTLP).
+
+Support level: Technology Preview
+
+Supported signals: traces, metrics
+
+
+  config: |
+    exporters:
+      otlp:
+        endpoint: tempo-ingester:4317 1
+        tls: 2
+          ca_file: ca.pem
+          cert_file: cert.pem
+          key_file: key.pem
+          insecure: false 3
+          insecure_skip_verify: false 4
+          reload_interval: 1h 5
+          server_name_override: <name> 6
+        headers: 7
+          X-Scope-OrgID: "dev"
+    service:
+      pipelines:
+        traces:
+          exporters: [otlp]
+        metrics:
+          exporters: [otlp]
+The OTLP gRPC endpoint. If the https:// scheme is used, then client transport security is enabled and overrides the insecure setting in the tls.
+
+The client side TLS configuration. Defines paths to TLS certificates.
+
+Disables client transport security when set to true. The default value is false by default.
+
+Skips verifying the certificate when set to true. The default value is false.
+
+Specifies the time interval at which the certificate is reloaded. If the value is not set, the certificate is never reloaded. reload_interval accepts a string containing valid units of time such as ns, us (or µs), ms, s, m, h.
+
+Overrides the virtual host name of authority such as the authority header field in requests. You can use this for testing.
+
+Headers are sent for every request performed during an established connection.
+OTLP HTTP exporter
+The OTLP HTTP exporter exports data using the OpenTelemetry protocol (OTLP).
+
+Support level: Technology Preview
+
+Supported signals: traces, metrics
+
+
+  config: |
+    exporters:
+      otlphttp:
+        endpoint: http://tempo-ingester:4318 1
+        tls: 2
+        headers: 3
+          X-Scope-OrgID: "dev"
+
+    service:
+      pipelines:
+        traces:
+          exporters: [otlphttp]
+        metrics:
+          expoters: [otlphttp]
+The OTLP HTTP endpoint. If the https:// scheme is used, then client transport security is enabled and overrides the insecure setting in the tls.
+
+The client side TLS configuration. Defines paths to TLS certificates.
+
+Headers are sent in every HTTP request.
+Jaeger exporter
+The Jaeger exporter exports data using the Jaeger proto format through gRPC.
+
+Support level: Technology Preview
+
+Supported signals: traces
+
+
+  config: |
+    exporters:
+      jaeger:
+        endpoint: jaeger-all-in-one:14250 1
+        tls: 2
+    service:
+      pipelines:
+        traces:
+          exporters: [jaeger]
+The Jaeger gRPC endpoint.
+
+The client side TLS configuration. Defines paths to TLS certificates.
+Logging exporter
+The Logging exporter prints data to the standard output.
+
+Support level: Technology Preview
+
+Supported signals: traces, metrics
+
+
+  config: |
+    exporters:
+      logging:
+        verbosity: detailed 1
+    service:
+      pipelines:
+        traces:
+          exporters: [logging]
+        metrics:
+          exporters: [logging]
+Verbosity of the logging export: detailed or normal or basic. When set to detailed, pipeline data is verbosely logged. Defaults to normal.
+Prometheus exporter
+The Prometheus exporter exports data using the Prometheus or OpenMetrics formats.
+
+Support level: Technology Preview
+
+Supported signals: metrics
+
+
+  ports:
+  - name: promexporter 1
+    port: 8889
+    protocol: TCP
+  config: |
+    exporters:
+      prometheus:
+        endpoint: 0.0.0.0:8889 2
+        tls: 3
+          ca_file: ca.pem
+          cert_file: cert.pem
+          key_file: key.pem
+        namespace: prefix 4
+        const_labels: 5
+          label1: value1
+        enable_open_metrics: true 6
+        resource_to_telemetry_conversion: 7
+          enabled: true
+        metric_expiration: 180m 8
+    service:
+      pipelines:
+        metrics:
+          exporters: [prometheus]
+Exposes the Prometheus port from the collector pod and service. You can enable scraping of metrics by Prometheus by using the port name in ServiceMonitor or PodMonitor custom resource.
+
+The network endpoint where the metrics are exposed.
+
+The server-side TLS configuration. Defines paths to TLS certificates.
+
+If set, exports metrics under the provided value. No default.
+
+Key-value pair labels that are applied for every exported metric. No default.
+
+If true, metrics are exported using the OpenMetrics format. Exemplars are only exported in the OpenMetrics format and only for histogram and monotonic sum metrics such as counter. Disabled by default.
+
+If enabled is true, all the resource attributes are converted to metric labels by default. Disabled by default.
+
+Defines how long metrics are exposed without updates. The default is 5m.
+Sending metrics to the monitoring stack
+You can configure the monitoring stack to scrape OpenTelemetry Collector metrics endpoints and to remove duplicated labels that the monitoring stack has added during scraping.
+
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: otel-collector
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: otel-collector
+  podMetricsEndpoints:
+  - port: metrics 1
+  - port: promexporter 2
+    relabelings:
+    - action: labeldrop
+      regex: pod
+    - action: labeldrop
+      regex: container
+    - action: labeldrop
+      regex: endpoint
+    metricRelabelings:
+    - action: labeldrop
+      regex: instance
+    - action: labeldrop
+      regex: job
+The name of the internal metrics port for the OpenTelemetry Collector. This port name is always metrics.
+
+The name of the Prometheus exporter port for the OpenTelemetry Collector. This port name is defined in the .spec.ports section of the OpenTelemetryCollector CR.
+Additional resources
+Enabling monitoring for user-defined projects

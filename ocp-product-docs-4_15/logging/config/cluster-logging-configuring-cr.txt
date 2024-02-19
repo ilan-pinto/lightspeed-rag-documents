@@ -1,0 +1,9 @@
+About the Cluster Logging custom resource
+
+To configure logging subsystem for Red Hat OpenShift you customize the ClusterLogging custom resource (CR).
+About the ClusterLogging custom resource
+To make changes to your logging subsystem environment, create and modify the ClusterLogging custom resource (CR).
+
+Instructions for creating or modifying a CR are provided in this documentation as appropriate.
+
+The following example shows a typical custom resource for the logging subsystem.

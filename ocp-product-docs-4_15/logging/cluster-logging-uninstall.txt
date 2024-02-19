@@ -1,0 +1,50 @@
+Uninstalling Logging
+
+You can remove the logging subsystem from your "Red Hat OpenShift Container Platform" cluster.
+Uninstalling the logging subsystem
+You can stop log aggregation by deleting the ClusterLogging custom resource (CR). After deleting the CR, there are other logging subsystem components that remain, which you can optionally remove.
+
+Deleting the ClusterLogging CR does not remove the persistent volume claims (PVCs). To preserve or delete the remaining PVCs, persistent volumes (PVs), and associated data, you must take further action.
+
+The Red Hat OpenShift Logging Operator and Elasticsearch Operator are installed.
+
+
+Use the
+"Red Hat OpenShift Container Platform" web console
+ to remove the ClusterLogging CR:
+
+Optional: Delete the custom resource definitions (CRD):
+
+Optional: Remove the Red Hat OpenShift Logging Operator and Elasticsearch Operator:
+
+Optional: Remove the openshift-logging and openshift-operators-redhat projects.
+
+To keep the PVCs for reuse with other pods, keep the labels or PVC names that you need to reclaim the PVCs.
+
+Optional: If you do not want to keep the PVCs, you can delete them.
+Deleting Operators from a cluster using the web console
+Cluster administrators can delete installed Operators from a selected namespace by using the web console.
+
+You have access to an "Red Hat OpenShift Container Platform" cluster web console using an account with
+
+
+Navigate to the Operators → Installed Operators page.
+
+Scroll or enter a keyword into the Filter by name field to find the Operator that you want to remove. Then, click on it.
+
+On the right side of the Operator Details page, select Uninstall Operator from the Actions list.
+
+Select Uninstall to remove the Operator, Operator deployments, and pods. Following this action, the Operator stops running and no longer receives updates.
+Deleting Operators from a cluster using the CLI
+Cluster administrators can delete installed Operators from a selected namespace by using the CLI.
+
+You have access to an "Red Hat OpenShift Container Platform" cluster using an account with
+
+The OpenShift CLI (oc) is installed on your workstation.
+
+
+Ensure the latest version of the subscribed operator (for example, serverless-operator) is identified in the currentCSV field.
+
+Delete the subscription (for example, serverless-operator):
+
+Delete the CSV for the Operator in the target namespace using the currentCSV value from the previous step:

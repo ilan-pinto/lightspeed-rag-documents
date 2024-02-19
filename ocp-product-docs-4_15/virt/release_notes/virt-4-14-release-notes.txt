@@ -1,0 +1,174 @@
+OpenShift Virtualization release notes
+
+Making open source more inclusive
+Red Hat is committed to replacing problematic language in our code, documentation, and web properties. We are beginning with these four terms: master, slave, blacklist, and whitelist. Because of the enormity of this endeavor, these changes will be implemented gradually over several upcoming releases. For more details, see our CTO Chris Wright's message.
+About Red Hat OpenShift Virtualization
+Red Hat OpenShift Virtualization enables you to bring traditional virtual machines (VMs) into "Red Hat OpenShift Container Platform" where they run alongside containers, and are managed as native Kubernetes objects.
+
+OpenShift Virtualization is represented by the  icon.
+
+You can use OpenShift Virtualization with either the OVN-Kubernetes or the OpenShiftSDN default Container Network Interface (CNI) network provider.
+
+Learn more about what you can do with OpenShift Virtualization.
+
+Learn more about OpenShift Virtualization architecture and deployments.
+
+Prepare your cluster for OpenShift Virtualization.
+
+OpenShift Virtualization supported cluster version
+OpenShift Virtualization 4.14 is supported for use on "Red Hat OpenShift Container Platform" "4.14" clusters. To use the latest z-stream release of OpenShift Virtualization, you must first upgrade to the latest version of "Red Hat OpenShift Container Platform".
+Supported guest operating systems
+To view the supported guest operating systems for OpenShift Virtualization, see Certified Guest Operating Systems in Red Hat OpenStack Platform, Red Hat Virtualization, OpenShift Virtualization and Red Hat Enterprise Linux with KVM.
+New and changed features
+OpenShift Virtualization is certified in Microsoft's Windows Server Virtualization Validation Program (SVVP) to run Windows Server workloads.
+
+
+Using OpenShift Virtualization on Amazon Web Services (AWS) bare-metal "Red Hat OpenShift Container Platform" clusters was previously Technology Preview and is now generally available.
+
+
+Using the NVIDIA GPU Operator to provision worker nodes for GPU-enabled VMs was previously Technology Preview and is now generally available. For more information, see Configuring the NVIDIA GPU Operator.
+
+
+As a cluster administrator, you can back up and restore applications running on OpenShift Virtualization by using the OpenShift API for Data Protection (OADP).
+
+
+You can add a static authorized SSH key to a project by using the web console. The key is then added to all VMs that you create in the project.
+
+
+OpenShift Virtualization now supports persisting the virtual Trusted Platform Module (vTPM) device state by using Persistent Volume Claims (PVCs) for VMs. You must specify the storage class to be used by the PVC by setting the vmStateStorageClass attribute in the HyperConverged custom resource (CR).
+
+
+You can enable dynamic SSH key injection for RHEL 9 VMs. Then, you can update the authorized SSH keys at runtime.
+
+
+You can now enable volume snapshots as boot sources.
+
+
+The access mode and volume mode fields in storage profiles are populated automatically with their optimal values for the following additional Containerized Storage Interface provisioners:
+
+
+You can use a custom scheduler to schedule a virtual machine (VM) on a node.
+
+
+Garbage collection for data volumes is disabled by default.
+
+
+You can add a static authorized SSH key to a project by using the web console. The key is then added to all VMs that you create in the project.
+
+
+The following runbooks have been changed:
+
+
+Quick starts
+Quick start tours are available for several OpenShift Virtualization features. To view the tours, click the Help icon ? in the menu bar on the header of the OpenShift Virtualization console and then select Quick Starts. You can filter the available tours by entering the virtualization keyword in the Filter field.
+Networking
+You can connect a virtual machine (VM) to an OVN-Kubernetes secondary network by using the web console or the CLI.
+Web console
+Cluster administrators can now enable automatic subscription for Red Hat Enterprise Linux (RHEL) virtual machines in the OpenShift Virtualization web console.
+
+
+You can now force stop an unresponsive VM from the action menu. To force stop a VM, select Stop and then Force stop from the action menu.
+
+
+The DataSources and the Bootable volumes pages have been merged into the Bootable volumes page so that you can manage these similar resources in a single location.
+
+
+Cluster administrators can enable or disable Technology Preview features on the Settings tab on the Virtualization -> Overview page.
+
+
+You can now generate a temporary token to access the VNC of a VM.
+Deprecated and removed features
+Deprecated features
+Deprecated features are included in the current release and supported. However, they will be removed in a future release and are not recommended for new deployments.
+
+The tekton-tasks-operator is deprecated and Tekton tasks and example pipelines are now deployed by the ssp-operator.
+
+
+The copy-template, modify-vm-template, and create-vm-from-template tasks are deprecated.
+
+
+Many OpenShift Virtualization metrics have changed or will change in a future version. These changes could affect your custom dashboards. See OpenShift Virtualization 4.14 metric changes for details. (BZ#2179660)
+
+
+Support for Windows Server 2012 R2 templates is deprecated.
+Removed features
+Removed features are not supported in the current release.
+
+Support for the legacy HPP custom resource, and the associated storage class, has been removed for all new deployments. In OpenShift Virtualization 4.14, the HPP Operator uses the Kubernetes Container Storage Interface (CSI) driver to configure local storage. A legacy HPP custom resource is supported only if it had been installed on a previous version of OpenShift Virtualization.
+
+
+Installing the virtctl client as an RPM is no longer supported for Red Hat Enterprise Linux (RHEL) 7 and RHEL 9.
+Technology Preview features
+Some features in this release are currently in Technology Preview. These experimental features are not intended for production use. Note the following scope of support on the Red Hat Customer Portal for these features:
+
+Technology Preview Features Support Scope
+
+You can now install and edit customized instance types and preferences to create a VM from a volume or PersistentVolumeClaim (PVC).
+
+
+You can now configure a VM eviction strategy for the entire cluster.
+
+
+You can hot plug a bridge network interface to a running virtual machine (VM). Hot plugging and hot unplugging is supported only for VMs created with OpenShift Virtualization 4.14 or later.
+Bug fixes
+The mediated devices configuration API in the HyperConverged custom resource (CR) has been updated to improve consistency. The field that was previously named mediatedDevicesTypes is now named mediatedDeviceTypes to align with the naming convention used for the nodeMediatedDeviceTypes field. (BZ#2054863)
+
+
+Virtual machines created from common templates on a Single Node OpenShift (SNO) cluster no longer display a VMCannotBeEvicted alert when the cluster-level eviction strategy is None for SNO. (BZ#2092412)
+
+
+Windows 11 virtual machines now boot on clusters running in FIPS mode. (BZ#2089301)
+
+
+In a heterogeneous cluster with different compute nodes, virtual machines that have HyperV Reenlightenment enabled can be scheduled on nodes that do not support timestamp-counter scaling (TSC) or have the appropriate TSC frequency. (BZ#2151169)
+
+When you use two pods with different SELinux contexts, VMs with the ocs-storagecluster-cephfs storage class no longer fail to migrate. (BZ#2092271)
+
+
+If you stop a node on a cluster and then use the Node Health Check Operator to bring the node back up, connectivity to Multus is retained. (OCPBUGS-8398)
+
+When restoring a VM snapshot for storage whose binding mode is WaitForFirstConsumer, the restored PVCs no longer remain in the Pending state and the restore operation proceeds. (BZ#2149654)
+Known issues
+
+The Pod Disruption Budget (PDB) prevents pod disruptions for migratable virtual machine images. If the PDB detects pod disruption, then openshift-monitoring sends a PodDisruptionBudgetAtLimit alert every 60 minutes for virtual machine images that use the LiveMigrate eviction strategy. (BZ#2026733)
+
+
+
+If your "Red Hat OpenShift Container Platform" cluster uses OVN-Kubernetes as the default Container Network Interface (CNI) provider, you cannot attach a Linux bridge or bonding device to a host's default interface because of a change in the host network topology of OVN-Kubernetes. (BZ#1885605)
+
+
+You cannot SSH into a VM when using the networkType: OVNKubernetes option in your install-config.yaml file. (BZ#2165895)
+
+
+You cannot run OpenShift Virtualization on a single-stack IPv6 cluster. (BZ#2193267)
+
+
+
+Uninstalling OpenShift Virtualization does not remove the feature.node.kubevirt.io node labels created by OpenShift Virtualization. You must remove the labels manually. (CNV-22036)
+
+
+
+In some instances, multiple virtual machines can mount the same PVC in read-write mode, which might result in data corruption. (BZ#1992753)
+
+
+If you clone more than 100 VMs using the csi-clone cloning strategy, then the Ceph CSI might not purge the clones. Manually deleting the clones might also fail. (BZ#2055595)
+
+
+If you use Portworx as your storage solution on AWS and create a VM disk image, the created image might be smaller than expected due to the filesystem overhead being accounted for twice. (BZ#2237287)
+
+
+If you simultaneously clone more than 1000 VMs using the provided DataSources in the openshift-virtualization-os-images namespace, it is possible that not all of the VMs will move to a running state. (BZ#2216038)
+
+
+Live migration cannot be enabled for a virtual machine instance (VMI) after a hotplug volume has been added and removed. (BZ#2247593)
+
+
+
+OpenShift Virtualization links a service account token in use by a pod to that specific pod. OpenShift Virtualization implements a service account volume by creating a disk image that contains a token. If you migrate a VM, then the service account volume becomes invalid. (BZ#2037611)
+
+
+With the release of the RHSA-2023:3722 advisory, the TLS Extended Master Secret (EMS) extension (RFC 7627) is mandatory for TLS 1.2 connections on FIPS-enabled RHEL 9 systems. This is in accordance with FIPS-140-3 requirements. TLS 1.3 is not affected. (BZ#2157951)
+
+
+
+If you upgrade "Red Hat OpenShift Container Platform" 4.13 to 4.14 without upgrading OpenShift Virtualization, the Virtualization pages of the web console crash. (OCPBUGS-22853)
